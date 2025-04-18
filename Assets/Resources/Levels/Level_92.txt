@@ -1,0 +1,135 @@
+{
+  "id": 92,
+  "dataBlock": [
+    [
+      {
+        "valueNumber": 29,
+        "isActive": false
+      },
+      {
+        "valueNumber": 28,
+        "isActive": false
+      },
+      {
+        "valueNumber": 1,
+        "isActive": false
+      },
+      {
+        "valueNumber": 2,
+        "isActive": false
+      },
+      {
+        "valueNumber": 5,
+        "isActive": false
+      },
+      {
+        "valueNumber": 6,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 30,
+        "isActive": false
+      },
+      {
+        "valueNumber": 27,
+        "isActive": false
+      },
+      {
+        "valueNumber": 26,
+        "isActive": false
+      },
+      {
+        "valueNumber": 3,
+        "isActive": false
+      },
+      {
+        "valueNumber": 4,
+        "isActive": false
+      },
+      {
+        "valueNumber": 7,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 23,
+        "isActive": false
+      },
+      {
+        "valueNumber": 24,
+        "isActive": false
+      },
+      {
+        "valueNumber": 25,
+        "isActive": false
+      },
+      {
+        "valueNumber": 14,
+        "isActive": false
+      },
+      {
+        "valueNumber": 13,
+        "isActive": true
+      },
+      {
+        "valueNumber": 8,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 22,
+        "isActive": false
+      },
+      {
+        "valueNumber": 19,
+        "isActive": false
+      },
+      {
+        "valueNumber": 18,
+        "isActive": false
+      },
+      {
+        "valueNumber": 15,
+        "isActive": false
+      },
+      {
+        "valueNumber": 12,
+        "isActive": false
+      },
+      {
+        "valueNumber": 9,
+        "isActive": true
+      }
+    ],
+    [
+      {
+        "valueNumber": 21,
+        "isActive": false
+      },
+      {
+        "valueNumber": 20,
+        "isActive": false
+      },
+      {
+        "valueNumber": 17,
+        "isActive": false
+      },
+      {
+        "valueNumber": 16,
+        "isActive": false
+      },
+      {
+        "valueNumber": 11,
+        "isActive": false
+      },
+      {
+        "valueNumber": 10,
+        "isActive": false
+      }
+    ]
+  ]
+}

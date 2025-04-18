@@ -1,0 +1,89 @@
+{
+  "id": 42,
+  "dataBlock": [
+    [
+      {
+        "valueNumber": 16,
+        "isActive": false
+      },
+      {
+        "valueNumber": 15,
+        "isActive": false
+      },
+      {
+        "valueNumber": 14,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 17,
+        "isActive": false
+      },
+      {
+        "valueNumber": 18,
+        "isActive": false
+      },
+      {
+        "valueNumber": 13,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 2,
+        "isActive": false
+      },
+      {
+        "valueNumber": 1,
+        "isActive": false
+      },
+      {
+        "valueNumber": 12,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 3,
+        "isActive": false
+      },
+      {
+        "valueNumber": 10,
+        "isActive": true
+      },
+      {
+        "valueNumber": 11,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 4,
+        "isActive": false
+      },
+      {
+        "valueNumber": 9,
+        "isActive": false
+      },
+      {
+        "valueNumber": 8,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 5,
+        "isActive": false
+      },
+      {
+        "valueNumber": 6,
+        "isActive": true
+      },
+      {
+        "valueNumber": 7,
+        "isActive": false
+      }
+    ]
+  ]
+}

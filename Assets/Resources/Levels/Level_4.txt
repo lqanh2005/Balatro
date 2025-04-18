@@ -1,0 +1,47 @@
+{
+  "id": 4,
+  "dataBlock": [
+    [
+      {
+        "valueNumber": 3,
+        "isActive": true
+      },
+      {
+        "valueNumber": 2,
+        "isActive": false
+      },
+      {
+        "valueNumber": 1,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 4,
+        "isActive": false
+      },
+      {
+        "valueNumber": 5,
+        "isActive": false
+      },
+      {
+        "valueNumber": 6,
+        "isActive": false
+      }
+    ],
+    [
+      {
+        "valueNumber": 9,
+        "isActive": true
+      },
+      {
+        "valueNumber": 8,
+        "isActive": false
+      },
+      {
+        "valueNumber": 7,
+        "isActive": false
+      }
+    ]
+  ]
+}
