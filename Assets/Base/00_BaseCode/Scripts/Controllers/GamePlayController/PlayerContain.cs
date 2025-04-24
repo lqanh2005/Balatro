@@ -5,10 +5,11 @@ using Sirenix.OdinInspector;
 public class PlayerContain : MonoBehaviour
 {
  
-    public LevelData levelData; 
+    public DeckController deckController;
+    public HandManager handManager;
     public void Init()
     { 
-      levelData.Init();
+        deckController.Init();
 
     }
 

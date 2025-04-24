@@ -15,11 +15,11 @@ public class GameScene : BaseScene
     public Button settinBtn;
     public Transform canvas;
  
-    public void Init(LevelData levelData)
-    {
+    //public void Init(LevelData levelData)
+    //{
     
      
-    }
+    //}
 
     public override void OnEscapeWhenStackBoxEmpty()
     {

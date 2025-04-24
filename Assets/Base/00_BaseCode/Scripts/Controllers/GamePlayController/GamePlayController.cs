@@ -19,25 +19,25 @@ public class GamePlayController : Singleton<GamePlayController>
     public StateGame stateGame;
     public PlayerContain playerContain;
     public GameScene gameScene;
- 
+    public UIController uICtrl;
  
  
     
-    protected override void OnAwake()
-    {
-        //  GameController.Instance.currentScene = SceneType.GamePlay;
+    //protected override void OnAwake()
+    //{
+    //    //  GameController.Instance.currentScene = SceneType.GamePlay;
 
      
-        Init();
+    //    Init();
 
-    }
+    //}
 
-    public void Init()
+    public void Start()
     {
 
    
         playerContain.Init();
- 
+        uICtrl.Init();
      
      
       

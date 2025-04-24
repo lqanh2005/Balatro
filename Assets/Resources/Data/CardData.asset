@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0718ed468e47d841945a00f9f03b363, type: 3}
+  m_Name: CardData
+  m_EditorClassIdentifier: 
+  cardLists:
+  - cardType: 0
+    cardPerLevels:
+    - level: 1
+      cardDatas:
+        id: 0
+        chipBonus: 10
+        faceImage: {fileID: 21300000, guid: 0d6f32c690dc8834789aa8e64b2fb77f, type: 3}
+    - level: 2
+      cardDatas:
+        id: 0
+        chipBonus: 20
+        faceImage: {fileID: 21300000, guid: 4523e4613fe86d847a68a97d27e55654, type: 3}
+    - level: 3
+      cardDatas:
+        id: 0
+        chipBonus: 30
+        faceImage: {fileID: 21300000, guid: 8da519a4ac3102242900ca4cbd33a395, type: 3}
+  backCard: []
