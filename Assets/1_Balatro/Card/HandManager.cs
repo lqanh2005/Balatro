@@ -22,6 +22,7 @@ public class HandManager : MonoBehaviour
     private int selectedCardCount = 0;
     [SerializeField] private float cardSpacing = 2f;
     [SerializeField] private float drawCardDelay = 0.15f;
+    public RecipeDatabaseSO recipeDatabaseSO;
 
     //public delegate void OnCardsPlayedEvent(List<CardBase> playedCards);
     //public event OnCardsPlayedEvent CardsPlayed;
@@ -33,8 +34,8 @@ public class HandManager : MonoBehaviour
 
     public void Init()
     {
-        
-
+        RecipeChecker.Init(recipeDatabaseSO);
+        deckController.Init();
     }
     public void OnCardDrawn(CardBase card, int handPos)
     {
@@ -52,8 +53,10 @@ public class HandManager : MonoBehaviour
             card.Init(pos);
             //cardViews.Add(card);
             //UpdateSortPos(cardViews);
-            card.PlayDrawAnimation(deckPos.position, handPosList[pos].position);
-            
+            card.PlayDrawAnimation(deckPos.position, handPosList[pos].position, () =>
+            {
+                UpdateSortPos(cardViews);
+            });
         }
     }
 
@@ -70,7 +73,10 @@ public class HandManager : MonoBehaviour
     {
         return seletedCards;
     }
+    public void CheckRecipe()
+    {
 
+    }
     public void PlaySelectedCards()
     {
         if(seletedCards.Count > 0)

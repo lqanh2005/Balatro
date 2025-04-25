@@ -6,6 +6,18 @@ using MoreMountains.NiceVibrations;
 
 public class UseProfile : MonoBehaviour
 {
+    //public static int StrickyRice
+    //{
+    //    get
+    //    {
+    //        return PlayerPrefs.GetInt(StringHelper.STRICKY_RICE, 0);
+    //    }
+    //    set
+    //    {
+    //        PlayerPrefs.SetInt(StringHelper.STRICKY_RICE, value);
+    //        PlayerPrefs.Save();
+    //    }
+    //}
     public static bool NeedCheckShop
     {
         get

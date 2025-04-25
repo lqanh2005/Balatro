@@ -7,7 +7,7 @@ public class CardBase : MonoBehaviour
     [Header("---------------Data---------------")]
     public int id;
     public int level;
-    public CardType cardType;
+    public IngredientType ingredientType;
     public SpriteRenderer cardImage;
     public SpriteRenderer cardBackImage;
 
@@ -78,7 +78,7 @@ public class CardBase : MonoBehaviour
     {
         SetFaceUp(!isFaceUp, true);
     }
-    public void PlayDrawAnimation(Vector3 startPos, Vector3 endPos)
+    public void PlayDrawAnimation(Vector3 startPos, Vector3 endPos, System.Action onComplete = null)
     {
         if(sequence != null)
         {
@@ -88,7 +88,8 @@ public class CardBase : MonoBehaviour
         transform.localScale = Vector3.zero;
         sequence = DOTween.Sequence();
         sequence.Append(transform.DOScale(originalScale, scaleDuration))
-            .Join(transform.DOMove(endPos, moveDuration).SetEase(Ease.OutBack));
+            .Join(transform.DOMove(endPos, moveDuration).SetEase(Ease.OutBack))
+            .OnComplete(() => onComplete?.Invoke());
     }
     public void PlaySelectedAniamtion(bool select)
     {
@@ -215,20 +216,21 @@ public class CardBase : MonoBehaviour
                 {
                     PlaySelectedAniamtion1();
                 }
-                return;
+                //return;
             }
             else
             {
                 GamePlayController.Instance.playerContain.handManager.seletedCards.Remove(this);
                 PlaySelectedAniamtion(isSelected);
-                return;
+                //return;
             }
         }
         else
         {
             this.transform.DOLocalMove(new Vector3(originalPosition.x, originalPosition.y + (isSelected? 0.2f:0f)), 0.3f).SetEase(Ease.OutBack);
         }
-
+        Debug.LogError("Clicked card: " + ingredientType);
+        RecipeChecker.GetMatchedRecipe(GamePlayController.Instance.playerContain.handManager.seletedCards);
         isDrag = false;
     }
     private void FixedUpdate()

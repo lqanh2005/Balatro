@@ -14,7 +14,7 @@ public class ConfigData : SingletonScriptableObject<ConfigData>
 [System.Serializable]
 public class CardDataList
 {
-    public CardType cardType;
+    public IngredientType cardType;
     public List<CardPerLevel> cardPerLevels;
 }
 [System.Serializable]

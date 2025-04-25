@@ -8,8 +8,8 @@ public class PlayerContain : MonoBehaviour
     public DeckController deckController;
     public HandManager handManager;
     public void Init()
-    { 
-        deckController.Init();
+    {
+        handManager.Init();
 
     }
 

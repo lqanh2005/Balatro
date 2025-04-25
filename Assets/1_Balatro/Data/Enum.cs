@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CardType
+public enum IngredientType
 {
     RICE = 1,
     MEAT = 2,
@@ -18,7 +18,7 @@ public enum Recipe
     StrickyRice = 10, // xoi
     CoinPancake = 11, // banh dong xu
     RiceNoodles = 14, // bun
-    BaoZi = 13, 
+    BaoZi = 13,
     HotDog = 17,
     Ramen = 18,
     Salad = 21,

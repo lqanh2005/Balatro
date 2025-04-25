@@ -84,6 +84,20 @@ public static class StringHelper
     public const string NUMB_WATCH_ADS_COIN = "numb_watch_ads_coin";
     public const string WAS_BOUGHT_UNLIMIT_TIME = "was_bought_unlimit_time";
     public const string NEED_CHECK_SHOP = "need_check_shop";
+
+    public const string RECIPT_ALL = "Recipt_All";
+    //public const string STRICKY_RICE = "Stricky_Rice";
+    //public const string COIN_PANCKE = "Coin_Pancake";
+    //public const string RICE_NOODLES = "Rice_Noodles";
+    //public const string BAO_ZI = "Bao_Zi";
+    //public const string HOT_DOG = "Hot_Dog";
+    //public const string RAMEN = "Ramen";
+    //public const string SALAD = "Salad";
+    //public const string TOKKBOKKI = "Tokbokki";
+    //public const string FRIED_RICE = "Fried_Rice";
+    //public const string VIETNAMESE_PIZZA = "Vietnamese_Pizza";
+    //public const string BANH_MI = "Banh_Mi";
+    //public const string STONE_SAUSAGE = "Stone_Sausage";
 }
 
 public class PathPrefabs

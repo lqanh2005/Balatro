@@ -82,14 +82,27 @@ public class DeckController : MonoBehaviour
         }
         if (GamePlayController.Instance.playerContain.handManager.cardViews.Count >= maxHandsize) return null;
         if (deckVisual != null)
-            if (deckVisual != null)
         {
             deckVisual.DOPunchScale(new Vector3(-0.1f, -0.1f, -0.1f), 0.3f, 5, 0.5f);
             UpdateDeckVisualHeight();
         }
         CardBase _card = drawCards[0];
         drawCards.RemoveAt(0);
-        GamePlayController.Instance.playerContain.handManager.cardViews.Add(_card);
+        bool isInserted = false;
+        for (int i = GamePlayController.Instance.playerContain.handManager.cardViews.Count - 1; i >= 0; i--)
+        {
+            if (GamePlayController.Instance.playerContain.handManager.cardViews[i].id == _card.id)
+            {
+                GamePlayController.Instance.playerContain.handManager.cardViews.Insert(i, _card);
+                isInserted = true;
+                break;
+            }
+        }
+        if(!isInserted)
+        {
+            GamePlayController.Instance.playerContain.handManager.cardViews.Add(_card);
+        }
+        //GamePlayController.Instance.playerContain.handManager.cardViews.Add(_card);
         return _card;
     }
 

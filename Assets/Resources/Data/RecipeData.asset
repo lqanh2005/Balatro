@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5e540aa4fb3264a8ef4d7be74e769c, type: 3}
+  m_Name: RecipeData
+  m_EditorClassIdentifier: 
+  defaultRecipes:
+  - recipe: 10
+    ingredients: 010000000100000002000000
+    coin: 20
+    multi: 2
+    level: 1
+  - recipe: 11
+    ingredients: 
+    coin: 20
+    multi: 2
+    level: 1
+  - recipe: 14
+    ingredients: 
+    coin: 20
+    multi: 2
+    level: 1
+  - recipe: 13
+    ingredients: 
+    coin: 20
+    multi: 2
+    level: 1
+  - recipe: 17
+    ingredients: 
+    coin: 20
+    multi: 2
+    level: 1
+  - recipe: 18
+    ingredients: 
+    coin: 20
+    multi: 2
+    level: 1
+  - recipe: 21
+    ingredients: 
+    coin: 30
+    multi: 3
+    level: 1
+  - recipe: 9
+    ingredients: 
+    coin: 30
+    multi: 3
+    level: 1
+  - recipe: 19
+    ingredients: 
+    coin: 50
+    multi: 5
+    level: 1
+  - recipe: 25
+    ingredients: 
+    coin: 40
+    multi: 4
+    level: 1
+  - recipe: 27
+    ingredients: 
+    coin: 50
+    multi: 5
+    level: 1
+  - recipe: 33
+    ingredients: 
+    coin: 60
+    multi: 6
+    level: 1

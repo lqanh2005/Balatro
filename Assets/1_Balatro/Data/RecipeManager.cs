@@ -1,0 +1,106 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class RecipeManager
+{
+    public static void SaveAll(Dictionary<Recipe, RecipeData> recipeDict)
+    {
+        RecipeCollection collection = new RecipeCollection();
+        foreach (var kvp in recipeDict)
+        {
+            collection.recipes.Add(new RecipeEntry
+            {
+                recipeName = kvp.Key.ToString(),
+                data = kvp.Value
+            });
+        }
+        string json = JsonUtility.ToJson(collection);
+        PlayerPrefs.SetString(StringHelper.RECIPT_ALL, json);
+        PlayerPrefs.Save();
+    }
+    public static Dictionary<Recipe, RecipeData> LoadAll()
+    {
+        Dictionary<Recipe, RecipeData> result = new();
+        if (!PlayerPrefs.HasKey(StringHelper.RECIPT_ALL))
+        {
+            foreach (Recipe recipe in System.Enum.GetValues(typeof(Recipe)))
+            {                          
+                result[recipe] = new RecipeData();
+            }
+            SaveAll(result);
+            return result;
+        }
+        string json = PlayerPrefs.GetString(StringHelper.RECIPT_ALL);
+        RecipeCollection collection = JsonUtility.FromJson<RecipeCollection>(json);
+        foreach (var entry in collection.recipes)
+        {
+            if (System.Enum.TryParse(entry.recipeName, out Recipe parsed))
+            {
+                result[parsed] = entry.data;
+            }
+        }
+
+        return result;
+    }
+    public static RecipeData GetRecipe(Recipe recipe)
+    {
+        var all = LoadAll();
+        return all.TryGetValue(recipe, out var data) ? data : new RecipeData();
+    }
+
+    public static void SetRecipe(Recipe recipe, RecipeData data)
+    {
+        var all = LoadAll();
+        all[recipe] = data;
+        SaveAll(all);
+    }
+    public static void ResetAllRecipe(RecipeDatabaseSO dataBase)
+    {
+        Dictionary<Recipe, RecipeData> defaultData = new();
+        foreach (var entry in dataBase.defaultRecipes)
+        {
+            defaultData[entry.recipe] = new RecipeData(entry.coin, entry.multi, entry.level);
+        }
+        SaveAll(defaultData);
+    }
+    public static void UpgradeRecipe(Recipe recipe)
+    {
+        var all = LoadAll();
+        if (all.TryGetValue(recipe, out var data))
+        {
+            data.level++;
+            data.coin += 10;  // Tuỳ chỉnh logic nâng cấp
+            data.multi += 1;
+            all[recipe] = data;
+            SaveAll(all);
+        }
+    }
+}
+
+[System.Serializable]
+public class RecipeCollection
+{
+    public List<RecipeEntry> recipes = new List<RecipeEntry>();
+}
+[System.Serializable]
+public class RecipeEntry
+{
+    public string recipeName;
+    public RecipeData data;
+}
+
+[System.Serializable]
+public class RecipeData
+{
+    public int level;
+    public int coin;
+    public int multi;
+    public RecipeData(int level= 1, int coin = 0, int multi = 1)
+    {
+        this.level = level;
+        this.coin = coin;
+        this.multi = multi;
+    }
+}
