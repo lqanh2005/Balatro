@@ -16,12 +16,6 @@ public class DeckController : MonoBehaviour
     [SerializeField] private Transform deckVisual;
     [SerializeField] private int maxHandsize = 8;
     [SerializeField] private SpriteRenderer cardBackSite;
-
-    public delegate void OnCardDrawn(CardBase card, int handPosition);
-    public event OnCardDrawn CardDrawn;
-
-    public delegate void OnDeckEmpty();
-    public event OnDeckEmpty DeckEmpty;
     public void Init()
     {
         CreateDeck();
@@ -82,28 +76,20 @@ public class DeckController : MonoBehaviour
         {
             if(discardCards.Count == 0)
             {
-                DeckEmpty?.Invoke();
                 return null;
             }
             RecycleDiscard();
         }
+        if (GamePlayController.Instance.playerContain.handManager.cardViews.Count >= maxHandsize) return null;
         if (deckVisual != null)
+            if (deckVisual != null)
         {
             deckVisual.DOPunchScale(new Vector3(-0.1f, -0.1f, -0.1f), 0.3f, 5, 0.5f);
             UpdateDeckVisualHeight();
         }
         CardBase _card = drawCards[0];
         drawCards.RemoveAt(0);
-        if (handCards.Count < maxHandsize)
-        {
-            handCards.Add(_card);
-            int position = handCards.Count - 1;
-            CardDrawn?.Invoke(_card, position);
-        }
-        else
-        {
-            discardCards.Add(_card);
-        }
+        GamePlayController.Instance.playerContain.handManager.cardViews.Add(_card);
         return _card;
     }
 
@@ -116,7 +102,7 @@ public class DeckController : MonoBehaviour
             if (card != null)
             {
                 cards.Add(card);
-                GamePlayController.Instance.playerContain.handManager.OnCardDrawn(card, i);
+                GamePlayController.Instance.playerContain.handManager.OnCardDrawn(card, GamePlayController.Instance.playerContain.handManager.cardViews.IndexOf(card));
             }
             else
             {
@@ -129,9 +115,9 @@ public class DeckController : MonoBehaviour
 
     public void DiscardCard(CardBase card)
     {
-        if (handCards.Contains(card))
+        if (GamePlayController.Instance.playerContain.handManager.cardViews.Contains(card))
         {
-            handCards.Remove(card);
+            GamePlayController.Instance.playerContain.handManager.cardViews.Remove(card);
             discardCards.Add(card);
         }
     }
@@ -144,11 +130,11 @@ public class DeckController : MonoBehaviour
     
     public void ClearHand()
     {
-        foreach (CardBase card in handCards)
+        foreach (CardBase card in GamePlayController.Instance.playerContain.handManager.cardViews)
         {
             discardCards.Add(card);
         }
-        handCards.Clear();
+        GamePlayController.Instance.playerContain.handManager.cardViews.Clear();
     }
 }
 [System.Serializable]

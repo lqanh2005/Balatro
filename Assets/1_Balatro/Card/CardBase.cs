@@ -35,7 +35,7 @@ public class CardBase : MonoBehaviour
         //SetFaceUp(faceUp, false);
         originalScale = transform.localScale;
         isDraw = true;
-        originalPosition = GamePlayController.Instance.playerContain.handManager.handPosList[pos].localPosition;
+        originalPosition = GamePlayController.Instance.playerContain.handManager.handPosList[pos].transform.localPosition;
         this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.handPos, true);
     }
 

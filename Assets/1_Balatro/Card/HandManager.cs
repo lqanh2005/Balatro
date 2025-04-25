@@ -19,23 +19,21 @@ public class HandManager : MonoBehaviour
     public List<CardBase> seletedCards = new List<CardBase>();
 
     public int maxSelectedCard = 5;
+    private int selectedCardCount = 0;
     [SerializeField] private float cardSpacing = 2f;
     [SerializeField] private float drawCardDelay = 0.15f;
 
-    public delegate void OnCardsPlayedEvent(List<CardBase> playedCards);
-    public event OnCardsPlayedEvent CardsPlayed;
+    //public delegate void OnCardsPlayedEvent(List<CardBase> playedCards);
+    //public event OnCardsPlayedEvent CardsPlayed;
 
-    private void OnCardsPlayed(List<CardBase> playedCards)
-    {
-        CardsPlayed?.Invoke(playedCards);
-    }
+    //private void OnCardsPlayed(List<CardBase> playedCards)
+    //{
+    //    CardsPlayed?.Invoke(playedCards);
+    //}
 
     public void Init()
     {
-        if(deckController == null)
-        {
-            deckController.CardDrawn += OnCardDrawn;
-        }
+        
 
     }
     public void OnCardDrawn(CardBase card, int handPos)
@@ -52,24 +50,24 @@ public class HandManager : MonoBehaviour
         if(handPos != null)
         {
             card.Init(pos);
+            //cardViews.Add(card);
+            //UpdateSortPos(cardViews);
             card.PlayDrawAnimation(deckPos.position, handPosList[pos].position);
             
-            cardViews.Add(card);
         }
     }
 
-    public void DrawToFillHand(int targetCount)
-    {
-        int currentCount = cardViews.Count;
-        int drawCount = targetCount - currentCount;
-        if(drawCount > 0)
-        {
-            deckController.DrawCards(drawCount);
-        }
-    }
+    //public void DrawToFillHand(int targetCount)
+    //{
+    //    int currentCount = cardViews.Count;
+    //    int drawCount = targetCount - currentCount;
+    //    if(drawCount > 0)
+    //    {
+    //        deckController.DrawCards(drawCount);
+    //    }
+    //}
     public List<CardBase> GetSelectedCards()
     {
-        
         return seletedCards;
     }
 
@@ -77,6 +75,7 @@ public class HandManager : MonoBehaviour
     {
         if(seletedCards.Count > 0)
         {
+            selectedCardCount = seletedCards.Count;
             List<CardBase> cardsToPlay = GetSelectedCards();
             float delay = 0f;
             for(int i = 0; i < seletedCards.Count; i++)
@@ -88,7 +87,7 @@ public class HandManager : MonoBehaviour
                 Vector3 targetPos = new Vector3(playPos.position.x + offsetX, playPos.position.y, 0);
 
                 float currentDelay = delay;
-                cardViews.Remove(cardView);
+                    cardViews.Remove(cardView);
                 DOVirtual.DelayedCall(currentDelay, () =>
                 {
                     Sequence playSequence = cardView.PlayHandAnimation(targetPos);
@@ -96,14 +95,12 @@ public class HandManager : MonoBehaviour
                     {
                         cardView.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
                         {
-                            
                             deckController.DiscardCard(cardView.GetCardBase());
                             SimplePool2.Despawn(cardView.gameObject);
                         });
                         
                     });
                 });
-
                 delay += 0.15f;
             }
             seletedCards.Clear();
@@ -111,8 +108,10 @@ public class HandManager : MonoBehaviour
             //{
             //    RearrangeCards();
             //});
-            RearrangeCards();
-            OnCardsPlayed(cardsToPlay);
+
+            UpdateSortPos(cardViews);
+            deckController.DrawCards(selectedCardCount);
+            //OnCardsPlayed(cardsToPlay);
         }
     }
 
@@ -123,10 +122,22 @@ public class HandManager : MonoBehaviour
             if (i >= handPosList.Count) break;
 
             CardBase cardView = cardViews[i];
-            Transform target = handPosList[i];
+            Transform target = handPosList[i].transform;
             cardView.originalPosition = target.localPosition;
             cardView.transform.DOLocalMove(target.localPosition, 0.5f).SetEase(Ease.OutQuad);
             cardView.transform.DOLocalRotateQuaternion(target.localRotation, 0.5f).SetEase(Ease.OutQuad);
+        }
+    }
+    public void UpdateSortPos(List<CardBase> sortedObjects)
+    {
+        if (sortedObjects.Count == 0) return;
+
+        Sequence moveSequence = DOTween.Sequence();
+
+        for (int i = 0; i < sortedObjects.Count; i++)
+        {
+            moveSequence.Join(sortedObjects[i].transform.DOMove(handPosList[i].position, 0.5f));
+            sortedObjects[i].originalPosition = handPosList[i].localPosition;
         }
     }
     public void DiscardSelectedCards()
