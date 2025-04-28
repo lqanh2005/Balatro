@@ -7,6 +7,7 @@ public class CardBase : MonoBehaviour
     [Header("---------------Data---------------")]
     public int id;
     public int level;
+    public int chip;
     public IngredientType ingredientType;
     public SpriteRenderer cardImage;
     public SpriteRenderer cardBackImage;
@@ -37,6 +38,7 @@ public class CardBase : MonoBehaviour
         isDraw = true;
         originalPosition = GamePlayController.Instance.playerContain.handManager.handPosList[pos].transform.localPosition;
         this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.handPos, true);
+        this.chip = ConfigData.Instance.GetChip(this.ingredientType, this.level);
     }
 
     private void SetFaceUp(bool faceUp, bool animate = true)
@@ -130,6 +132,11 @@ public class CardBase : MonoBehaviour
             transform.DOScale(originalScale, scaleDuration / 2).SetEase(Ease.OutQuad);
         }
     }
+    public void PlayHoverAniamtion()
+    {
+        this.transform.DOMoveY(this.transform.localPosition.y + 1f, scaleDuration).SetEase(Ease.OutQuad);
+        this.transform.DOScale(originalScale * 1.5f, scaleDuration).SetEase(Ease.OutQuad);
+    }
     public Sequence PlayHandAnimation(Vector3 targetPos)
     {
         if (sequence != null)
@@ -138,15 +145,14 @@ public class CardBase : MonoBehaviour
         }
         sequence = DOTween.Sequence();
         CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-        if(canvasGroup == null)
+        if (canvasGroup == null)
         {
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
         canvasGroup.alpha = 1;
-        this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.discardPos);
+        this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.playPos);
         sequence.Append(transform.DOMove(targetPos, moveDuration).SetEase(Ease.OutBack))
-            .Join(transform.DORotate(new Vector3(0,0, Random.Range(-10f, 10f)), moveDuration))
-            .Join(canvasGroup.DOFade(0, moveDuration * 1.2f));
+            .Join(transform.DORotate(new Vector3(0, 0, Random.Range(-10f, 10f)), moveDuration));
         return sequence;
     }
     public Sequence PlayDiscardAnimation(Vector3 targetPos)
@@ -159,6 +165,7 @@ public class CardBase : MonoBehaviour
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
         canvasGroup.alpha = 1;
+        this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.discardPos);
         sequence.Append(transform.DOMove(targetPos, moveDuration).SetEase(Ease.OutQuad))
             .Join(transform.DORotate(new Vector3(0,0,-180), moveDuration))
             .Join(canvasGroup.DOFade(0, moveDuration));

@@ -12,40 +12,47 @@ public class RecipeChecker
         recipeDatabase = database;
     }
 
-    public static Recipe? GetMatchedRecipe(List<CardBase> selectedCards)
+    public static Recipe GetMatchedRecipe(List<CardBase> selectedCards)
     {
         List<IngredientType> selectedIngredients = selectedCards
             .Select(card => card.ingredientType)
             .ToList();
 
-        foreach (var recipe in recipeDatabase.defaultRecipes)
+        var matchedEntry = recipeDatabase.FindMatchingRecipe(selectedIngredients);
+        if(matchedEntry != null)
         {
-            if (IsMatch(recipe.ingredients, selectedIngredients))
-            {
-                GamePlayController.Instance.uICtrl.recipe.text = recipe.recipe.ToString();
-                GamePlayController.Instance.uICtrl.coin.text = recipe.coin.ToString();
-                GamePlayController.Instance.uICtrl.multi.text = recipe.multi.ToString();
-                return recipe.recipe;
-            }
+            UpdateUI(matchedEntry.recipe);
+            return matchedEntry.recipe;
         }
-        GamePlayController.Instance.uICtrl.recipe.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].recipe.ToString();
-        GamePlayController.Instance.uICtrl.coin.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].coin.ToString();
-        GamePlayController.Instance.uICtrl.multi.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].multi.ToString();
-        return recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].recipe;
+        UpdateUIForNoMatch();
+        return recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].recipe; ;
     }
-
-    private static bool IsMatch(List<IngredientType> required, List<IngredientType> selected)
+    private static void UpdateUI(Recipe recipe)
     {
-        if (required.Count != selected.Count)
-            return false;
-
-        var requiredCopy = new List<IngredientType>(required);
-        foreach (var ingredient in selected)
-        {
-            if (!requiredCopy.Remove(ingredient))
-                return false;
-        }
-
-        return requiredCopy.Count == 0;
+        RecipeData data = RecipeManager.GetRecipe(recipe);
+        GamePlayController.Instance.uICtrl.recipe.text = recipe.ToString();
+        GamePlayController.Instance.uICtrl.coin.text = data.coin.ToString();
+        GamePlayController.Instance.uICtrl.multi.text = data.multi.ToString();
     }
+    private static void UpdateUIForNoMatch()
+    {
+        GamePlayController.Instance.uICtrl.recipe.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].recipe.ToString();
+        GamePlayController.Instance.uICtrl.coin.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].defaultCoin.ToString();
+        GamePlayController.Instance.uICtrl.multi.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].defaultMulti.ToString();
+    }
+
+    //private static bool IsMatch(List<IngredientType> required, List<IngredientType> selected)
+    //{
+    //    if (required.Count != selected.Count)
+    //        return false;
+
+    //    var requiredCopy = new List<IngredientType>(required);
+    //    foreach (var ingredient in selected)
+    //    {
+    //        if (!requiredCopy.Remove(ingredient))
+    //            return false;
+    //    }
+
+    //    return requiredCopy.Count == 0;
+    //}
 }

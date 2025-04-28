@@ -1,4 +1,5 @@
 
+using BestHTTP.Extensions;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ public class HandManager : MonoBehaviour
 
     public void Init()
     {
-        RecipeChecker.Init(recipeDatabaseSO);
+        InitializeRecipeSystem();
         deckController.Init();
     }
     public void OnCardDrawn(CardBase card, int handPos)
@@ -79,12 +80,14 @@ public class HandManager : MonoBehaviour
     }
     public void PlaySelectedCards()
     {
-        if(seletedCards.Count > 0)
+        if (seletedCards.Count > 0)
         {
             selectedCardCount = seletedCards.Count;
-            List<CardBase> cardsToPlay = GetSelectedCards();
+            List<CardBase> cardsToPlay = new List<CardBase>(seletedCards);
             float delay = 0f;
-            for(int i = 0; i < seletedCards.Count; i++)
+            List<Sequence> playSequences = new List<Sequence>();
+
+            for (int i = 0; i < seletedCards.Count; i++)
             {
                 CardBase cardView = seletedCards[i];
 
@@ -93,33 +96,117 @@ public class HandManager : MonoBehaviour
                 Vector3 targetPos = new Vector3(playPos.position.x + offsetX, playPos.position.y, 0);
 
                 float currentDelay = delay;
-                    cardViews.Remove(cardView);
-                DOVirtual.DelayedCall(currentDelay, () =>
-                {
-                    Sequence playSequence = cardView.PlayHandAnimation(targetPos);
-                    playSequence.OnComplete(() =>
-                    {
-                        cardView.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
-                        {
-                            deckController.DiscardCard(cardView.GetCardBase());
-                            SimplePool2.Despawn(cardView.gameObject);
-                        });
-                        
-                    });
-                });
+                cardViews.Remove(cardView);
+
+                var playSequence = DOTween.Sequence();
+                playSequence.AppendInterval(currentDelay);
+                playSequence.Append(cardView.PlayHandAnimation(targetPos));
+                playSequences.Add(playSequence);
+
                 delay += 0.15f;
             }
-            seletedCards.Clear();
-            //DOVirtual.DelayedCall(delay +0.5f, () =>
-            //{
-            //    RearrangeCards();
-            //});
 
-            UpdateSortPos(cardViews);
-            deckController.DrawCards(selectedCardCount);
-            //OnCardsPlayed(cardsToPlay);
+            DOTween.Sequence()
+                .Append(playSequences.Count > 0 ? playSequences[playSequences.Count - 1] : null)
+                .AppendCallback(() =>
+                {
+                    Recipe? matchResult = RecipeChecker.GetMatchedRecipe(cardsToPlay);
+                    if (matchResult != null)
+                    {
+                        int currentTotal = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
+
+                        Sequence scoreSequence = DOTween.Sequence();
+                        float scoreDelay = 0f;
+
+                        for (int i = 0; i < cardsToPlay.Count; i++)
+                        {
+                            CardBase card = cardsToPlay[i];
+                            int cardIndex = i;
+                            scoreSequence.AppendInterval(scoreDelay);
+                            scoreSequence.AppendCallback(() =>
+                            {
+                                card.PlayHoverAniamtion();
+                                currentTotal += card.chip;
+                                GamePlayController.Instance.uICtrl.coin.text = currentTotal.ToString();
+                            });
+                            scoreSequence.AppendInterval(0.3f);
+                            scoreDelay = 0.05f;
+                        }
+
+                        scoreSequence.OnComplete(() => {
+                            foreach (var card in cardsToPlay)
+                            {
+                                card.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
+                                {
+                                    deckController.DiscardCard(card.GetCardBase());
+                                    SimplePool2.Despawn(card.gameObject);
+                                });
+                            }
+
+                            UpdateSortPos(cardViews);
+                            deckController.DrawCards(selectedCardCount);
+                        });
+                    }
+                    else
+                    {
+                        foreach (var card in cardsToPlay)
+                        {
+                            card.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
+                            {
+                                deckController.DiscardCard(card.GetCardBase());
+                                SimplePool2.Despawn(card.gameObject);
+                            });
+                        }
+
+                        UpdateSortPos(cardViews);
+                        deckController.DrawCards(selectedCardCount);
+                    }
+                });
+
+            seletedCards.Clear();
         }
     }
+
+    //public void PlaySelectedCards()
+    //{
+    //    if (seletedCards.Count > 0)
+    //    {
+    //        selectedCardCount = seletedCards.Count;
+    //        List<CardBase> cardsToPlay = GetSelectedCards();
+    //        float delay = 0f;
+    //        for (int i = 0; i < seletedCards.Count; i++)
+    //        {
+    //            CardBase cardView = seletedCards[i];
+
+    //            float spread = 1.0f;
+    //            float offsetX = (i - (seletedCards.Count - 1) / 2f) * spread;
+    //            Vector3 targetPos = new Vector3(playPos.position.x + offsetX, playPos.position.y, 0);
+
+    //            float currentDelay = delay;
+    //            cardViews.Remove(cardView);
+    //            DOVirtual.DelayedCall(currentDelay, () =>
+    //            {
+    //                Sequence playSequence = cardView.PlayHandAnimation(targetPos);
+    //                playSequence.OnComplete(() =>
+    //                {
+    //                    cardView.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
+    //                    {
+    //                        deckController.DiscardCard(cardView.GetCardBase());
+    //                        SimplePool2.Despawn(cardView.gameObject);
+    //                    });
+
+    //                });
+    //            });
+    //            delay += 0.15f;
+    //        }
+    //        seletedCards.Clear();
+    //        UpdateSortPos(cardViews);
+    //        deckController.DrawCards(selectedCardCount);
+    //    }
+    //}
+
+
+
 
     private void RearrangeCards()
     {
@@ -205,4 +292,22 @@ public class HandManager : MonoBehaviour
             Join(cardView.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutQuad)).
             Join(cardView.transform.DOLocalRotate(Vector3.zero, 0.5f).SetEase(Ease.OutQuad));
     }
+    private void InitializeRecipeSystem()
+    {
+        RecipeChecker.Init(recipeDatabaseSO);
+        bool hasExistingData = PlayerPrefs.HasKey(StringHelper.RECIPT_ALL);
+        if(!hasExistingData)
+        {
+            RecipeManager.LoadAll(recipeDatabaseSO);
+        }
+        else
+        {
+            RecipeManager.CheckAndUpdateDatabase(recipeDatabaseSO);
+        }
+    }
+    public void Reset()
+    {
+        RecipeManager.ResetAllRecipe(recipeDatabaseSO);
+    }
+
 }

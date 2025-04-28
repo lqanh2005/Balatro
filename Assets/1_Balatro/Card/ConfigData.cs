@@ -4,11 +4,29 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "CardData", menuName ="Balatro/CardData")]
+[CreateAssetMenu(fileName = "ConfigData", menuName = "Balatro/ConfigData")]
 public class ConfigData : SingletonScriptableObject<ConfigData>
 {
     public List<CardDataList> cardLists;
     public List<Image> backCard;
+
+    public int GetChip(IngredientType ingredientType, int level)
+    {
+        foreach (var cardList in cardLists)
+        {
+            if (cardList.cardType == ingredientType)
+            {
+                foreach (var cardPerLevel in cardList.cardPerLevels)
+                {
+                    if (cardPerLevel.level == level)
+                    {
+                        return cardPerLevel.cardDatas.chipBonus;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
 }
 
 [System.Serializable]
