@@ -19,57 +19,62 @@ MonoBehaviour:
     multi: 2
     level: 1
   - recipe: 11
-    ingredients: 
+    ingredients: 030000000600000006000000
     coin: 20
     multi: 2
     level: 1
   - recipe: 14
-    ingredients: 
+    ingredients: 010000000200000005000000
     coin: 20
     multi: 2
     level: 1
   - recipe: 13
-    ingredients: 
+    ingredients: 010000000200000004000000
     coin: 20
     multi: 2
     level: 1
   - recipe: 17
-    ingredients: 
+    ingredients: 030000000600000007000000
     coin: 20
     multi: 2
     level: 1
   - recipe: 18
-    ingredients: 
+    ingredients: 030000000400000005000000
     coin: 20
     multi: 2
     level: 1
   - recipe: 21
-    ingredients: 
+    ingredients: 050000000500000005000000
     coin: 30
     multi: 3
     level: 1
   - recipe: 9
-    ingredients: 
+    ingredients: 010000000100000001000000
     coin: 30
     multi: 3
     level: 1
   - recipe: 19
-    ingredients: 
+    ingredients: 0100000001000000020000000400000005000000
     coin: 50
     multi: 5
     level: 1
   - recipe: 25
-    ingredients: 
+    ingredients: 03000000040000000500000007000000
     coin: 40
     multi: 4
     level: 1
   - recipe: 27
-    ingredients: 
+    ingredients: 0200000003000000040000000500000007000000
     coin: 50
     multi: 5
     level: 1
   - recipe: 33
-    ingredients: 
+    ingredients: 0300000003000000070000000700000007000000
     coin: 60
     multi: 6
+    level: 1
+  - recipe: 0
+    ingredients: 
+    coin: 5
+    multi: 1
     level: 1

@@ -229,7 +229,6 @@ public class CardBase : MonoBehaviour
         {
             this.transform.DOLocalMove(new Vector3(originalPosition.x, originalPosition.y + (isSelected? 0.2f:0f)), 0.3f).SetEase(Ease.OutBack);
         }
-        Debug.LogError("Clicked card: " + ingredientType);
         RecipeChecker.GetMatchedRecipe(GamePlayController.Instance.playerContain.handManager.seletedCards);
         isDrag = false;
     }

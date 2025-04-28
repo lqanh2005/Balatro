@@ -15,6 +15,7 @@ public enum IngredientType
 
 public enum Recipe
 {
+    Ingredient,
     StrickyRice = 10, // xoi
     CoinPancake = 11, // banh dong xu
     RiceNoodles = 14, // bun

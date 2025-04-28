@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Balatro/RecipeData", fileName = "RecipeData")]
 public class RecipeDatabaseSO : ScriptableObject
 {
-    public List<RecipeDefaultEntry> defaultRecipes = new();
+    public List<RecipeDefaultEntry> defaultRecipes = new List<RecipeDefaultEntry>();
 }
 
 [System.Serializable]

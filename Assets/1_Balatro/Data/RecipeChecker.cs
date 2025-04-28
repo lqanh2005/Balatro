@@ -28,8 +28,10 @@ public class RecipeChecker
                 return recipe.recipe;
             }
         }
-
-        return null;
+        GamePlayController.Instance.uICtrl.recipe.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].recipe.ToString();
+        GamePlayController.Instance.uICtrl.coin.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].coin.ToString();
+        GamePlayController.Instance.uICtrl.multi.text = recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].multi.ToString();
+        return recipeDatabase.defaultRecipes[recipeDatabase.defaultRecipes.Count - 1].recipe;
     }
 
     private static bool IsMatch(List<IngredientType> required, List<IngredientType> selected)
