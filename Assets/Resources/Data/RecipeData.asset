@@ -86,7 +86,7 @@ MonoBehaviour:
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
-  - recipe: 0
+  - recipe: 1
     recipeName: 
     ingredients: 
     defaultCoin: 0

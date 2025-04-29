@@ -21,7 +21,7 @@ public class CardBase : MonoBehaviour
 
     private bool isFaceUp = false;
     private bool isSelected = false;
-    private bool isDrag = false;
+    public bool isDrag = false;
     private bool isMouseDown = false;
     private bool isDraw = false;
     private Vector3 initialMousePos;
@@ -202,6 +202,7 @@ public class CardBase : MonoBehaviour
         isDrag = false;
         initialMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         initialMousePos.z = 0;
+        
     }
 
     private void OnMouseUp()
@@ -217,6 +218,7 @@ public class CardBase : MonoBehaviour
                 if (GamePlayController.Instance.playerContain.handManager.seletedCards.Count < GamePlayController.Instance.playerContain.handManager.maxSelectedCard)
                 {
                     GamePlayController.Instance.playerContain.handManager.seletedCards.Add(this);
+                    RecipeChecker.GetMatchedRecipe(GamePlayController.Instance.playerContain.handManager.seletedCards);
                     PlaySelectedAniamtion(isSelected);
                 }
                 else
@@ -228,6 +230,7 @@ public class CardBase : MonoBehaviour
             else
             {
                 GamePlayController.Instance.playerContain.handManager.seletedCards.Remove(this);
+                RecipeChecker.GetMatchedRecipe(GamePlayController.Instance.playerContain.handManager.seletedCards);
                 PlaySelectedAniamtion(isSelected);
                 //return;
             }
@@ -236,7 +239,7 @@ public class CardBase : MonoBehaviour
         {
             this.transform.DOLocalMove(new Vector3(originalPosition.x, originalPosition.y + (isSelected? 0.2f:0f)), 0.3f).SetEase(Ease.OutBack);
         }
-        RecipeChecker.GetMatchedRecipe(GamePlayController.Instance.playerContain.handManager.seletedCards);
+        
         isDrag = false;
     }
     private void FixedUpdate()

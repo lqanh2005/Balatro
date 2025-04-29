@@ -20,30 +20,6 @@ public class RecipeManager
         PlayerPrefs.SetString(StringHelper.RECIPT_ALL, json);
         PlayerPrefs.Save();
     }
-    //public static Dictionary<Recipe, RecipeData> LoadAll()
-    //{
-    //    Dictionary<Recipe, RecipeData> result = new();
-    //    if (!PlayerPrefs.HasKey(StringHelper.RECIPT_ALL))
-    //    {
-    //        foreach (Recipe recipe in System.Enum.GetValues(typeof(Recipe)))
-    //        {                          
-    //            result[recipe] = new RecipeData();
-    //        }
-    //        SaveAll(result);
-    //        return result;
-    //    }
-    //    string json = PlayerPrefs.GetString(StringHelper.RECIPT_ALL);
-    //    RecipeCollection collection = JsonUtility.FromJson<RecipeCollection>(json);
-    //    foreach (var entry in collection.recipes)
-    //    {
-    //        if (System.Enum.TryParse(entry.recipeName, out Recipe parsed))
-    //        {
-    //            result[parsed] = entry.data;
-    //        }
-    //    }
-
-    //    return result;
-    //}
     public static RecipeData GetRecipe(Recipe recipe)
     {
         var all = LoadAll();
@@ -56,27 +32,6 @@ public class RecipeManager
         all[recipe] = data;
         SaveAll(all);
     }
-    //public static void ResetAllRecipe(RecipeDatabaseSO dataBase)
-    //{
-    //    Dictionary<Recipe, RecipeData> defaultData = new();
-    //    foreach (var entry in dataBase.defaultRecipes)
-    //    {
-    //        defaultData[entry.recipe] = new RecipeData(entry.coin, entry.multi, entry.level);
-    //    }
-    //    SaveAll(defaultData);
-    //}
-    //public static void UpgradeRecipe(Recipe recipe)
-    //{
-    //    var all = LoadAll();
-    //    if (all.TryGetValue(recipe, out var data))
-    //    {
-    //        data.level++;
-    //        data.coin += 10;  // Tuỳ chỉnh logic nâng cấp
-    //        data.multi += 1;
-    //        all[recipe] = data;
-    //        SaveAll(all);
-    //    }
-    //}
 
     public static void ResetAllRecipe(RecipeDatabaseSO dataBase)
     {

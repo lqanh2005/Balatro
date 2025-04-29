@@ -27,6 +27,17 @@ public class RecipeDatabaseSO : ScriptableObject
         }
         return requiredCopy.Count == 0;
     }
+    public List<IngredientType> GetCardsToScore(Recipe recipe)
+    {
+        foreach(var entry in defaultRecipes)
+        {
+            if(recipe == entry.recipe)
+            {
+                return entry.ingredients;
+            }
+        }
+        return null;
+    }
 }
 
 [System.Serializable]

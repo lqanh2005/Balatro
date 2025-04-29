@@ -110,29 +110,14 @@ public class HandManager : MonoBehaviour
                 .Append(playSequences.Count > 0 ? playSequences[playSequences.Count - 1] : null)
                 .AppendCallback(() =>
                 {
-                    Recipe? matchResult = RecipeChecker.GetMatchedRecipe(cardsToPlay);
-                    if (matchResult != null)
+                    Recipe matchResult = RecipeChecker.GetMatchedRecipe(cardsToPlay);
+                    if (matchResult != Recipe.None)
                     {
+                        List<CardBase> validCards = RecipeChecker.GetCardsToScore(cardsToPlay, matchResult);
                         int currentTotal = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
 
                         Sequence scoreSequence = DOTween.Sequence();
-                        float scoreDelay = 0f;
-
-                        for (int i = 0; i < cardsToPlay.Count; i++)
-                        {
-                            CardBase card = cardsToPlay[i];
-                            int cardIndex = i;
-                            scoreSequence.AppendInterval(scoreDelay);
-                            scoreSequence.AppendCallback(() =>
-                            {
-                                card.PlayHoverAniamtion();
-                                currentTotal += card.chip;
-                                GamePlayController.Instance.uICtrl.coin.text = currentTotal.ToString();
-                            });
-                            scoreSequence.AppendInterval(0.3f);
-                            scoreDelay = 0.05f;
-                        }
-
+                        PlayScoreAnim(validCards, scoreSequence);
                         scoreSequence.OnComplete(() => {
                             foreach (var card in cardsToPlay)
                             {
@@ -162,7 +147,6 @@ public class HandManager : MonoBehaviour
                         deckController.DrawCards(selectedCardCount);
                     }
                 });
-
             seletedCards.Clear();
         }
     }
@@ -205,8 +189,53 @@ public class HandManager : MonoBehaviour
     //    }
     //}
 
+    public void PlayScoreAnim(List<CardBase> cardsToPlay, Sequence scoreSequence)
+    {
+        int totalCoin = 0;
+        int currentCoin = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
+        int currentScore = GamePlayController.Instance.uICtrl.score.text.ToInt32();
 
+        var coinText = GamePlayController.Instance.uICtrl.coin;
+        var scoreText = GamePlayController.Instance.uICtrl.score;
+        int multi = GamePlayController.Instance.uICtrl.multi.text.ToInt32();
 
+        float scoreDelay = 0f;
+
+        foreach (var card in cardsToPlay)
+        {
+            scoreSequence.AppendInterval(scoreDelay);
+            scoreSequence.AppendCallback(() =>
+            {
+                card.PlayHoverAniamtion();
+                totalCoin += card.chip;
+                currentCoin += card.chip;
+                TextEffectHelper.PlayScoreBounce(coinText, currentCoin);
+            });
+            scoreSequence.AppendInterval(0.2f);
+            scoreDelay = 0.05f;
+        }
+
+        scoreSequence.AppendInterval(0.3f); // chờ hiệu ứng chip xong
+
+        scoreSequence.AppendCallback(() =>
+        {
+            int finalScore = totalCoin * multi;
+
+            // Coin giảm về 0
+            DOTween.To(() => currentCoin, x =>
+            {
+                currentCoin = x;
+                TextEffectHelper.PlayScoreBounce(coinText, currentCoin);
+            }, 0, 0.5f).SetEase(Ease.OutCubic);
+
+            // Score tăng lên
+            DOTween.To(() => currentScore, x =>
+            {
+                currentScore = x;
+                TextEffectHelper.PlayScoreBounce(scoreText, currentScore);
+            }, currentScore + finalScore, 0.5f).SetEase(Ease.OutCubic);
+        });
+    }
 
     private void RearrangeCards()
     {
