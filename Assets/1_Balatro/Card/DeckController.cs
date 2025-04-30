@@ -20,6 +20,7 @@ public class DeckController : MonoBehaviour
     {
         CreateDeck();
         ShuffleDeck();
+        GamePlayController.Instance.playerContain.handManager.isFirstDraw = true;
         DrawCards(8);
         
     }
@@ -33,7 +34,6 @@ public class DeckController : MonoBehaviour
             for (int i = 0; i < card.amout; i++)
             {
                 CardBase newCard = SimplePool2.Spawn(card.cardPrefab, deckVisual.position, Quaternion.identity).GetComponent<CardBase>();
-                //newCard.Init();
                 newCard.id = card.id;
                 drawCards.Add(newCard);
             }
@@ -65,7 +65,7 @@ public class DeckController : MonoBehaviour
     {
         if (deckVisual != null)
         {
-            float height = drawCards.Count * 0.01f; // Tăng tỉ lệ nếu muốn dày hơn
+            float height = drawCards.Count * 0.01f;
             deckVisual.localPosition += new Vector3(0, 0, 0.01f);
         }
     }
@@ -102,7 +102,6 @@ public class DeckController : MonoBehaviour
         {
             GamePlayController.Instance.playerContain.handManager.cardViews.Add(_card);
         }
-        //GamePlayController.Instance.playerContain.handManager.cardViews.Add(_card);
         return _card;
     }
 
@@ -115,14 +114,17 @@ public class DeckController : MonoBehaviour
             if (card != null)
             {
                 cards.Add(card);
-                GamePlayController.Instance.playerContain.handManager.OnCardDrawn(card, GamePlayController.Instance.playerContain.handManager.cardViews.IndexOf(card));
             }
             else
             {
                 break;
             }
         }
-        
+        for (int i = 0; i < cards.Count; i++)
+        {
+            int handIndex = GamePlayController.Instance.playerContain.handManager.cardViews.IndexOf(cards[i]);
+            GamePlayController.Instance.playerContain.handManager.OnCardDrawn(cards[i], handIndex);
+        }
         return cards;
     }
 

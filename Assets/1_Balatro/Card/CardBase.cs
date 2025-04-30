@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SocialPlatforms;
 
 public class CardBase : MonoBehaviour
 {
@@ -32,12 +33,9 @@ public class CardBase : MonoBehaviour
 
     public void Init(int pos)
     {
-        //cardImage.sprite = ConfigData.Instance.cardLists[(int)cardType].cardPerLevels[this.level].cardDatas.faceImage;
-        //SetFaceUp(faceUp, false);
         originalScale = transform.localScale;
         isDraw = true;
-        originalPosition = GamePlayController.Instance.playerContain.handManager.handPosList[pos].transform.localPosition;
-        this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.handPos, true);
+        Vector3 calculatedPosition = GamePlayController.Instance.playerContain.handManager.CalculateCardPosition(pos, GamePlayController.Instance.playerContain.handManager.cardViews.Count);
         this.chip = ConfigData.Instance.GetChip(this.ingredientType, this.level);
     }
 
@@ -80,18 +78,21 @@ public class CardBase : MonoBehaviour
     {
         SetFaceUp(!isFaceUp, true);
     }
-    public void PlayDrawAnimation(Vector3 startPos, Vector3 endPos, System.Action onComplete = null)
+    public void PlayDrawAnimation(Vector3 startPos, Vector3 endPos, bool check, System.Action onComplete = null)
     {
-        if(sequence != null)
-        {
-            sequence.Kill();
-        }
         transform.position = startPos;
-        transform.localScale = Vector3.zero;
-        sequence = DOTween.Sequence();
-        sequence.Append(transform.DOScale(originalScale, scaleDuration))
-            .Join(transform.DOMove(endPos, moveDuration).SetEase(Ease.OutBack))
-            .OnComplete(() => onComplete?.Invoke());
+        if (check)
+        {
+            transform.DOLocalMove(endPos, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
+            {
+                onComplete?.Invoke();
+            });
+        }
+        else
+        {
+            onComplete?.Invoke();
+            transform.DOLocalMove(endPos, 0.5f).SetEase(Ease.OutBack);
+        }
     }
     public void PlaySelectedAniamtion(bool select)
     {
@@ -225,14 +226,12 @@ public class CardBase : MonoBehaviour
                 {
                     PlaySelectedAniamtion1();
                 }
-                //return;
             }
             else
             {
                 GamePlayController.Instance.playerContain.handManager.seletedCards.Remove(this);
                 RecipeChecker.GetMatchedRecipe(GamePlayController.Instance.playerContain.handManager.seletedCards);
                 PlaySelectedAniamtion(isSelected);
-                //return;
             }
         }
         else

@@ -195,7 +195,7 @@ Transform:
   m_GameObject: {fileID: 5988048199727289565}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -3.41, y: -3.06, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 1, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -226,6 +226,7 @@ MonoBehaviour:
   scaleDuration: 0.2
   hoverScale: 1.1
   hoverLiftHeight: 0.1
+  isDrag: 0
   originalPosition: {x: 0, y: 0, z: 0}
 --- !u!61 &3164144588976346984
 BoxCollider2D:

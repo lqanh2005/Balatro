@@ -23,16 +23,16 @@ public class GamePlayController : Singleton<GamePlayController>
  
  
     
-    //protected override void OnAwake()
-    //{
-    //    //  GameController.Instance.currentScene = SceneType.GamePlay;
+    protected override void OnAwake()
+    {
+        //  GameController.Instance.currentScene = SceneType.GamePlay;
 
-     
-    //    Init();
 
-    //}
+        StartGame();
 
-    public void Start()
+    }
+
+    public void StartGame()
     {
 
    

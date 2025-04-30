@@ -1,6 +1,7 @@
 
 using BestHTTP.Extensions;
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +10,12 @@ using UnityEngine.UI;
 public class HandManager : MonoBehaviour
 {
     public DeckController deckController;
+    public bool isFirstDraw = true;
     public Transform handPos;
     public Transform deckPos;
     public Transform discardPos;
     public Transform playPos;
 
-    public List<Transform> handPosList = new List<Transform>();
 
     public List<CardBase> cardViews =  new List<CardBase>();
     public List<CardBase> seletedCards = new List<CardBase>();
@@ -24,14 +25,6 @@ public class HandManager : MonoBehaviour
     [SerializeField] private float cardSpacing = 2f;
     [SerializeField] private float drawCardDelay = 0.15f;
     public RecipeDatabaseSO recipeDatabaseSO;
-
-    //public delegate void OnCardsPlayedEvent(List<CardBase> playedCards);
-    //public event OnCardsPlayedEvent CardsPlayed;
-
-    //private void OnCardsPlayed(List<CardBase> playedCards)
-    //{
-    //    CardsPlayed?.Invoke(playedCards);
-    //}
 
     public void Init()
     {
@@ -49,39 +42,46 @@ public class HandManager : MonoBehaviour
     }
     private void CreateCardView(CardBase card, int pos)
     {
-        if(handPos != null)
+        card.Init(pos);
+
+        Vector3 targetPos = CalculateCardPosition(pos, cardViews.Count) + handPos.position;
+        card.PlayDrawAnimation(deckPos.position, targetPos, isFirstDraw, () =>
         {
-            card.Init(pos);
-            //cardViews.Add(card);
-            //UpdateSortPos(cardViews);
-            card.PlayDrawAnimation(deckPos.position, handPosList[pos].position, () =>
+            UpdateSortPos(cardViews);
+        });
+    }
+    public Vector3 CalculateCardPosition(int index, int totalCards)
+    {
+        float spacing = 1.2f;
+        float startX = -(spacing * (totalCards - 1)) / 2f;
+        float x = startX + index * spacing;
+
+        float y = -Mathf.Abs(index - (totalCards - 1) / 2f) * 0.1f;
+
+        return new Vector3(x, y, 0);
+    }
+    public void UpdateSortPos(List<CardBase> sortedObjects)
+    {
+        if (sortedObjects.Count == 0) return;
+
+        Sequence moveSequence = DOTween.Sequence();
+
+        for (int i = 0; i < sortedObjects.Count; i++)
             {
-                UpdateSortPos(cardViews);
-            });
+            Vector3 targetPos = CalculateCardPosition(i, sortedObjects.Count) + handPos.position;
+            sortedObjects[i].originalPosition = targetPos;
+            moveSequence.Join(
+            sortedObjects[i].transform
+                .DOLocalMove(targetPos, 0.5f)
+                .SetEase(Ease.OutQuad)
+        );
         }
-    }
-
-    //public void DrawToFillHand(int targetCount)
-    //{
-    //    int currentCount = cardViews.Count;
-    //    int drawCount = targetCount - currentCount;
-    //    if(drawCount > 0)
-    //    {
-    //        deckController.DrawCards(drawCount);
-    //    }
-    //}
-    public List<CardBase> GetSelectedCards()
-    {
-        return seletedCards;
-    }
-    public void CheckRecipe()
-    {
-
     }
     public void PlaySelectedCards()
     {
         if (seletedCards.Count > 0)
         {
+            isFirstDraw = false;
             selectedCardCount = seletedCards.Count;
             List<CardBase> cardsToPlay = new List<CardBase>(seletedCards);
             float delay = 0f;
@@ -101,6 +101,7 @@ public class HandManager : MonoBehaviour
                 var playSequence = DOTween.Sequence();
                 playSequence.AppendInterval(currentDelay);
                 playSequence.Append(cardView.PlayHandAnimation(targetPos));
+                UpdateSortPos(cardViews);
                 playSequences.Add(playSequence);
 
                 delay += 0.15f;
@@ -128,7 +129,6 @@ public class HandManager : MonoBehaviour
                                 });
                             }
 
-                            UpdateSortPos(cardViews);
                             deckController.DrawCards(selectedCardCount);
                         });
                     }
@@ -150,44 +150,6 @@ public class HandManager : MonoBehaviour
             seletedCards.Clear();
         }
     }
-
-    //public void PlaySelectedCards()
-    //{
-    //    if (seletedCards.Count > 0)
-    //    {
-    //        selectedCardCount = seletedCards.Count;
-    //        List<CardBase> cardsToPlay = GetSelectedCards();
-    //        float delay = 0f;
-    //        for (int i = 0; i < seletedCards.Count; i++)
-    //        {
-    //            CardBase cardView = seletedCards[i];
-
-    //            float spread = 1.0f;
-    //            float offsetX = (i - (seletedCards.Count - 1) / 2f) * spread;
-    //            Vector3 targetPos = new Vector3(playPos.position.x + offsetX, playPos.position.y, 0);
-
-    //            float currentDelay = delay;
-    //            cardViews.Remove(cardView);
-    //            DOVirtual.DelayedCall(currentDelay, () =>
-    //            {
-    //                Sequence playSequence = cardView.PlayHandAnimation(targetPos);
-    //                playSequence.OnComplete(() =>
-    //                {
-    //                    cardView.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
-    //                    {
-    //                        deckController.DiscardCard(cardView.GetCardBase());
-    //                        SimplePool2.Despawn(cardView.gameObject);
-    //                    });
-
-    //                });
-    //            });
-    //            delay += 0.15f;
-    //        }
-    //        seletedCards.Clear();
-    //        UpdateSortPos(cardViews);
-    //        deckController.DrawCards(selectedCardCount);
-    //    }
-    //}
 
     public void PlayScoreAnim(List<CardBase> cardsToPlay, Sequence scoreSequence)
     {
@@ -215,20 +177,16 @@ public class HandManager : MonoBehaviour
             scoreDelay = 0.05f;
         }
 
-        scoreSequence.AppendInterval(0.3f); // chờ hiệu ứng chip xong
+        scoreSequence.AppendInterval(0.3f);
 
         scoreSequence.AppendCallback(() =>
         {
             int finalScore = totalCoin * multi;
-
-            // Coin giảm về 0
             DOTween.To(() => currentCoin, x =>
             {
                 currentCoin = x;
                 TextEffectHelper.PlayScoreBounce(coinText, currentCoin);
             }, 0, 0.5f).SetEase(Ease.OutCubic);
-
-            // Score tăng lên
             DOTween.To(() => currentScore, x =>
             {
                 currentScore = x;
@@ -236,32 +194,7 @@ public class HandManager : MonoBehaviour
             }, currentScore + finalScore, 0.5f).SetEase(Ease.OutCubic);
         });
     }
-
-    private void RearrangeCards()
-    {
-        for (int i = 0; i < cardViews.Count; i++)
-        {
-            if (i >= handPosList.Count) break;
-
-            CardBase cardView = cardViews[i];
-            Transform target = handPosList[i].transform;
-            cardView.originalPosition = target.localPosition;
-            cardView.transform.DOLocalMove(target.localPosition, 0.5f).SetEase(Ease.OutQuad);
-            cardView.transform.DOLocalRotateQuaternion(target.localRotation, 0.5f).SetEase(Ease.OutQuad);
-        }
-    }
-    public void UpdateSortPos(List<CardBase> sortedObjects)
-    {
-        if (sortedObjects.Count == 0) return;
-
-        Sequence moveSequence = DOTween.Sequence();
-
-        for (int i = 0; i < sortedObjects.Count; i++)
-        {
-            moveSequence.Join(sortedObjects[i].transform.DOMove(handPosList[i].position, 0.5f));
-            sortedObjects[i].originalPosition = handPosList[i].localPosition;
-        }
-    }
+    
     public void DiscardSelectedCards()
     {
         if(seletedCards.Count > 0)
@@ -285,28 +218,8 @@ public class HandManager : MonoBehaviour
             seletedCards.Clear();
             DOVirtual.DelayedCall(delay + 0.5f, () =>
             {
-                RearrangeCards();
+                UpdateSortPos(cardViews);
             });
-        }
-    }
-    public void AnimateFanCards()
-    {
-        float fanAngle = 0.5f;
-        float fanRadius = 50;
-        float centerIdx=(cardViews.Count - 1) / 2f;
-        Vector3 centerPos = new Vector3(centerIdx * cardSpacing, 0, 0);
-        for(int i = 0; i < cardViews.Count; i++)
-        {
-            CardBase cardView = cardViews[i];
-            float offsetFromCenter = i - centerIdx;
-            float angle = offsetFromCenter * fanAngle;
-            float xPos = offsetFromCenter * cardSpacing;
-            float yPos = -Mathf.Abs(offsetFromCenter) * 10f; // tạo độ cong
-
-            Vector3 targetPos = new Vector3(xPos, yPos, 0);
-
-            cardView.transform.DOLocalMove(targetPos, 0.5f).SetEase(Ease.OutQuad);
-            cardView.transform.DOLocalRotate(new Vector3(0, 0, angle), 0.5f).SetEase(Ease.OutQuad);
         }
     }
     public void AnimateCardUpgrade(CardBase cardView)
