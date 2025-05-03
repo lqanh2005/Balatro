@@ -9,12 +9,13 @@ public class ConfigData : SingletonScriptableObject<ConfigData>
 {
     public List<CardDataList> cardLists;
     public List<Image> backCard;
+    public TooltipAttribute tooltipAttribute;
 
     public int GetChip(IngredientType ingredientType, int level)
     {
         foreach (var cardList in cardLists)
         {
-            if (cardList.cardType == ingredientType)
+            if (cardList.ingredientType == ingredientType)
             {
                 foreach (var cardPerLevel in cardList.cardPerLevels)
                 {
@@ -32,18 +33,18 @@ public class ConfigData : SingletonScriptableObject<ConfigData>
 [System.Serializable]
 public class CardDataList
 {
-    public IngredientType cardType;
+    public IngredientType ingredientType;
     public List<CardPerLevel> cardPerLevels;
 }
 [System.Serializable]
 public class CardPerLevel
 {
     public int level;
-    public CardData cardDatas;
+    public CardDataSO cardDatas;
 }
 
 [System.Serializable]
-public class CardData
+public class CardDataSO
 {
     public int id;
     public int chipBonus;

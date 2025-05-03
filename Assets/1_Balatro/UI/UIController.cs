@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public Button playHandBtn;
+    public Button shopBtn;
 
     [Header("----------Recipe Box----------")]  
     public TMP_Text recipe;
@@ -19,6 +20,7 @@ public class UIController : MonoBehaviour
     public void Init()
     {
         playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
+        shopBtn.onClick.AddListener(delegate { ShopCtrl.Setup().Show(); });
     }
 }
 

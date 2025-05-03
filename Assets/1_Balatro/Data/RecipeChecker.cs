@@ -14,7 +14,7 @@ public class RecipeChecker
         recipeDatabase = database;
     }
 
-    public static Recipe GetMatchedRecipe(List<CardBase> selectedCards)
+    public static Recipe GetMatchedRecipe(List<CardView> selectedCards)
     {
         if (selectedCards == null || selectedCards.Count == 0)
         {
@@ -48,21 +48,21 @@ public class RecipeChecker
         UpdateUIForNoMatch();
         return Recipe.None;
     }
-    public static List<CardBase> GetCardsToScore(List<CardBase> selectedCards, Recipe recipe)
+    public static List<CardView> GetCardsToScore(List<CardView> selectedCards, Recipe recipe)
     {
         if (recipe == Recipe.None || selectedCards == null)
             return null;
         if (recipe == Recipe.Ingredient)
         {
             var maxCard = selectedCards.OrderByDescending(card => card.chip).FirstOrDefault();
-            return maxCard != null ? new List<CardBase> { maxCard } : null;
+            return maxCard != null ? new List<CardView> { maxCard } : null;
         }
         var recipeEntry = recipeDatabase.GetRecipeEntry(recipe);
         if (recipeEntry == null)
             return null;
 
         var ingredients = new List<IngredientType>(recipeEntry.ingredients);
-        var cardsToScore = new List<CardBase>();
+        var cardsToScore = new List<CardView>();
 
         foreach (var card in selectedCards)
         {

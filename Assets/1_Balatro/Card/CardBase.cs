@@ -1,99 +1,41 @@
-using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.SocialPlatforms;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class CardBase : MonoBehaviour
 {
-    [Header("---------------Data---------------")]
     public int id;
-    public int level;
-    public int chip;
-    public IngredientType ingredientType;
-    public SpriteRenderer cardImage;
-    public SpriteRenderer cardBackImage;
 
-    [Header("Animation Settings")]
-    [SerializeField] private float flipDuration = 0.3f;
-    [SerializeField] private float moveDuration = 0.5f;
-    [SerializeField] private float scaleDuration = 0.2f;
-    [SerializeField] private float hoverScale = 1.1f;
-    [SerializeField] private float hoverLiftHeight = 0.1f;
 
-    private bool isFaceUp = false;
-    private bool isSelected = false;
-    public bool isDrag = false;
-    private bool isMouseDown = false;
-    private bool isDraw = false;
-    private Vector3 initialMousePos;
-    public Vector3 originalPosition;
-    private Vector3 originalScale;
+    public string description;
+    public GameObject showText;
 
-    private Sequence sequence;
+    [HideInInspector] public float flipDuration = 0.3f;
+    [HideInInspector] public float moveDuration = 0.5f;
+    [HideInInspector] public float scaleDuration = 0.2f;
+    [HideInInspector] public float hoverScale = 1.1f;
+    [HideInInspector] public float hoverLiftHeight = 0.1f;
 
-    public void Init(int pos)
+
+
+    [HideInInspector] public bool isFaceUp = false;
+    [HideInInspector] public bool isSelected = false;
+    [HideInInspector] public bool isDrag = false;
+    [HideInInspector] public bool isMouseDown = false;
+    [HideInInspector] public bool isDraw = false;
+    [HideInInspector] public Vector3 initialMousePos;
+    [HideInInspector] public Vector3 originalPosition;
+    [HideInInspector] public Vector3 originalScale;
+
+    public Sequence sequence;
+
+    public virtual void Init(int pos)
     {
         originalScale = transform.localScale;
         isDraw = true;
-        Vector3 calculatedPosition = GamePlayController.Instance.playerContain.handManager.CalculateCardPosition(pos, GamePlayController.Instance.playerContain.handManager.cardViews.Count);
-        this.chip = ConfigData.Instance.GetChip(this.ingredientType, this.level);
     }
 
-    private void SetFaceUp(bool faceUp, bool animate = true)
-    {
-        if (isFaceUp == faceUp) return;
-        isFaceUp = faceUp;
-        if (animate)
-        {
-            if(sequence != null)
-            {
-                sequence.Kill();
-            }
-            sequence = DOTween.Sequence();
-            sequence.Append(transform.DOScaleX(0, flipDuration / 2)).OnComplete(() =>
-            {
-                if (cardImage != null)
-                {
-                    cardImage.gameObject.SetActive(faceUp);
-                }
-                if (cardBackImage != null)
-                {
-                    cardBackImage.gameObject.SetActive(!faceUp);
-                }
-            }).Append(transform.DOScaleX(originalScale.x, flipDuration / 2));
-        }
-        else
-        {
-            if (cardImage != null)
-            {
-                cardImage.gameObject.SetActive(faceUp);
-            }
-            if (cardBackImage != null)
-            {
-                cardBackImage.gameObject.SetActive(!faceUp);
-            }
-        }
-    }
-    public void FlipCard()
-    {
-        SetFaceUp(!isFaceUp, true);
-    }
-    public void PlayDrawAnimation(Vector3 startPos, Vector3 endPos, bool check, System.Action onComplete = null)
-    {
-        transform.position = startPos;
-        if (check)
-        {
-            transform.DOLocalMove(endPos, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
-            {
-                onComplete?.Invoke();
-            });
-        }
-        else
-        {
-            onComplete?.Invoke();
-            transform.DOLocalMove(endPos, 0.5f).SetEase(Ease.OutBack);
-        }
-    }
     public void PlaySelectedAniamtion(bool select)
     {
         transform.DOKill();
@@ -108,23 +50,12 @@ public class CardBase : MonoBehaviour
             this.transform.DOScale(originalScale, scaleDuration).SetEase(Ease.OutQuad);
         }
     }
-    public void PlaySelectedAniamtion1()
-    {
-        transform.DOKill();
-
-        float targetY = originalPosition.y + 0.2f;
-        Vector3 targetScale = originalScale * hoverScale;
-
-        Sequence seq = DOTween.Sequence();
-        seq.Append(transform.DOLocalMoveY(targetY, scaleDuration / 2).SetEase(Ease.OutQuad))
-           .Append(transform.DOLocalMoveY(originalPosition.y, scaleDuration / 2).SetEase(Ease.InQuad));
-    }
     public void PlayHoverAniamtion(bool isHovering)
     {
-        if(isSelected) return;
+        if (isSelected) return;
         if (isHovering)
         {
-            transform.DOLocalMoveY(originalPosition.y + (hoverLiftHeight/2), scaleDuration/2).SetEase(Ease.OutQuad);
+            transform.DOLocalMoveY(originalPosition.y + (hoverLiftHeight / 2), scaleDuration / 2).SetEase(Ease.OutQuad);
             transform.DOScale(originalScale * (hoverScale - 0.05f), scaleDuration / 2).SetEase(Ease.OutQuad);
         }
         else
@@ -138,110 +69,7 @@ public class CardBase : MonoBehaviour
         this.transform.DOMoveY(this.transform.localPosition.y + 1f, scaleDuration).SetEase(Ease.OutQuad);
         this.transform.DOScale(originalScale * 1.5f, scaleDuration).SetEase(Ease.OutQuad);
     }
-    public Sequence PlayHandAnimation(Vector3 targetPos)
-    {
-        if (sequence != null)
-        {
-            sequence.Kill();
-        }
-        sequence = DOTween.Sequence();
-        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = 1;
-        this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.playPos);
-        sequence.Append(transform.DOMove(targetPos, moveDuration).SetEase(Ease.OutBack))
-            .Join(transform.DORotate(new Vector3(0, 0, Random.Range(-10f, 10f)), moveDuration));
-        return sequence;
-    }
-    public Sequence PlayDiscardAnimation(Vector3 targetPos)
-    {
-        if(sequence != null) sequence.Kill();
-        sequence = DOTween.Sequence();
-        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = 1;
-        this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.discardPos);
-        sequence.Append(transform.DOMove(targetPos, moveDuration).SetEase(Ease.OutQuad))
-            .Join(transform.DORotate(new Vector3(0,0,-180), moveDuration))
-            .Join(canvasGroup.DOFade(0, moveDuration));
-        return sequence;
-    }
-    // cmt
-    public void PlaySpecialCard()
-    {
-
-    }
-    private void OnDestroy()
-    {
-        DOTween.Kill(transform);
-        if(sequence != null)
-        {
-            sequence.Kill();
-        }
-    }
-    public CardBase GetCardBase()
-    {
-        return this;
-    }
-
-    public void PlaySnapToPos()
-    {
-        transform.DOKill();
-        this.transform.DOLocalMove(originalPosition, 0.3f).SetEase(Ease.OutBack);
-    }
-
-    private void OnMouseDown()
-    {
-        if (!isDraw) return;
-        isMouseDown = true;
-        isDrag = false;
-        initialMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        initialMousePos.z = 0;
-        
-    }
-
-    private void OnMouseUp()
-    {
-        if (!isDraw) return;
-        isMouseDown = false;
-
-        if (!isDrag)
-        {
-            isSelected = !isSelected;
-            if (isSelected)
-            {
-                if (GamePlayController.Instance.playerContain.handManager.seletedCards.Count < GamePlayController.Instance.playerContain.handManager.maxSelectedCard)
-                {
-                    GamePlayController.Instance.playerContain.handManager.seletedCards.Add(this);
-                    RecipeChecker.GetMatchedRecipe(GamePlayController.Instance.playerContain.handManager.seletedCards);
-                    PlaySelectedAniamtion(isSelected);
-                }
-                else
-                {
-                    PlaySelectedAniamtion1();
-                }
-            }
-            else
-            {
-                GamePlayController.Instance.playerContain.handManager.seletedCards.Remove(this);
-                RecipeChecker.GetMatchedRecipe(GamePlayController.Instance.playerContain.handManager.seletedCards);
-                PlaySelectedAniamtion(isSelected);
-            }
-        }
-        else
-        {
-            this.transform.DOLocalMove(new Vector3(originalPosition.x, originalPosition.y + (isSelected? 0.2f:0f)), 0.3f).SetEase(Ease.OutBack);
-        }
-        
-        isDrag = false;
-    }
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         if (!isDraw) return;
         if (isMouseDown)
@@ -263,17 +91,39 @@ public class CardBase : MonoBehaviour
         }
     }
 
-    private void OnMouseEnter()
+    public void OnMouseDown()
+    {
+        if (!isDraw) return;
+        isMouseDown = true;
+        isDrag = false;
+        initialMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        initialMousePos.z = 0;
+
+    }
+    public void OnMouseEnter()
     {
         if (isDrag) return;
         if (!isDraw) return;
         PlayHoverAniamtion(true);
+        showText.gameObject.SetActive(true);
     }
-    private void OnMouseExit()
+    public void OnMouseExit()
     {
-        if(isDrag) return;
+        if (isDrag) return;
         if (!isDraw) return;
         PlayHoverAniamtion(false);
+        showText.gameObject.SetActive(false);
+    }
+    public virtual void OnMouseUp()
+    {
+
+    }
+    public void OnDestroy()
+    {
+        DOTween.Kill(transform);
+        if (sequence != null)
+        {
+            sequence.Kill();
+        }
     }
 }
- 

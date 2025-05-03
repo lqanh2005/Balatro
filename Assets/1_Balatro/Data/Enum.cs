@@ -38,3 +38,22 @@ public enum RankCard
     Gold,
     Diamond,
 }
+
+public enum Voucher
+{
+    None,
+    TheHermit, //x2 gold
+    TheWorld, //Clone Ingredient
+    Temperance, // 0-30% ngẫu nhiên đạt được 0-30% target hiện tại
+    Judgement, //RandomIngredient
+    TheFool, // random upgrade 1 công thức
+    TheEmperor, // random 2 voucher
+    BlackFriday, //discount đồ trong shop
+    TheMagician, // Nâng cấp ngẫu nhiên 1 nguyên liệu lên 1 bậc
+}
+
+public enum ItemType
+{
+    Ingredient,
+    Recipe,
+}

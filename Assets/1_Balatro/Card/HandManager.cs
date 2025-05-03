@@ -17,8 +17,8 @@ public class HandManager : MonoBehaviour
     public Transform playPos;
 
 
-    public List<CardBase> cardViews =  new List<CardBase>();
-    public List<CardBase> seletedCards = new List<CardBase>();
+    public List<CardView> cardViews =  new List<CardView>();
+    public List<CardView> seletedCards = new List<CardView>();
 
     public int maxSelectedCard = 5;
     private int selectedCardCount = 0;
@@ -31,16 +31,16 @@ public class HandManager : MonoBehaviour
         InitializeRecipeSystem();
         deckController.Init();
     }
-    public void OnCardDrawn(CardBase card, int handPos)
+    public void OnCardDrawn(CardView card, int handPos)
     {
         StartCoroutine(CreateCard(card, handPos, drawCardDelay * handPos));
     }
-    private IEnumerator CreateCard(CardBase card, int pos, float delay)
+    private IEnumerator CreateCard(CardView card, int pos, float delay)
     {
         yield return new WaitForSeconds(delay);
         CreateCardView(card, pos);
     }
-    private void CreateCardView(CardBase card, int pos)
+    private void CreateCardView(CardView card, int pos)
     {
         card.Init(pos);
 
@@ -60,7 +60,7 @@ public class HandManager : MonoBehaviour
 
         return new Vector3(x, y, 0);
     }
-    public void UpdateSortPos(List<CardBase> sortedObjects)
+    public void UpdateSortPos(List<CardView> sortedObjects)
     {
         if (sortedObjects.Count == 0) return;
 
@@ -83,13 +83,13 @@ public class HandManager : MonoBehaviour
         {
             isFirstDraw = false;
             selectedCardCount = seletedCards.Count;
-            List<CardBase> cardsToPlay = new List<CardBase>(seletedCards);
+            List<CardView> cardsToPlay = new List<CardView>(seletedCards);
             float delay = 0f;
             List<Sequence> playSequences = new List<Sequence>();
 
             for (int i = 0; i < seletedCards.Count; i++)
             {
-                CardBase cardView = seletedCards[i];
+                CardView cardView = seletedCards[i];
 
                 float spread = 1.0f;
                 float offsetX = (i - (seletedCards.Count - 1) / 2f) * spread;
@@ -114,7 +114,7 @@ public class HandManager : MonoBehaviour
                     Recipe matchResult = RecipeChecker.GetMatchedRecipe(cardsToPlay);
                     if (matchResult != Recipe.None)
                     {
-                        List<CardBase> validCards = RecipeChecker.GetCardsToScore(cardsToPlay, matchResult);
+                        List<CardView> validCards = RecipeChecker.GetCardsToScore(cardsToPlay, matchResult);
                         int currentTotal = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
 
                         Sequence scoreSequence = DOTween.Sequence();
@@ -151,7 +151,7 @@ public class HandManager : MonoBehaviour
         }
     }
 
-    public void PlayScoreAnim(List<CardBase> cardsToPlay, Sequence scoreSequence)
+    public void PlayScoreAnim(List<CardView> cardsToPlay, Sequence scoreSequence)
     {
         int totalCoin = 0;
         int currentCoin = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
@@ -200,7 +200,7 @@ public class HandManager : MonoBehaviour
         if(seletedCards.Count > 0)
         {
             float delay = 0f;
-            foreach(CardBase cardView in seletedCards)
+            foreach(CardView cardView in seletedCards)
             {
                 Vector3 targetPos = Camera.main.WorldToScreenPoint(discardPos.position);
                 DOVirtual.DelayedCall(delay, () =>
@@ -222,7 +222,7 @@ public class HandManager : MonoBehaviour
             });
         }
     }
-    public void AnimateCardUpgrade(CardBase cardView)
+    public void AnimateCardUpgrade(CardView cardView)
     {
         Vector3 originalPos = cardView.transform.localPosition;
         Sequence upgradeSequence = DOTween.Sequence();
