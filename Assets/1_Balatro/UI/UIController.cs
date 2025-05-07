@@ -15,16 +15,18 @@ public class UIController : MonoBehaviour
     public TMP_Text coin;
     public TMP_Text multi;
     public TMP_Text score;
+    public VoucherSO voucherSO;
+    public ShopCtrl shopCtrl;
 
 
     public void Init()
     {
         playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
-        shopBtn.onClick.AddListener(delegate { ShopCtrl.Setup().Show(); });
+        shopBtn.onClick.AddListener(delegate { shopCtrl.Show(); });
     }
 }
 
-public class TextEffectHelper
+public class EffectHelper
 {
     public static void PlayScoreBounce(TMP_Text text, string value)
     {
@@ -43,5 +45,19 @@ public class TextEffectHelper
         textTarget.text = value.ToString();
         textTarget.transform.DOKill(true);
         textTarget.transform.DOScale(1f, 0.1f).From(1.2f).SetEase(Ease.OutBack);
+    }
+    public static void PlayBounce(GameObject target, float duration = 0.1f, float scaleMultiplier = 1.2f)
+    {
+        if (target == null) return;
+
+        var tf = target.transform;
+        Vector3 originalScale = tf.localScale;
+        Vector3 bounceScale = originalScale * scaleMultiplier;
+
+        tf.DOKill(true);
+        tf.DOScale(originalScale, duration)
+          .From(bounceScale)
+          .SetEase(Ease.OutBack);
+        
     }
 }

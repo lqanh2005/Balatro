@@ -1,19 +1,18 @@
-using DG.Tweening.Core.Easing;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "VoucherBase", menuName = "Balatro/VoucherBase")]
-public class VoucherBase : ScriptableObject
+public class VoucherBase : MonoBehaviour
 {
-    public string voucherName;
-    public string description;
-    public Sprite artwork;
-    public int cost = 10;
-    public bool isDependant;
-    public VoucherBase requiredVoucher; // Voucher cần phải có trước
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
 
-    // Implement voucher effect
-    public virtual void ApplyEffect(ShopManager shopManager, GamePlayController gameManager) { }
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }

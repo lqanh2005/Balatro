@@ -8,21 +8,21 @@ using UnityEngine.XR;
 public class DeckController : MonoBehaviour
 {
     [Header("---------------------------------Data------------------------")]
-    public List<CardView> drawCards = new List<CardView>(); // la hien tai
-    public List<CardView> discardCards = new List<CardView>(); // la da bo
-    public List<CardView> handCards = new List<CardView>(); // la tren tay
+    public List<PlayingCard> drawCards = new List<PlayingCard>(); // la hien tai
+    public List<PlayingCard> discardCards = new List<PlayingCard>(); // la da bo
+    public List<PlayingCard> handCards = new List<PlayingCard>(); // la tren tay
     public List<CardDeck> deck;
 
-    [SerializeField] private Transform deckVisual;
+    [SerializeField] private Transform deckPos;
     [SerializeField] private int maxHandsize = 8;
-    [SerializeField] private SpriteRenderer cardBackSite;
+    public GameObject deckVisual;
     public void Init()
     {
         CreateDeck();
         ShuffleDeck();
         GamePlayController.Instance.playerContain.handManager.isFirstDraw = true;
         DrawCards(8);
-        
+
     }
 
     public void CreateDeck()
@@ -33,7 +33,7 @@ public class DeckController : MonoBehaviour
         {
             for (int i = 0; i < card.amout; i++)
             {
-                CardView newCard = SimplePool2.Spawn(card.cardPrefab, deckVisual.position, Quaternion.identity).GetComponent<CardView>();
+                PlayingCard newCard = SimplePool2.Spawn(card.cardPrefab.gameObject, deckPos.position, Quaternion.identity).GetComponent<PlayingCard>();
                 newCard.id = card.id;
                 drawCards.Add(newCard);
             }
@@ -47,30 +47,30 @@ public class DeckController : MonoBehaviour
         while(n > 1)
         {
             int k = rng.Next(n--);
-            CardView value = drawCards[k];
+            PlayingCard value = drawCards[k];
             drawCards[k] = drawCards[n];
             drawCards[n] = value;
         }
     }
     private void AnimateDeckVisual()
     {
-        if(deckVisual != null)
+        if(deckPos != null)
         {
-            deckVisual.DOLocalMoveY(0.1f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            deckPos.DOLocalMoveY(0.1f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             UpdateDeckVisualHeight();
         }
     }
 
     private void UpdateDeckVisualHeight()
     {
-        if (deckVisual != null)
+        if (deckPos != null)
         {
             float height = drawCards.Count * 0.01f;
-            deckVisual.localPosition += new Vector3(0, 0, 0.01f);
+            deckPos.localPosition += new Vector3(0, 0, 0.01f);
         }
     }
 
-    public CardView DrawCard()
+    public PlayingCard DrawCard()
     {
         if(drawCards.Count == 0)
         {
@@ -81,12 +81,7 @@ public class DeckController : MonoBehaviour
             RecycleDiscard();
         }
         if (GamePlayController.Instance.playerContain.handManager.cardViews.Count >= maxHandsize) return null;
-        if (deckVisual != null)
-        {
-            deckVisual.DOPunchScale(new Vector3(-0.1f, -0.1f, -0.1f), 0.3f, 5, 0.5f);
-            UpdateDeckVisualHeight();
-        }
-        CardView _card = drawCards[0];
+        PlayingCard _card = drawCards[0];
         drawCards.RemoveAt(0);
         bool isInserted = false;
         for (int i = GamePlayController.Instance.playerContain.handManager.cardViews.Count - 1; i >= 0; i--)
@@ -105,12 +100,12 @@ public class DeckController : MonoBehaviour
         return _card;
     }
 
-    public List<CardView> DrawCards(int amount)
+    public List<PlayingCard> DrawCards(int amount)
     {
-        List<CardView> cards = new List<CardView>();
+        List<PlayingCard> cards = new List<PlayingCard>();
         for (int i = 0; i < amount; i++)
         {
-            CardView card = DrawCard();
+            PlayingCard card = DrawCard();
             if (card != null)
             {
                 cards.Add(card);
@@ -128,7 +123,7 @@ public class DeckController : MonoBehaviour
         return cards;
     }
 
-    public void DiscardCard(CardView card)
+    public void DiscardCard(PlayingCard card)
     {
         if (GamePlayController.Instance.playerContain.handManager.cardViews.Contains(card))
         {
@@ -145,7 +140,7 @@ public class DeckController : MonoBehaviour
     
     public void ClearHand()
     {
-        foreach (CardView card in GamePlayController.Instance.playerContain.handManager.cardViews)
+        foreach (PlayingCard card in GamePlayController.Instance.playerContain.handManager.cardViews)
         {
             discardCards.Add(card);
         }
@@ -156,6 +151,6 @@ public class DeckController : MonoBehaviour
 public class CardDeck
 {
     public int id;
-    public GameObject cardPrefab;
+    public PlayingCard cardPrefab;
     public int amout;
 }

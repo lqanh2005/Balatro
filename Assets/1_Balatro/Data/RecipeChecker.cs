@@ -14,7 +14,7 @@ public class RecipeChecker
         recipeDatabase = database;
     }
 
-    public static Recipe GetMatchedRecipe(List<CardView> selectedCards)
+    public static Recipe GetMatchedRecipe(List<PlayingCard> selectedCards)
     {
         if (selectedCards == null || selectedCards.Count == 0)
         {
@@ -48,21 +48,21 @@ public class RecipeChecker
         UpdateUIForNoMatch();
         return Recipe.None;
     }
-    public static List<CardView> GetCardsToScore(List<CardView> selectedCards, Recipe recipe)
+    public static List<PlayingCard> GetCardsToScore(List<PlayingCard> selectedCards, Recipe recipe)
     {
         if (recipe == Recipe.None || selectedCards == null)
             return null;
         if (recipe == Recipe.Ingredient)
         {
             var maxCard = selectedCards.OrderByDescending(card => card.chip).FirstOrDefault();
-            return maxCard != null ? new List<CardView> { maxCard } : null;
+            return maxCard != null ? new List<PlayingCard> { maxCard } : null;
         }
         var recipeEntry = recipeDatabase.GetRecipeEntry(recipe);
         if (recipeEntry == null)
             return null;
 
         var ingredients = new List<IngredientType>(recipeEntry.ingredients);
-        var cardsToScore = new List<CardView>();
+        var cardsToScore = new List<PlayingCard>();
 
         foreach (var card in selectedCards)
         {
@@ -79,15 +79,15 @@ public class RecipeChecker
     private static void UpdateUI(Recipe recipe)
     {
         RecipeData data = RecipeManager.GetRecipe(recipe);
-        TextEffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.recipe, recipe.ToString());
-        TextEffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.coin, data.coin);
-        TextEffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.multi, data.multi);
+        EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.recipe, recipe.ToString());
+        EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.coin, data.coin);
+        EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.multi, data.multi);
     }
     private static void UpdateUIForNoMatch()
     {
-        TextEffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.recipe, null);
-        TextEffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.coin, 0);
-        TextEffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.multi, 0);
+        EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.recipe, null);
+        EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.coin, 0);
+        EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.multi, 0);
     }
 
 }

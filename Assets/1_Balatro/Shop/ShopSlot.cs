@@ -1,75 +1,66 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+
+using DG.Tweening;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopSlot : MonoBehaviour
 {
-    public Image itemImage;
-    public TextMeshProUGUI priceText;
-    public TextMeshProUGUI nameText;
-    public Button buyButton;
-    public GameObject emptyIndicator;
+    public Transform target;
+    public CardBase currentCard;
+    public Image image;
+    public Button buyBtn;
+    public RectTransform cardContainerCanvas;
+    public bool isBooster;
 
-    [HideInInspector] public object currentItem;
-    [HideInInspector] public int currentPrice;
-    private ShopManager shopManager;
+    private Vector2 originalPos;
+    private RectTransform rectTransform;
 
-    public void Init()
+    public void Awake()
     {
-        shopManager = FindObjectOfType<ShopManager>();
-        buyButton.onClick.AddListener(OnBuyClicked);
-        ClearSlot();
+        rectTransform = GetComponent<RectTransform>();
+        originalPos = rectTransform.anchoredPosition;
     }
-    public void SetItem(object item, int price)
+    public void SetupCard(CardData data)
     {
-        currentItem = item;
-        currentPrice = price;
-
-        if (item is Card)
+        currentCard = data.cardBase.GetComponent<CardBase>();
+        currentCard.Init();
+        this.image.sprite = data.image;
+        buyBtn.onClick.AddListener(() =>
         {
-            Card card = item as Card;
-            itemImage.sprite = card.artwork;
-            nameText.text = card.cardName;
-        }
-        else if (item is BoosterBase)
-        {
-            BoosterBase booster = item as BoosterBase;
-            itemImage.sprite = booster.artwork;
-            nameText.text = booster.packName;
-        }
-        else if (item is Voucher)
-        {
-            VoucherBase voucher = item as VoucherBase;
-            itemImage.sprite = voucher.artwork;
-            nameText.text = voucher.voucherName;
-        }
-
-        priceText.text = "$" + price.ToString();
-        emptyIndicator.SetActive(false);
-        itemImage.gameObject.SetActive(true);
-        buyButton.gameObject.SetActive(true);
+            BuyCard(currentCard, cardContainerCanvas);
+        });
     }
-    public bool IsEmpty()
+    public void ResetSlot()
     {
-        return currentItem == null;
+        this.gameObject.SetActive(true);
+        this.rectTransform.anchoredPosition = originalPos;
     }
-    public void ClearSlot()
+    public CardBase GetCard()
     {
-        currentItem = null;
-        currentPrice = 0;
-        itemImage.sprite = null;
-        itemImage.gameObject.SetActive(false);
-        buyButton.gameObject.SetActive(false);
-        nameText.text = "";
-        priceText.text = "";
-        emptyIndicator.SetActive(true);
+        return currentCard;
     }
 
-    private void OnBuyClicked()
+    public void BuyCard(CardBase data, RectTransform shopCardRect)
     {
-        throw new NotImplementedException();
+        if (currentCard != null)
+        {
+            this.gameObject.SetActive(false);
+            if(isBooster) GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.boosterSlots);
+            else GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.playingCardSlot);
+            Vector3 spawnPos = shopCardRect.GetWorldPosition();
+            GameObject newCard = Instantiate(data.gameObject);
+            newCard.transform.position = spawnPos;
+            MoveTo(newCard, target.position, 0.5f, () =>
+            {
+                SimplePool2.Despawn(newCard);
+            });
+        }
+    }
+    public void MoveTo(GameObject obj, Vector3 targetPos, float duration, System.Action onComplete = null)
+    {
+        obj.transform.DOMove(targetPos, duration)
+            .SetEase(Ease.InOutQuad)
+            .OnComplete(() => onComplete?.Invoke());
     }
 }

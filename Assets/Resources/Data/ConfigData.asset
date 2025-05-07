@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ConfigData
   m_EditorClassIdentifier: 
   cardLists:
-  - cardType: 1
+  - ingredientType: 1
     cardPerLevels:
     - level: 1
       cardDatas:
@@ -30,7 +30,7 @@ MonoBehaviour:
         id: 0
         chipBonus: 30
         faceImage: {fileID: 0}
-  - cardType: 2
+  - ingredientType: 2
     cardPerLevels:
     - level: 1
       cardDatas:

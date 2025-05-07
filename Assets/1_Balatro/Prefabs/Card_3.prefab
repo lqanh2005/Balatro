@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 711995601916271276}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73,12 +73,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8da519a4ac3102242900ca4cbd33a395, type: 3}
-  m_Color: {r: 0, g: 0.28724122, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 7b727080e3733f64c8abb2a77c44d040, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 11.94, y: 11.62}
+  m_Size: {x: 1.04, y: 1.38}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 1390518546038795807}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -157,12 +157,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8da519a4ac3102242900ca4cbd33a395, type: 3}
-  m_Color: {r: 0.97094446, g: 1, b: 0.7830188, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 8752304f66855f043b677cd72cd7244d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 12.22, y: 13.2}
+  m_Size: {x: 1.04, y: 1.38}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -177,8 +177,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7767136146397011919}
-  - component: {fileID: 5549471456163972322}
   - component: {fileID: 3164144588976346984}
+  - component: {fileID: 3517079019631620601}
+  - component: {fileID: 2343741434523786726}
   m_Layer: 0
   m_Name: Card_3
   m_TagString: Untagged
@@ -194,38 +195,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5988048199727289565}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -3.41, y: -3.06, z: 0}
-  m_LocalScale: {x: 0.6, y: 1, z: 0.8}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8597658394662788820}
   - {fileID: 6323808062056162958}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
---- !u!114 &5549471456163972322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5988048199727289565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 920534933d5dcfc4b8d2efa83a8f1501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 3
-  level: 0
-  ingredientType: 3
-  cardImage: {fileID: 95274649489367338}
-  cardBackImage: {fileID: 7772789865224212894}
-  flipDuration: 0.3
-  moveDuration: 0.5
-  scaleDuration: 0.2
-  hoverScale: 1.1
-  hoverLiftHeight: 0.1
-  originalPosition: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &3164144588976346984
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -258,7 +236,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0032691956, y: -0.005493045}
+  m_Offset: {x: 0.008567691, y: -0.010104626}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -269,5 +247,51 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.57402, y: 1.174511}
+  m_Size: {x: 1.3819158, y: 1.8285296}
   m_EdgeRadius: 0
+--- !u!114 &3517079019631620601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5988048199727289565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9794d40cc529e2740a75e8ff8a63f9f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flipDuration: 0.3
+  moveDuration: 0.5
+  scaleDuration: 0.2
+  hoverScale: 1.1
+  hoverLiftHeight: 0.1
+  originalPosition: {x: 0, y: 0, z: 0}
+  originalScale: {x: 0, y: 0, z: 0}
+  isFaceUp: 0
+--- !u!114 &2343741434523786726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5988048199727289565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b1b9fe4975dd6c438642c647b968780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3
+  cardImage: {fileID: 95274649489367338}
+  cardBackImage: {fileID: 7772789865224212894}
+  description: 
+  showText: {fileID: 0}
+  cardAnim: {fileID: 3517079019631620601}
+  level: 1
+  chip: 0
+  ingredientType: 3
+  isSelected: 0
+  isDrag: 0
+  isMouseDown: 0
+  isDraw: 0
+  initialMousePos: {x: 0, y: 0, z: 0}

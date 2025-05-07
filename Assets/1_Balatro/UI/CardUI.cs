@@ -41,7 +41,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
     public void Show()
     {
         gameObject.SetActive(true);
-        layoutElement.preferredWidth = 0;
+        layoutElement.preferredWidth = 0;   
         canvasGroup.alpha = 0;
 
         DOTween.To(() => layoutElement.preferredWidth,

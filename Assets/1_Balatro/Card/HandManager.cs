@@ -12,13 +12,14 @@ public class HandManager : MonoBehaviour
     public DeckController deckController;
     public bool isFirstDraw = true;
     public Transform handPos;
+    public Transform handRot;
     public Transform deckPos;
     public Transform discardPos;
     public Transform playPos;
 
 
-    public List<CardView> cardViews =  new List<CardView>();
-    public List<CardView> seletedCards = new List<CardView>();
+    public List<PlayingCard> cardViews =  new List<PlayingCard>();
+    public List<PlayingCard> seletedCards = new List<PlayingCard>();
 
     public int maxSelectedCard = 5;
     private int selectedCardCount = 0;
@@ -31,23 +32,26 @@ public class HandManager : MonoBehaviour
         InitializeRecipeSystem();
         deckController.Init();
     }
-    public void OnCardDrawn(CardView card, int handPos)
+        public void OnCardDrawn(PlayingCard card, int handPos)
+        {
+        
+            StartCoroutine(CreateCard(card, handPos, drawCardDelay * handPos));
+        }
+        private IEnumerator CreateCard(PlayingCard card, int pos, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            EffectHelper.PlayBounce(deckController.deckVisual);
+            CreateCardView(card, pos);
+        }
+    private void CreateCardView(PlayingCard card, int pos)
     {
-        StartCoroutine(CreateCard(card, handPos, drawCardDelay * handPos));
-    }
-    private IEnumerator CreateCard(CardView card, int pos, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        CreateCardView(card, pos);
-    }
-    private void CreateCardView(CardView card, int pos)
-    {
-        card.Init(pos);
-
+        card.Init();
+        
         Vector3 targetPos = CalculateCardPosition(pos, cardViews.Count) + handPos.position;
-        card.PlayDrawAnimation(deckPos.position, targetPos, isFirstDraw, () =>
+        card.cardAnim.PlayDrawAnimation(deckPos.position, targetPos, isFirstDraw, () =>
         {
             UpdateSortPos(cardViews);
+            card.transform.SetParent(handRot, true);
         });
     }
     public Vector3 CalculateCardPosition(int index, int totalCards)
@@ -60,7 +64,7 @@ public class HandManager : MonoBehaviour
 
         return new Vector3(x, y, 0);
     }
-    public void UpdateSortPos(List<CardView> sortedObjects)
+    public void UpdateSortPos(List<PlayingCard> sortedObjects)
     {
         if (sortedObjects.Count == 0) return;
 
@@ -69,7 +73,7 @@ public class HandManager : MonoBehaviour
         for (int i = 0; i < sortedObjects.Count; i++)
             {
             Vector3 targetPos = CalculateCardPosition(i, sortedObjects.Count) + handPos.position;
-            sortedObjects[i].originalPosition = targetPos;
+            sortedObjects[i].cardAnim.originalPosition = targetPos;
             moveSequence.Join(
             sortedObjects[i].transform
                 .DOLocalMove(targetPos, 0.5f)
@@ -83,24 +87,24 @@ public class HandManager : MonoBehaviour
         {
             isFirstDraw = false;
             selectedCardCount = seletedCards.Count;
-            List<CardView> cardsToPlay = new List<CardView>(seletedCards);
+            List<PlayingCard> cardsToPlay = new List<PlayingCard>(seletedCards);
             float delay = 0f;
             List<Sequence> playSequences = new List<Sequence>();
 
             for (int i = 0; i < seletedCards.Count; i++)
             {
-                CardView cardView = seletedCards[i];
+                PlayingCard _card = seletedCards[i];
 
                 float spread = 1.0f;
                 float offsetX = (i - (seletedCards.Count - 1) / 2f) * spread;
                 Vector3 targetPos = new Vector3(playPos.position.x + offsetX, playPos.position.y, 0);
 
                 float currentDelay = delay;
-                cardViews.Remove(cardView);
+                cardViews.Remove(_card);
 
                 var playSequence = DOTween.Sequence();
                 playSequence.AppendInterval(currentDelay);
-                playSequence.Append(cardView.PlayHandAnimation(targetPos));
+                playSequence.Append(_card.cardAnim.PlayHandAnimation(targetPos));
                 UpdateSortPos(cardViews);
                 playSequences.Add(playSequence);
 
@@ -114,7 +118,7 @@ public class HandManager : MonoBehaviour
                     Recipe matchResult = RecipeChecker.GetMatchedRecipe(cardsToPlay);
                     if (matchResult != Recipe.None)
                     {
-                        List<CardView> validCards = RecipeChecker.GetCardsToScore(cardsToPlay, matchResult);
+                        List<PlayingCard> validCards = RecipeChecker.GetCardsToScore(cardsToPlay, matchResult);
                         int currentTotal = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
 
                         Sequence scoreSequence = DOTween.Sequence();
@@ -122,7 +126,7 @@ public class HandManager : MonoBehaviour
                         scoreSequence.OnComplete(() => {
                             foreach (var card in cardsToPlay)
                             {
-                                card.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
+                                card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
                                 {
                                     deckController.DiscardCard(card.GetCardBase());
                                     SimplePool2.Despawn(card.gameObject);
@@ -136,7 +140,7 @@ public class HandManager : MonoBehaviour
                     {
                         foreach (var card in cardsToPlay)
                         {
-                            card.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
+                            card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
                             {
                                 deckController.DiscardCard(card.GetCardBase());
                                 SimplePool2.Despawn(card.gameObject);
@@ -151,16 +155,8 @@ public class HandManager : MonoBehaviour
         }
     }
 
-    public void PlayScoreAnim(List<CardView> cardsToPlay, Sequence scoreSequence)
+    public void PlayScoreAnim(List<PlayingCard> cardsToPlay, Sequence scoreSequence)
     {
-        int totalCoin = 0;
-        int currentCoin = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
-        int currentScore = GamePlayController.Instance.uICtrl.score.text.ToInt32();
-
-        var coinText = GamePlayController.Instance.uICtrl.coin;
-        var scoreText = GamePlayController.Instance.uICtrl.score;
-        int multi = GamePlayController.Instance.uICtrl.multi.text.ToInt32();
-
         float scoreDelay = 0f;
 
         foreach (var card in cardsToPlay)
@@ -168,29 +164,33 @@ public class HandManager : MonoBehaviour
             scoreSequence.AppendInterval(scoreDelay);
             scoreSequence.AppendCallback(() =>
             {
-                card.PlayHoverAniamtion();
-                totalCoin += card.chip;
-                currentCoin += card.chip;
-                TextEffectHelper.PlayScoreBounce(coinText, currentCoin);
+                card.cardAnim.PlayHoverAniamtion();
+                card.OnActive();
             });
             scoreSequence.AppendInterval(0.2f);
             scoreDelay = 0.05f;
         }
-
+        
+        
+        
         scoreSequence.AppendInterval(0.3f);
 
         scoreSequence.AppendCallback(() =>
         {
-            int finalScore = totalCoin * multi;
+            int currentCoin = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
+            int currentScore = GamePlayController.Instance.uICtrl.score.text.ToInt32();
+            int multi = GamePlayController.Instance.uICtrl.multi.text.ToInt32();
+
+            int finalScore = currentCoin * multi;
             DOTween.To(() => currentCoin, x =>
             {
                 currentCoin = x;
-                TextEffectHelper.PlayScoreBounce(coinText, currentCoin);
+                EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.coin, currentCoin);
             }, 0, 0.5f).SetEase(Ease.OutCubic);
             DOTween.To(() => currentScore, x =>
             {
                 currentScore = x;
-                TextEffectHelper.PlayScoreBounce(scoreText, currentScore);
+                EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.score, currentScore);
             }, currentScore + finalScore, 0.5f).SetEase(Ease.OutCubic);
         });
     }
@@ -200,17 +200,17 @@ public class HandManager : MonoBehaviour
         if(seletedCards.Count > 0)
         {
             float delay = 0f;
-            foreach(CardView cardView in seletedCards)
+            foreach(PlayingCard _card in seletedCards)
             {
                 Vector3 targetPos = Camera.main.WorldToScreenPoint(discardPos.position);
                 DOVirtual.DelayedCall(delay, () =>
                 {
-                    Sequence discardSequence = cardView.PlayDiscardAnimation(targetPos);
+                    Sequence discardSequence = _card.cardAnim.PlayDiscardAnimation(targetPos);
                     discardSequence.OnComplete(() =>
                     {
-                        cardViews.Remove(cardView);
-                        deckController.DiscardCard(cardView.GetCardBase());
-                        SimplePool2.Despawn(cardView.gameObject);
+                        cardViews.Remove(_card);
+                        deckController.DiscardCard(_card.GetCardBase());
+                        SimplePool2.Despawn(_card.gameObject);
                     });
                 });
             }
@@ -222,7 +222,7 @@ public class HandManager : MonoBehaviour
             });
         }
     }
-    public void AnimateCardUpgrade(CardView cardView)
+    public void AnimateCardUpgrade(PlayingCard cardView)
     {
         Vector3 originalPos = cardView.transform.localPosition;
         Sequence upgradeSequence = DOTween.Sequence();
