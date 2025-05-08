@@ -28,7 +28,7 @@ public class GamePlayController : Singleton<GamePlayController>
         //  GameController.Instance.currentScene = SceneType.GamePlay;
 
 
-        StartGame();
+        //StartGame();
 
     }
 

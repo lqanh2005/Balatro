@@ -6,18 +6,71 @@ using MoreMountains.NiceVibrations;
 
 public class UseProfile : MonoBehaviour
 {
-    //public static int StrickyRice
-    //{
-    //    get
-    //    {
-    //        return PlayerPrefs.GetInt(StringHelper.STRICKY_RICE, 0);
-    //    }
-    //    set
-    //    {
-    //        PlayerPrefs.SetInt(StringHelper.STRICKY_RICE, value);
-    //        PlayerPrefs.Save();
-    //    }
-    //}
+    public static int CurrentAnte
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_ANTE, 1);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(StringHelper.CURRENT_ANTE, value);
+            PlayerPrefs.Save();
+            //EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_ANTE);
+        }
+    }
+    public static int CurrentRound
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_ROUND, 1);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(StringHelper.CURRENT_ROUND, value);
+            PlayerPrefs.Save();
+            //EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_ROUND);
+        }
+    }
+    public static int CurrentGold
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_GOLD, 5);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(StringHelper.CURRENT_GOLD, value);
+            PlayerPrefs.Save();
+            EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_GOLD);
+        }
+    }
+    public static int CurrentHand
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_HAND, 0);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(StringHelper.CURRENT_HAND, value);
+            PlayerPrefs.Save();
+            EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_HAND);
+        }
+    }
+    public static int CurrentDis
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_DIS, 0);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(StringHelper.CURRENT_DIS, value);
+            PlayerPrefs.Save();
+            EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_DIS);
+        }
+    }
     public static bool NeedCheckShop
     {
         get

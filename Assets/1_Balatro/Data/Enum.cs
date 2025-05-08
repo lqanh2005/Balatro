@@ -57,3 +57,10 @@ public enum ItemType
     Ingredient,
     Recipe,
 }
+
+public enum BlindType
+{
+    SmallBlind,
+    BigBlind,
+    BossBlind,
+}

@@ -1,3 +1,4 @@
+using BestHTTP.Extensions;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,8 +8,12 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    public Button playHandBtn;
-    public Button shopBtn;
+    
+    public ShopCtrl shopCtrl;
+    public HandleSelect handleSelect;
+    public PlayerDataUI playerDataUI;
+    public Transform playCtrl;
+    public bool shopUp;
 
     [Header("----------Recipe Box----------")]  
     public TMP_Text recipe;
@@ -16,13 +21,49 @@ public class UIController : MonoBehaviour
     public TMP_Text multi;
     public TMP_Text score;
     public VoucherSO voucherSO;
-    public ShopCtrl shopCtrl;
+    
+    [Header("----------Btn----------")]
+    public Button playHandBtn;
+    public Button discardBtn;
 
-
+    public void Start()
+    {
+        playCtrl.gameObject.SetActive(false);
+        handleSelect.Init();
+        playerDataUI.Init();
+    }
     public void Init()
     {
         playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
-        shopBtn.onClick.AddListener(delegate { shopCtrl.Show(); });
+        discardBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.DiscardSelectedCards(); });
+    }
+    public void SetUpData()
+    {
+
+    }
+    public void Update()
+    {
+        if(score.text.ToInt32() >= 300)
+        {
+            foreach(var item in GamePlayController.Instance.playerContain.deckController.drawCards)
+            {
+                SimplePool2.Despawn(item.gameObject);
+            }
+            foreach(var item in GamePlayController.Instance.playerContain.deckController.handCards)
+            {
+                SimplePool2.Despawn(item.gameObject);
+            }
+            foreach (var item in GamePlayController.Instance.playerContain.handManager.cardViews)
+            {
+                SimplePool2.Despawn(item.gameObject);
+            }
+            if (shopUp)
+            {
+                shopUp = false;
+                shopCtrl.Show();
+            }
+            
+        }
     }
 }
 

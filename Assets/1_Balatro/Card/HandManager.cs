@@ -194,34 +194,49 @@ public class HandManager : MonoBehaviour
             }, currentScore + finalScore, 0.5f).SetEase(Ease.OutCubic);
         });
     }
-    
+
     public void DiscardSelectedCards()
     {
-        if(seletedCards.Count > 0)
+        if (seletedCards.Count > 0)
         {
+            selectedCardCount = seletedCards.Count;
             float delay = 0f;
-            foreach(PlayingCard _card in seletedCards)
+            List<Sequence> playSequences = new List<Sequence>();
+            for (int i = 0; i < seletedCards.Count; i++)
             {
-                Vector3 targetPos = Camera.main.WorldToScreenPoint(discardPos.position);
-                DOVirtual.DelayedCall(delay, () =>
-                {
-                    Sequence discardSequence = _card.cardAnim.PlayDiscardAnimation(targetPos);
-                    discardSequence.OnComplete(() =>
-                    {
-                        cardViews.Remove(_card);
-                        deckController.DiscardCard(_card.GetCardBase());
-                        SimplePool2.Despawn(_card.gameObject);
-                    });
-                });
+                PlayingCard _card = seletedCards[i];
+                float spread = 1.0f;
+                float offsetX = (i - (seletedCards.Count - 1) / 2f) * spread;
+                Vector3 targetPos = new Vector3(discardPos.position.x + offsetX, discardPos.position.y, 0);
+                float currentDelay = delay;
+                cardViews.Remove(_card);
+                var playSequence = DOTween.Sequence();
+                playSequence.AppendInterval(currentDelay);
+                playSequence.Append(_card.cardAnim.PlayDiscardAnimation(targetPos));
+                playSequences.Add(playSequence);
+                delay += 0.15f;
             }
-            delay += 0.15f;
-            seletedCards.Clear();
-            DOVirtual.DelayedCall(delay + 0.5f, () =>
+            if (playSequences.Count > 0)
             {
-                UpdateSortPos(cardViews);
-            });
+                DOTween.Sequence()
+                    .AppendCallback(() =>
+                    {
+                        foreach (var sequence in playSequences)
+                        {
+                            sequence.Play();
+                        }
+                    })
+                    .AppendCallback(() =>
+                    {
+                        UpdateSortPos(cardViews);
+                        seletedCards.Clear();
+                        
+                    })
+                    .AppendCallback(()=> deckController.DrawCards(selectedCardCount));
+            }
         }
     }
+
     public void AnimateCardUpgrade(PlayingCard cardView)
     {
         Vector3 originalPos = cardView.transform.localPosition;

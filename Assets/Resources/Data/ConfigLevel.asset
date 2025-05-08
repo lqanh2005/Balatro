@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5a3f9961f1e2c48ae3e4c5c0c579ca, type: 3}
+  m_Name: ConfigLevel
+  m_EditorClassIdentifier: 
+  lv:
+  - Ante: 1
+    dataPerLevel:
+    - Lv: 1
+      target: 300
+      playHand: 4
+      discard: 4
+      reward: 3
+    - Lv: 2
+      target: 450
+      playHand: 3
+      discard: 4
+      reward: 4
+    - Lv: 3
+      target: 600
+      playHand: 3
+      discard: 3
+      reward: 5
+  - Ante: 2
+    dataPerLevel:
+    - Lv: 4
+      target: 0
+      playHand: 3
+      discard: 5
+      reward: 3
+    - Lv: 5
+      target: 0
+      playHand: 3
+      discard: 2
+      reward: 4
+    - Lv: 6
+      target: 0
+      playHand: 3
+      discard: 2
+      reward: 5
+  - Ante: 3
+    dataPerLevel:
+    - Lv: 7
+      target: 0
+      playHand: 4
+      discard: 3
+      reward: 3
+    - Lv: 8
+      target: 0
+      playHand: 4
+      discard: 4
+      reward: 4
+    - Lv: 9
+      target: 0
+      playHand: 3
+      discard: 5
+      reward: 5

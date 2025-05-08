@@ -4,6 +4,12 @@ using UnityEngine;
 
 public static class StringHelper
 {
+    public const string CURRENT_ANTE = "CURRENT_ANTE";
+    public const string CURRENT_ROUND = "CURRENT_ROUND";
+    public const string CURRENT_GOLD = "CURRENT_GOLD";
+    public const string CURRENT_HAND = "CURRENT_HAND";
+    public const string CURRENT_DIS = "CURRENT_DIS";
+
     public const string FIRST_SHOW_OPEN_ADS = "first_show_open_ads";
     public const string LOADING_COMPLETE = "LOADING_COMPLETE";
     public const string ONOFF_SOUND = "ONOFF_SOUND";

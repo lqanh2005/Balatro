@@ -10,6 +10,9 @@ public class ShopCtrl : MonoBehaviour
     public Button rerollBtn;
     public void Show()
     {
+        this.gameObject.SetActive(true);
+        RectTransform rect = GetComponent<RectTransform>();
+        rect.DOAnchorPosY(371, 0.5f).SetEase(Ease.OutCubic);
         gameObject.SetActive(true);
         for(int i = 0; i < 2; i++)
         {
