@@ -16,39 +16,19 @@ public class ConfigLevel : SingletonScriptableObject<ConfigLevel>
             lv[i].Ante = i + 1;
         }
     }
-    public int GetPlay(int ante, int round)
+    public DataPerLevel GetData(int ante, int level)
     {
         foreach(var item in lv)
         {
-            if (item.Ante == ante)
+            if(item.Ante == ante)
             {
-                foreach (var data in item.dataPerLevel)
+                foreach(var data in item.dataPerLevel)
                 {
-                    if (data.Lv == round)
-                    {
-                        return data.playHand;
-                    }
+                    if(data.Lv == level) return data;
                 }
             }
         }
-        return 0;
-    }
-    public int GetDis(int ante, int round)
-    {
-        foreach (var item in lv)
-        {
-            if (item.Ante == ante)
-            {
-                foreach (var data in item.dataPerLevel)
-                {
-                    if (data.Lv == round)
-                    {
-                        return data.discard;
-                    }
-                }
-            }
-        }
-        return 0;
+        return null;
     }
 }
 [System.Serializable]
@@ -63,7 +43,5 @@ public class DataPerLevel
 {
     public int Lv;
     public int target;
-    public int playHand;
-    public int discard;
     public int reward;
 }

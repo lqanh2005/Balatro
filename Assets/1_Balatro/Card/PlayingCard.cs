@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EventDispatcher;
 
 public class PlayingCard : CardBase
 {
@@ -22,7 +23,7 @@ public class PlayingCard : CardBase
 
     public override void Init()
     {
-        
+        this.RegisterListener(EventID.END_GAME, delegate { SimplePool2.Despawn(this.gameObject); });
         this.chip = ConfigData.Instance.GetChip(this.ingredientType, this.level);
         isDraw = true;
         cardAnim.Init();
@@ -111,6 +112,10 @@ public class PlayingCard : CardBase
 
         isDrag = false;
     }
+    public void OnDisable()
+    {
+        
+    }
     public void OnDestroy()
     {
         DOTween.Kill(transform);
@@ -118,6 +123,7 @@ public class PlayingCard : CardBase
         {
             cardAnim.sequence.Kill();
         }
+        this.RemoveListener(EventID.END_GAME, delegate { SimplePool2.Despawn(this.gameObject); });
     }
 
     public override void OnActive()

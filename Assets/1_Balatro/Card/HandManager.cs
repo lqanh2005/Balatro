@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class HandManager : MonoBehaviour
 {
-    public DeckController deckController;
     public bool isFirstDraw = true;
     public Transform handPos;
     public Transform handRot;
@@ -30,7 +29,6 @@ public class HandManager : MonoBehaviour
     public void Init()
     {
         InitializeRecipeSystem();
-        deckController.Init();
     }
         public void OnCardDrawn(PlayingCard card, int handPos)
         {
@@ -40,7 +38,7 @@ public class HandManager : MonoBehaviour
         private IEnumerator CreateCard(PlayingCard card, int pos, float delay)
         {
             yield return new WaitForSeconds(delay);
-            EffectHelper.PlayBounce(deckController.deckVisual);
+            EffectHelper.PlayBounce(GamePlayController.Instance.playerContain.deckController.deckVisual);
             CreateCardView(card, pos);
         }
     private void CreateCardView(PlayingCard card, int pos)
@@ -85,6 +83,7 @@ public class HandManager : MonoBehaviour
     {
         if (seletedCards.Count > 0)
         {
+            UseProfile.CurrentHand--;
             isFirstDraw = false;
             selectedCardCount = seletedCards.Count;
             List<PlayingCard> cardsToPlay = new List<PlayingCard>(seletedCards);
@@ -128,12 +127,11 @@ public class HandManager : MonoBehaviour
                             {
                                 card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
                                 {
-                                    deckController.DiscardCard(card.GetCardBase());
+                                    GamePlayController.Instance.playerContain.deckController.DiscardCard(card.GetCardBase());
                                     SimplePool2.Despawn(card.gameObject);
+                                    GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
                                 });
                             }
-
-                            deckController.DrawCards(selectedCardCount);
                         });
                     }
                     else
@@ -142,13 +140,13 @@ public class HandManager : MonoBehaviour
                         {
                             card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
                             {
-                                deckController.DiscardCard(card.GetCardBase());
+                                GamePlayController.Instance.playerContain.deckController.DiscardCard(card.GetCardBase());
                                 SimplePool2.Despawn(card.gameObject);
                             });
                         }
 
                         UpdateSortPos(cardViews);
-                        deckController.DrawCards(selectedCardCount);
+                        GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
                     }
                 });
             seletedCards.Clear();
@@ -199,6 +197,7 @@ public class HandManager : MonoBehaviour
     {
         if (seletedCards.Count > 0)
         {
+            UseProfile.CurrentDis--;
             selectedCardCount = seletedCards.Count;
             float delay = 0f;
             List<Sequence> playSequences = new List<Sequence>();
@@ -232,7 +231,7 @@ public class HandManager : MonoBehaviour
                         seletedCards.Clear();
                         
                     })
-                    .AppendCallback(()=> deckController.DrawCards(selectedCardCount));
+                    .AppendCallback(()=> GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount));
             }
         }
     }

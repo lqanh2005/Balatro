@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EventDispatcher;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,15 +12,27 @@ public class ShopCtrl : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
+        nextBtn.onClick.AddListener(delegate { HandleNext(); });
         RectTransform rect = GetComponent<RectTransform>();
         rect.DOAnchorPosY(371, 0.5f).SetEase(Ease.OutCubic);
-        gameObject.SetActive(true);
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
             playingCardSlot[i].ResetSlot();
             boosterSlots[i].ResetSlot();
         }
         GenerateShop();
+    }
+    public void Close()
+    {
+        this.gameObject.SetActive(false);
+        RectTransform rect = GetComponent<RectTransform>();
+        rect.DOAnchorPosY(-400, 0.5f).SetEase(Ease.OutCubic);
+    }
+
+    public void HandleNext()
+    {
+        this.Close();
+        this.PostEvent(EventID.ON_SELECT_ROUND);
     }
 
     [Header("Slot Config")]
@@ -74,7 +87,7 @@ public class ShopCtrl : MonoBehaviour
                 return pair.Key;
         }
 
-        return ItemType.Ingredient; // fallback
+        return ItemType.Ingredient;
     }
 }
 
@@ -84,6 +97,6 @@ public static class UIHelper
     {
         Vector3[] corners = new Vector3[4];
         rectTransform.GetWorldCorners(corners);
-        return (corners[0] + corners[2]) / 2f; // Trung tâm
+        return (corners[0] + corners[2]) / 2f;
     }
 }

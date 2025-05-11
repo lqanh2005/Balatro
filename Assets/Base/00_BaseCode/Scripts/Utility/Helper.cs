@@ -8,6 +8,16 @@ using Gks;
 
 public static class Helper
 {
+    private static Dictionary<float, WaitForSeconds> waitDictionary = new Dictionary<float, WaitForSeconds>();
+    public static WaitForSeconds GetWait(float time)
+    {
+        if (waitDictionary.TryGetValue(time, out var wait))
+        {
+            return wait;
+        }
+        waitDictionary[time] = new WaitForSeconds(time);
+        return waitDictionary[time];
+    }
     public static IEnumerator HandleActionPlayAndWait(GameObject animator, string param, Action callBack)
     {
         yield return animator.GetComponent<Animator>().PlayAndWait(param);

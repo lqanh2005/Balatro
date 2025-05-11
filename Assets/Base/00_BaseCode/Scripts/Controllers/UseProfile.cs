@@ -16,7 +16,7 @@ public class UseProfile : MonoBehaviour
         {
             PlayerPrefs.SetInt(StringHelper.CURRENT_ANTE, value);
             PlayerPrefs.Save();
-            //EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_ANTE);
+            EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_ANTE);
         }
     }
     public static int CurrentRound
@@ -29,7 +29,7 @@ public class UseProfile : MonoBehaviour
         {
             PlayerPrefs.SetInt(StringHelper.CURRENT_ROUND, value);
             PlayerPrefs.Save();
-            //EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_ROUND);
+            EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_ROUND);
         }
     }
     public static int CurrentGold
@@ -49,7 +49,7 @@ public class UseProfile : MonoBehaviour
     {
         get
         {
-            return PlayerPrefs.GetInt(StringHelper.CURRENT_HAND, 0);
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_HAND, 4);
         }
         set
         {
@@ -62,7 +62,7 @@ public class UseProfile : MonoBehaviour
     {
         get
         {
-            return PlayerPrefs.GetInt(StringHelper.CURRENT_DIS, 0);
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_DIS, 4);
         }
         set
         {

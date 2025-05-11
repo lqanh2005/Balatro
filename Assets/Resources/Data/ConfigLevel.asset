@@ -17,50 +17,32 @@ MonoBehaviour:
     dataPerLevel:
     - Lv: 1
       target: 300
-      playHand: 4
-      discard: 4
       reward: 3
     - Lv: 2
       target: 450
-      playHand: 3
-      discard: 4
       reward: 4
     - Lv: 3
       target: 600
-      playHand: 3
-      discard: 3
       reward: 5
   - Ante: 2
     dataPerLevel:
-    - Lv: 4
+    - Lv: 1
       target: 0
-      playHand: 3
-      discard: 5
       reward: 3
-    - Lv: 5
+    - Lv: 2
       target: 0
-      playHand: 3
-      discard: 2
       reward: 4
-    - Lv: 6
+    - Lv: 3
       target: 0
-      playHand: 3
-      discard: 2
       reward: 5
   - Ante: 3
     dataPerLevel:
-    - Lv: 7
+    - Lv: 1
       target: 0
-      playHand: 4
-      discard: 3
       reward: 3
-    - Lv: 8
+    - Lv: 2
       target: 0
-      playHand: 4
-      discard: 4
       reward: 4
-    - Lv: 9
+    - Lv: 3
       target: 0
-      playHand: 3
-      discard: 5
       reward: 5

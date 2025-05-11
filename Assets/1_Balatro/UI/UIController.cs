@@ -1,10 +1,12 @@
 using BestHTTP.Extensions;
 using DG.Tweening;
+using EventDispatcher;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class UIController : MonoBehaviour
 {
@@ -13,7 +15,13 @@ public class UIController : MonoBehaviour
     public HandleSelect handleSelect;
     public PlayerDataUI playerDataUI;
     public Transform playCtrl;
-    public bool shopUp;
+    public PopupWin popupWin;
+    public TopState topState;
+    [Header("----------Condition----------")]
+    public bool initLevelDone;
+    public bool isEnd;
+    public int targetScore;
+    public bool isWin;
 
     [Header("----------Recipe Box----------")]  
     public TMP_Text recipe;
@@ -26,43 +34,32 @@ public class UIController : MonoBehaviour
     public Button playHandBtn;
     public Button discardBtn;
 
-    public void Start()
-    {
-        playCtrl.gameObject.SetActive(false);
-        handleSelect.Init();
-        playerDataUI.Init();
-    }
     public void Init()
     {
+        playCtrl.gameObject.SetActive(false);
+        isEnd = false;
+        isWin = false;
+        initLevelDone = false;
+        handleSelect.Init();
+        playerDataUI.Init();
+        popupWin.Init();
+        topState.Init();
         playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
         discardBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.DiscardSelectedCards(); });
-    }
-    public void SetUpData()
-    {
-
+        
     }
     public void Update()
     {
-        if(score.text.ToInt32() >= 300)
+        if (!initLevelDone)
         {
-            foreach(var item in GamePlayController.Instance.playerContain.deckController.drawCards)
-            {
-                SimplePool2.Despawn(item.gameObject);
-            }
-            foreach(var item in GamePlayController.Instance.playerContain.deckController.handCards)
-            {
-                SimplePool2.Despawn(item.gameObject);
-            }
-            foreach (var item in GamePlayController.Instance.playerContain.handManager.cardViews)
-            {
-                SimplePool2.Despawn(item.gameObject);
-            }
-            if (shopUp)
-            {
-                shopUp = false;
-                shopCtrl.Show();
-            }
-            
+            return;
+        }
+        if (int.Parse(score.text) >= targetScore && !isEnd)
+        {
+            isWin = true;
+            isEnd = true;
+            this.PostEvent(EventID.END_GAME);
+            return;
         }
     }
 }

@@ -36,4 +36,5 @@
     CHANGE_GOLD = 220,
     CHANGE_HAND = 221,
     CHANGE_DIS = 222,
+    END_GAME = 223,
 }

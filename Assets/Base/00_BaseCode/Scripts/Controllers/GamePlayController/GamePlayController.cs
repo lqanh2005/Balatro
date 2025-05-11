@@ -1,5 +1,6 @@
 ﻿using Crystal;
 using DG.Tweening;
+using EventDispatcher;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,19 +26,22 @@ public class GamePlayController : Singleton<GamePlayController>
     
     protected override void OnAwake()
     {
-        //  GameController.Instance.currentScene = SceneType.GamePlay;
+        if (GameController.Instance != null)
+        {
+            GameController.Instance.currentScene = SceneType.GamePlay;
+        }
 
-
-        //StartGame();
-
+        uICtrl.Init();
+        playerContain.Init();
+        this.PostEvent(EventID.ON_SELECT_ROUND);
     }
 
     public void StartGame()
     {
 
-   
+        //this.PostEvent(EventID.START_GAME);
         playerContain.Init();
-        uICtrl.Init();
+        //uICtrl.Init();
      
      
       

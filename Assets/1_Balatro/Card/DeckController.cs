@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EventDispatcher;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,13 +17,26 @@ public class DeckController : MonoBehaviour
     [SerializeField] private Transform deckPos;
     [SerializeField] private int maxHandsize = 8;
     public GameObject deckVisual;
+
     public void Init()
+    {
+        this.RegisterListener(EventID.START_GAME, delegate { StartGame(); });
+        this.RegisterListener(EventID.END_GAME, delegate { EndGame(); });
+    }
+
+
+    public void StartGame()
     {
         CreateDeck();
         ShuffleDeck();
         GamePlayController.Instance.playerContain.handManager.isFirstDraw = true;
         DrawCards(8);
-
+    }
+    private void EndGame()
+    {
+        drawCards.Clear();
+        discardCards.Clear();
+        handCards.Clear();
     }
 
     public void CreateDeck()
@@ -102,6 +116,7 @@ public class DeckController : MonoBehaviour
 
     public List<PlayingCard> DrawCards(int amount)
     {
+        if (GamePlayController.Instance.uICtrl.isWin) return null; 
         List<PlayingCard> cards = new List<PlayingCard>();
         for (int i = 0; i < amount; i++)
         {
@@ -145,6 +160,14 @@ public class DeckController : MonoBehaviour
             discardCards.Add(card);
         }
         GamePlayController.Instance.playerContain.handManager.cardViews.Clear();
+    }
+    public void OnDisable()
+    {
+        this.RemoveListener(EventID.START_GAME, delegate { StartGame(); });
+    }
+    public void OnDestroy()
+    {
+        this.RemoveListener(EventID.START_GAME, delegate { StartGame(); });
     }
 }
 [System.Serializable]

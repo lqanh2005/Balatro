@@ -10,7 +10,7 @@ public class PlayerContain : MonoBehaviour
     public void Init()
     {
         handManager.Init();
-
+        deckController.Init();
     }
 
   

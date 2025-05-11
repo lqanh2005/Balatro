@@ -24,7 +24,7 @@ public class ShopSlot : MonoBehaviour
     public void SetupCard(CardData data)
     {
         currentCard = data.cardBase.GetComponent<CardBase>();
-        currentCard.Init();
+        //currentCard.Init();
         this.image.sprite = data.image;
         buyBtn.onClick.AddListener(() =>
         {

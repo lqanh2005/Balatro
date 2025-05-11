@@ -31,18 +31,18 @@ public class RecipeChecker
         if (matchedEntry != null)
         {
             currentRecipe = matchedEntry.recipe;
-            UpdateUI(currentRecipe);
+            UpdateUI(currentRecipe, matchedEntry.recipeName);
             return currentRecipe;
         }
         else if (selectedCards.Count < 3)
         {
             currentRecipe = Recipe.Ingredient;
-            UpdateUI(currentRecipe);
+            UpdateUI(currentRecipe, "Mậu Thầu");
             return currentRecipe;
         }
         if (currentRecipe != Recipe.None)
         {
-            UpdateUI(currentRecipe);
+            UpdateUI(currentRecipe, "Mậu Thầu");
             return currentRecipe;
         }
         UpdateUIForNoMatch();
@@ -76,10 +76,10 @@ public class RecipeChecker
         return cardsToScore;
     }
 
-    private static void UpdateUI(Recipe recipe)
+    private static void UpdateUI(Recipe recipe, string name)
     {
         RecipeData data = RecipeManager.GetRecipe(recipe);
-        EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.recipe, recipe.ToString());
+        EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.recipe, name + " lv." + data.level);
         EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.coin, data.coin);
         EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.multi, data.multi);
     }
