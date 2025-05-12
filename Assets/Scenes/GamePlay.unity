@@ -957,7 +957,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1404383151}
-  - {fileID: 1896535298}
   - {fileID: 850642653}
   - {fileID: 1892621100}
   - {fileID: 1092725323}
@@ -977,7 +976,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFirstDraw: 1
   handPos: {fileID: 1404383151}
-  handRot: {fileID: 1896535298}
   deckPos: {fileID: 1892621100}
   discardPos: {fileID: 1092725323}
   playPos: {fileID: 850642653}
@@ -6441,7 +6439,7 @@ Transform:
   m_GameObject: {fileID: 1404383150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -2.62, z: 0}
+  m_LocalPosition: {x: 1.3, y: -2.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7111,6 +7109,7 @@ MonoBehaviour:
   - {fileID: 6868733022518081467}
   - {fileID: 502060934}
   - {fileID: 685240545}
+  currentRound: 0
 --- !u!1 &1520111285
 GameObject:
   m_ObjectHideFlags: 0
@@ -8025,8 +8024,10 @@ MonoBehaviour:
   playCtrl: {fileID: 355950516}
   popupWin: {fileID: 520830136}
   topState: {fileID: 1395183793}
+  initLevelDone: 0
   isEnd: 0
   targetScore: 0
+  isWin: 0
   recipe: {fileID: 391310612}
   coin: {fileID: 1860855675}
   multi: {fileID: 1274431203}
@@ -8529,37 +8530,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.32, y: -2.93, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 210868103}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1896535297
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1896535298}
-  m_Layer: 0
-  m_Name: HandRot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1896535298
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1896535297}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

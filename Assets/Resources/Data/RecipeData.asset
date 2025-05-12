@@ -15,7 +15,7 @@ MonoBehaviour:
   dataBaseVersion: 1
   defaultRecipes:
   - recipe: 10
-    recipeName: 
+    recipeName: "X\xF4i"
     ingredients: 010000000100000002000000
     defaultCoin: 0
     defaultMulti: 1
@@ -57,7 +57,7 @@ MonoBehaviour:
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 9
-    recipeName: 
+    recipeName: Tokbokki
     ingredients: 010000000100000001000000
     defaultCoin: 0
     defaultMulti: 1
@@ -87,7 +87,7 @@ MonoBehaviour:
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 1
-    recipeName: 
+    recipeName: "M\u1EADu Th\u1EA7u"
     ingredients: 
     defaultCoin: 0
     defaultMulti: 1

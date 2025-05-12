@@ -1,6 +1,7 @@
 using BestHTTP.Extensions;
 using DG.Tweening;
 using EventDispatcher;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -37,17 +38,22 @@ public class UIController : MonoBehaviour
     public void Init()
     {
         playCtrl.gameObject.SetActive(false);
-        isEnd = false;
-        isWin = false;
-        initLevelDone = false;
         handleSelect.Init();
         playerDataUI.Init();
         popupWin.Init();
         topState.Init();
         playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
         discardBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.DiscardSelectedCards(); });
-        
+        this.RegisterListener(EventID.START_GAME, delegate { StartGame(); });
     }
+
+    private void StartGame()
+    {
+        isEnd = false;
+        initLevelDone = false;
+        score.text = "0";
+    }
+
     public void Update()
     {
         if (!initLevelDone)
@@ -61,6 +67,10 @@ public class UIController : MonoBehaviour
             this.PostEvent(EventID.END_GAME);
             return;
         }
+    }
+    public void OnDestroy()
+    {
+        this.RemoveListener(EventID.START_GAME, delegate { StartGame(); });
     }
 }
 

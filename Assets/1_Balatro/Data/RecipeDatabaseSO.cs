@@ -17,15 +17,13 @@ public class RecipeDatabaseSO : ScriptableObject
     }
     private bool IsMatch(List<IngredientType> required, List<IngredientType> selected)
     {
-        if (required.Count != selected.Count)
-            return false;
-        var requiredCopy = new List<IngredientType>(required);
-        foreach (var ingredient in selected)
+        var selectedCopy = new List<IngredientType>(selected);
+        foreach (var ingredient in required)
         {
-            if (!requiredCopy.Remove(ingredient))
+            if (!selectedCopy.Remove(ingredient))
                 return false;
         }
-        return requiredCopy.Count == 0;
+        return true;
     }
     public List<IngredientType> GetCardsToScore(Recipe recipe)
     {

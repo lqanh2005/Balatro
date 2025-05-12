@@ -1,3 +1,4 @@
+using EventDispatcher;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,10 @@ public abstract class CardBase : MonoBehaviour
     public string description;
     public CardAnim cardAnim;
 
+    public void Resign()
+    {
+        this.RegisterListener(EventID.END_GAME, delegate { SimplePool2.Despawn(this.gameObject); });
+    }
     public abstract void Init();
 
     public abstract void OnActive();

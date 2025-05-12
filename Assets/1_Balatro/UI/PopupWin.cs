@@ -34,7 +34,6 @@ public class PopupWin : MonoBehaviour
         finalReward.text = "";
         RectTransform rect = GetComponent<RectTransform>();
         rect.DOAnchorPosY(371, 0.5f).SetEase(Ease.OutCubic);
-        Init();
         OnReward();
     }
 

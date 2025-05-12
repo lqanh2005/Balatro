@@ -11,7 +11,6 @@ public class HandManager : MonoBehaviour
 {
     public bool isFirstDraw = true;
     public Transform handPos;
-    public Transform handRot;
     public Transform deckPos;
     public Transform discardPos;
     public Transform playPos;
@@ -49,12 +48,12 @@ public class HandManager : MonoBehaviour
         card.cardAnim.PlayDrawAnimation(deckPos.position, targetPos, isFirstDraw, () =>
         {
             UpdateSortPos(cardViews);
-            card.transform.SetParent(handRot, true);
+            //card.transform.SetParent(handRot, true);
         });
     }
     public Vector3 CalculateCardPosition(int index, int totalCards)
     {
-        float spacing = 1.2f;
+        float spacing = 1.3f;
         float startX = -(spacing * (totalCards - 1)) / 2f;
         float x = startX + index * spacing;
 
@@ -94,7 +93,7 @@ public class HandManager : MonoBehaviour
             {
                 PlayingCard _card = seletedCards[i];
 
-                float spread = 1.0f;
+                float spread = 1.5f;
                 float offsetX = (i - (seletedCards.Count - 1) / 2f) * spread;
                 Vector3 targetPos = new Vector3(playPos.position.x + offsetX, playPos.position.y, 0);
 
@@ -115,41 +114,27 @@ public class HandManager : MonoBehaviour
                 .AppendCallback(() =>
                 {
                     Recipe matchResult = RecipeChecker.GetMatchedRecipe(cardsToPlay);
-                    if (matchResult != Recipe.None)
-                    {
-                        List<PlayingCard> validCards = RecipeChecker.GetCardsToScore(cardsToPlay, matchResult);
-                        int currentTotal = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
 
-                        Sequence scoreSequence = DOTween.Sequence();
-                        PlayScoreAnim(validCards, scoreSequence);
-                        scoreSequence.OnComplete(() => {
-                            foreach (var card in cardsToPlay)
-                            {
-                                card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
-                                {
-                                    GamePlayController.Instance.playerContain.deckController.DiscardCard(card.GetCardBase());
-                                    SimplePool2.Despawn(card.gameObject);
-                                    GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
-                                });
-                            }
-                        });
-                    }
-                    else
-                    {
+                    List<PlayingCard> validCards = RecipeChecker.GetCardsToScore(cardsToPlay, matchResult);
+                    int currentTotal = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
+
+                    Sequence scoreSequence = DOTween.Sequence();
+                    PlayScoreAnim(validCards, scoreSequence);
+                    scoreSequence.OnComplete(() => {
                         foreach (var card in cardsToPlay)
                         {
                             card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
                             {
+                                RecipeChecker.UpdateUIForNoMatch();
                                 GamePlayController.Instance.playerContain.deckController.DiscardCard(card.GetCardBase());
                                 SimplePool2.Despawn(card.gameObject);
+                                GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
                             });
                         }
-
-                        UpdateSortPos(cardViews);
-                        GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
-                    }
+                    });
                 });
             seletedCards.Clear();
+            
         }
     }
 

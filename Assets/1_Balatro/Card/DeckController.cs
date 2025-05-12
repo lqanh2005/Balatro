@@ -29,11 +29,13 @@ public class DeckController : MonoBehaviour
     {
         CreateDeck();
         ShuffleDeck();
+        GamePlayController.Instance.uICtrl.isWin = false;
         GamePlayController.Instance.playerContain.handManager.isFirstDraw = true;
         DrawCards(8);
     }
     private void EndGame()
     {
+        GamePlayController.Instance.playerContain.handManager.cardViews.Clear();
         drawCards.Clear();
         discardCards.Clear();
         handCards.Clear();
@@ -49,6 +51,7 @@ public class DeckController : MonoBehaviour
             {
                 PlayingCard newCard = SimplePool2.Spawn(card.cardPrefab.gameObject, deckPos.position, Quaternion.identity).GetComponent<PlayingCard>();
                 newCard.id = card.id;
+                newCard.Resign();
                 drawCards.Add(newCard);
             }
         }

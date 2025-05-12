@@ -130,31 +130,16 @@ public class CardAnim : MonoBehaviour
             sequence.Kill();
         }
         sequence = DOTween.Sequence();
-        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = 1;
-        this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.playPos);
-        sequence.Append(transform.DOMove(targetPos, moveDuration).SetEase(Ease.OutBack))
-            .Join(transform.DORotate(new Vector3(0, 0, Random.Range(-10f, 10f)), moveDuration));
+        sequence.Append(transform.DOMove(targetPos, moveDuration).SetEase(Ease.OutBack));
         return sequence;
     }
     public Sequence PlayDiscardAnimation(Vector3 targetPos)
     {
-        if(sequence != null) sequence.Kill();
+        this.transform.localScale = Vector3.one;
+        if (sequence != null) sequence.Kill();
         sequence = DOTween.Sequence();
-        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = 1;
-        this.transform.SetParent(GamePlayController.Instance.playerContain.handManager.discardPos);
         sequence.Append(transform.DOMove(targetPos, moveDuration).SetEase(Ease.OutQuad))
-            .Join(transform.DORotate(new Vector3(0,0,-180), moveDuration))
-            .Join(canvasGroup.DOFade(0, moveDuration));
+            .Join(transform.DORotate(new Vector3(0,0,-180), moveDuration));
         return sequence;
     }
     // cmt

@@ -12,10 +12,10 @@ public class PlayingCard : CardBase
     public int chip;
     public IngredientType ingredientType;
 
-    [HideInInspector] public bool isSelected = false;
-    [HideInInspector] public bool isDrag = false;
-    [HideInInspector] public bool isMouseDown = false;
-    [HideInInspector] public bool isDraw = false;
+    [HideInInspector] public bool isSelected;
+    [HideInInspector] public bool isDrag;
+    [HideInInspector] public bool isMouseDown;
+    [HideInInspector] public bool isDraw;
     [HideInInspector] public Vector3 initialMousePos;
     
 
@@ -23,8 +23,11 @@ public class PlayingCard : CardBase
 
     public override void Init()
     {
-        this.RegisterListener(EventID.END_GAME, delegate { SimplePool2.Despawn(this.gameObject); });
+        
         this.chip = ConfigData.Instance.GetChip(this.ingredientType, this.level);
+        isSelected = false;
+        isMouseDown = false;
+        isDrag = false;
         isDraw = true;
         cardAnim.Init();
     }
@@ -34,23 +37,20 @@ public class PlayingCard : CardBase
     }
     public void FixedUpdate()
     {
-        if (!isDraw) return;
-        if (isMouseDown)
+        if (!isDraw || !isMouseDown) return;
+        Vector3 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        currentMousePos.z = 0;
+
+        float dragThreshold = 0.01f;
+
+        if (!isDrag && Vector3.Distance(initialMousePos, currentMousePos) > dragThreshold)
         {
-            Vector3 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            currentMousePos.z = 0;
+            isDrag = true;
+        }
 
-            float dragThreshold = 0.01f;
-
-            if (!isDrag && Vector3.Distance(initialMousePos, currentMousePos) > dragThreshold)
-            {
-                isDrag = true;
-            }
-
-            if (isDrag)
-            {
-                this.transform.position = currentMousePos;
-            }
+        if (isDrag)
+        {
+            this.transform.position = currentMousePos;
         }
     }
 
@@ -72,8 +72,7 @@ public class PlayingCard : CardBase
     }
     public void OnMouseExit()
     {
-        if (isDrag) return;
-        if (!isDraw) return;
+        if (!isDraw || isDrag) return;
         cardAnim.PlayHoverAniamtion(false, isSelected);
         //showText.gameObject.SetActive(false);
     }
@@ -114,15 +113,12 @@ public class PlayingCard : CardBase
     }
     public void OnDisable()
     {
-        
+        DOTween.Kill(transform);
+        cardAnim?.sequence?.Kill();
     }
     public void OnDestroy()
     {
-        DOTween.Kill(transform);
-        if (cardAnim.sequence != null)
-        {
-            cardAnim.sequence.Kill();
-        }
+        
         this.RemoveListener(EventID.END_GAME, delegate { SimplePool2.Despawn(this.gameObject); });
     }
 
