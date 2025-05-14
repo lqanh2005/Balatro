@@ -23,7 +23,7 @@ public class UseProfile : MonoBehaviour
     {
         get
         {
-            return PlayerPrefs.GetInt(StringHelper.CURRENT_ROUND, 1);
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_ROUND, 0);
         }
         set
         {

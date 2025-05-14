@@ -17,7 +17,7 @@ public class HandleSelect : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         currentRound = UseProfile.CurrentRound;
-        rounds[currentRound-1].isActive=true;
+        rounds[currentRound].isActive=true;
         RectTransform rect = GetComponent<RectTransform>();
         DOTween.To(
            () => rect.offsetMin,

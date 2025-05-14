@@ -72,7 +72,7 @@ public class PopupWin : MonoBehaviour
     private IEnumerator ShowDollarIncrement(TMP_Text text, int dollarAmount)
     {
         text.text = "";
-
+        if(dollarAmount>=5) dollarAmount = 5;
         for (int i = 0; i < dollarAmount; i++)
         {
             text.text += "$";

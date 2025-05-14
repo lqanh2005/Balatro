@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class HandManager : MonoBehaviour
@@ -120,12 +121,12 @@ public class HandManager : MonoBehaviour
 
                     Sequence scoreSequence = DOTween.Sequence();
                     PlayScoreAnim(validCards, scoreSequence);
+                    
                     scoreSequence.OnComplete(() => {
                         foreach (var card in cardsToPlay)
                         {
                             card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
                             {
-                                RecipeChecker.UpdateUIForNoMatch();
                                 GamePlayController.Instance.playerContain.deckController.DiscardCard(card.GetCardBase());
                                 SimplePool2.Despawn(card.gameObject);
                                 GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
@@ -160,22 +161,25 @@ public class HandManager : MonoBehaviour
 
         scoreSequence.AppendCallback(() =>
         {
-            int currentCoin = GamePlayController.Instance.uICtrl.coin.text.ToInt32();
             int currentScore = GamePlayController.Instance.uICtrl.score.text.ToInt32();
-            int multi = GamePlayController.Instance.uICtrl.multi.text.ToInt32();
+            int finalScore = int.Parse(GamePlayController.Instance.uICtrl.coin.text) * int.Parse(GamePlayController.Instance.uICtrl.multi.text);
 
-            int finalScore = currentCoin * multi;
-            DOTween.To(() => currentCoin, x =>
+            EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.recipe, int.Parse(GamePlayController.Instance.uICtrl.coin.text) * int.Parse(GamePlayController.Instance.uICtrl.multi.text));
+            DOTween.To(() => finalScore, x =>
             {
-                currentCoin = x;
-                EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.coin, currentCoin);
+                GamePlayController.Instance.uICtrl.recipe.text = x.ToString();
             }, 0, 0.5f).SetEase(Ease.OutCubic);
             DOTween.To(() => currentScore, x =>
             {
                 currentScore = x;
+                GamePlayController.Instance.uICtrl.score.text = currentScore.ToString();
                 EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.score, currentScore);
             }, currentScore + finalScore, 0.5f).SetEase(Ease.OutCubic);
-        });
+        }).AppendInterval(0.5f)
+    .AppendCallback(() =>
+    {
+        RecipeChecker.UpdateUIForNoMatch();
+    });
     }
 
     public void DiscardSelectedCards()

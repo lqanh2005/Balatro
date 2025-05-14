@@ -23,12 +23,14 @@ public class PlayerDataUI : MonoBehaviour
         this.RegisterListener(EventID.CHANGE_GOLD, delegate { HandleChangeGold(null); });
         this.RegisterListener(EventID.CHANGE_ROUND, delegate { HandleChangeRound(null); });
         this.RegisterListener(EventID.CHANGE_ANTE, delegate { HandleChangeAnte(null); });
+        this.RegisterListener(EventID.ON_SELECT_ROUND, delegate { UpdatePlayerUI(); });
         UpdatePlayerUI();
         settingBtn.onClick.AddListener(delegate { SettingBox.Setup(true).Show(); });
     }
 
     public void UpdatePlayerUI()
     {
+        GamePlayController.Instance.uICtrl.score.text = "0";
         gold.text = UseProfile.CurrentGold.ToString();
         UseProfile.CurrentHand = 4;
         UseProfile.CurrentDis = 4;

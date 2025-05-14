@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class UIController : MonoBehaviour
 {
@@ -51,7 +50,6 @@ public class UIController : MonoBehaviour
     {
         isEnd = false;
         initLevelDone = false;
-        score.text = "0";
     }
 
     public void Update()

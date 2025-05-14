@@ -73,7 +73,7 @@ public class RoundBase : MonoBehaviour
         isActive = false;
         GamePlayController.Instance.uICtrl.handleSelect.gameObject.SetActive(false);
         GamePlayController.Instance.uICtrl.playCtrl.gameObject.SetActive(true);
-        //UseProfile.CurrentRound++;
+        UseProfile.CurrentRound++;
         GamePlayController.Instance.uICtrl.topState.image1.color = image1.color;
         GamePlayController.Instance.uICtrl.topState.text1.text = text1.text;
         //GamePlayController.Instance.uICtrl.topState.image2.color = tagg.color;
@@ -83,9 +83,5 @@ public class RoundBase : MonoBehaviour
         this.PostEvent(EventID.START_GAME);
         GamePlayController.Instance.uICtrl.initLevelDone = true;
         
-    }
-    public void OnSkip()
-    {
-        this.PostEvent(EventID.ON_SKIP_ROUND);
     }
 }
