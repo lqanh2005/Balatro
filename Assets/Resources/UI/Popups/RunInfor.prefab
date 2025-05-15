@@ -1296,7 +1296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7a43347a994ce47aec8f12f19229b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formula: {fileID: 5277410065832695222}
 --- !u!1 &6691248308068570992
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,7 +1782,7 @@ GameObject:
   - component: {fileID: 8140802763014599283}
   - component: {fileID: 6758257017239871979}
   - component: {fileID: 8223289878442805705}
-  - component: {fileID: 6149456044221784584}
+  - component: {fileID: 5086805615086103153}
   m_Layer: 5
   m_Name: RunInfor
   m_TagString: Untagged
@@ -1882,7 +1881,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
---- !u!114 &6149456044221784584
+--- !u!114 &5086805615086103153
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1891,7 +1890,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7573074110825723768}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89ca6147569837c46be60b293d990b1c, type: 3}
+  m_Script: {fileID: 11500000, guid: f5eef7c6d838caa4dba24e3688e5043b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainPanel: {fileID: 5645191160380040898}
@@ -1901,13 +1900,9 @@ MonoBehaviour:
   isAnim: 1
   popupCanvas: {fileID: 0}
   isBoxSave: 0
-  rewardPrefab: {fileID: 522511887723017821, guid: 3a0fa1ecd5862e54cba09d8a48fe8356, type: 3}
-  smallRewardPrefab: {fileID: 522511887723017821, guid: 3a0fa1ecd5862e54cba09d8a48fe8356, type: 3}
-  contentPool: {fileID: 0}
-  claimBtn: {fileID: 0}
-  parslayer: []
-  canvasRewardContent: {fileID: 0}
-  rewardClip: {fileID: 8300000, guid: c0ab2419d02d5f54690ac6db3a5188cb, type: 3}
+  recipeUIs:
+  - {fileID: 4724116846880068746}
+  back: {fileID: 497192851739929260}
 --- !u!1 &7625059156343169408
 GameObject:
   m_ObjectHideFlags: 0

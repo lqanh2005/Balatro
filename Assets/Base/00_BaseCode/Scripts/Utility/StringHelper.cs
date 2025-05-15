@@ -156,6 +156,7 @@ public class PathPrefabs
     public const string HEART_BOX = "UI/Popups/HeartBox";
 
     public const string SHOP_CTRL = "UI/Popups/ShopCtrl";
+    public const string Run_Infor = "UI/Popups/RunInfor";
 }
 
 public class SceneName

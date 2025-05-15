@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5098de79da6144846a54f6de710c367a
+guid: ff775da7233154d4f9663d2e7fc30222
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Super Corn
+  - Coaster Rible
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

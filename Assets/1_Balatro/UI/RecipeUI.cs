@@ -1,22 +1,41 @@
 using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class RecipeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject formula;
+    public RecipeDataUI recipeData;
+    public void Init()
+    {
+
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        formula.gameObject.SetActive(true);
         Debug.LogError("Mouse Entered Recipe UI");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        formula.gameObject.SetActive(false);
+        Debug.LogError("Mouse Exit Recipe UI");
     }
 
+}
+public struct RecipeDataUI
+{
+    public int level;
+    public string recipeName;
+    public int coin;
+    public int multi;
+
+    public RecipeDataUI(int level, string recipeName, int coin, int multi)
+    {
+        this.level = level;
+        this.recipeName = recipeName;
+        this.coin = coin;
+        this.multi = multi; 
+    }
 }

@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
     public Transform playCtrl;
     public PopupWin popupWin;
     public TopState topState;
+    public RunInfor runInfor;
     [Header("----------Condition----------")]
     public bool initLevelDone;
     public bool isEnd;
@@ -33,6 +34,7 @@ public class UIController : MonoBehaviour
     [Header("----------Btn----------")]
     public Button playHandBtn;
     public Button discardBtn;
+    public Button runIn4;
 
     public void Init()
     {
@@ -41,6 +43,8 @@ public class UIController : MonoBehaviour
         playerDataUI.Init();
         popupWin.Init();
         topState.Init();
+        runInfor.Init();
+        runIn4.onClick.AddListener(delegate { RunInfor.Setup().Show(); });
         playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
         discardBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.DiscardSelectedCards(); });
         this.RegisterListener(EventID.START_GAME, delegate { StartGame(); });
