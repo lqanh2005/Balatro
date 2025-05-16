@@ -10,7 +10,8 @@ public class RunInfor : BaseBox
     private static RunInfor _instance;
     public List<RecipeUI> recipeUIs;
     public Button back;
-
+    //public Button 
+    public RecipeDatabaseSO recipeDatabaseSO;
     public static RunInfor Setup()
     {
         if (_instance == null)
@@ -23,6 +24,7 @@ public class RunInfor : BaseBox
     }
     public void Init()
     {
+
         foreach(var item in recipeUIs)
         {
             item.Init();
@@ -31,6 +33,25 @@ public class RunInfor : BaseBox
     }
     public void InitState()
     {
-        Debug.LogError("Show");
+        RecipeManager.LoadAll(recipeDatabaseSO);
+        LoadAllRecipeData();
+    }
+
+    public void LoadAllRecipeData()
+    {
+        Dictionary<Recipe, RecipeData> allRecipes = RecipeManager.LoadAll(recipeDatabaseSO);
+
+        UpdateAllRecipeUIs(allRecipes);
+    }
+    private void UpdateAllRecipeUIs(Dictionary<Recipe, RecipeData> allRecipes)
+    {
+        foreach (var recipeUI in recipeUIs)
+        {
+            if (allRecipes.ContainsKey(recipeUI.recipeType))
+            {
+                recipeUI.SetData(recipeUI.recipeType, allRecipes[recipeUI.recipeType]);
+                recipeUI.UpdateUI();
+            }
+        }
     }
 }

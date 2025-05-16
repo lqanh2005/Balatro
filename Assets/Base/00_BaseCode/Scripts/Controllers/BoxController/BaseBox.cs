@@ -15,7 +15,7 @@ public abstract class BaseBox : MonoBehaviour
     public bool isNotStack;
     public bool isPopup;
     [SerializeField] protected bool isAnim = true;
-  [HideInInspector]  public Canvas popupCanvas;
+    public Canvas popupCanvas;
     protected CanvasGroup canvasGroupPanel;
     [HideInInspector] public bool isBoxSave;
 
@@ -46,9 +46,10 @@ public abstract class BaseBox : MonoBehaviour
         popupCanvas = this.GetComponent<Canvas>();
         if (popupCanvas != null && isPopup)
         {
-            popupCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            popupCanvas.renderMode = RenderMode.ScreenSpaceCamera;
             popupCanvas.worldCamera = Camera.main;
             popupCanvas.sortingLayerID = SortingLayer.NameToID("Popup");
+            popupCanvas.planeDistance = 10;
         }
 
         if (this.mainPanel != null)
