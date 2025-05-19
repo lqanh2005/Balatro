@@ -108,6 +108,18 @@ public class RecipeManager
             Debug.LogError("Database updated with new recipes.");
         }
     }
+    public static void UpgradeRecipe(Recipe recipe)
+    {
+        var all = LoadAll();
+        if (all.TryGetValue(recipe, out var data))
+        {
+            data.level++;
+            data.coin += data.coin/2; 
+            data.multi += data.multi/2;
+            all[recipe] = data;
+            SaveAll(all);
+        }
+    }
 }
 
 [System.Serializable]

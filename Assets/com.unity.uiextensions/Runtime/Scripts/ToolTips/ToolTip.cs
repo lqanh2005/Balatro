@@ -20,6 +20,13 @@
 //IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
 //WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
+using TMPro;
+
+/// Credit drHogan 
+/// Sourced from - http://forum.unity3d.com/threads/screenspace-camera-tooltip-controller-sweat-and-tears.293991/#post-1938929
+/// updated simonDarksideJ - refactored code to be more performant.
+/// updated lucasvinbr - mixed with BoundTooltip, should work with Screenspace Camera (non-rotated) and Overlay
+/// *Note - only works for non-rotated Screenspace Camera and Screenspace Overlay canvases at present, needs updating to include rotated Screenspace Camera and Worldspace!
 namespace UnityEngine.UI.Extensions
 {
     [RequireComponent(typeof(RectTransform))]
@@ -27,7 +34,7 @@ namespace UnityEngine.UI.Extensions
     public class ToolTip : MonoBehaviour
     {
         //text of the tooltip
-        private Text _text;
+        private TextMeshProUGUI _text;
         private RectTransform _rectTransform, canvasRectTransform;
 
         [Tooltip("The canvas used by the tooltip as positioning and scaling reference. Should usually be the root Canvas of the hierarchy this component is in")]
@@ -114,7 +121,7 @@ namespace UnityEngine.UI.Extensions
             canvasRectTransform = canvas.GetComponent<RectTransform>();
             _layoutGroup = GetComponentInChildren<LayoutGroup>();
 
-            _text = GetComponentInChildren<Text>();
+            _text = GetComponentInChildren<TextMeshProUGUI>();
 
             _inside = false;
 
@@ -190,6 +197,9 @@ namespace UnityEngine.UI.Extensions
                 case RenderMode.ScreenSpaceOverlay:
                     OnScreenSpaceOverlay(refreshCanvasesBeforeGettingSize);
                     break;
+                case RenderMode.WorldSpace:
+                    OnWorldSpace(refreshCanvasesBeforeGettingSize);
+                    break;
             }
         }
 
@@ -198,7 +208,7 @@ namespace UnityEngine.UI.Extensions
         {
             shiftingVector.x = xShift;
             shiftingVector.y = YShift;
-
+            
             baseTooltipPos.z = canvas.planeDistance;
 
             newTTPos = GuiCamera.ScreenToViewportPoint(baseTooltipPos - shiftingVector);
@@ -313,6 +323,19 @@ namespace UnityEngine.UI.Extensions
             //remove scale factor for the actual positioning of the TT
             adjustedNewTTPos *= canvas.scaleFactor;
             transform.position = adjustedNewTTPos;
+
+            _inside = true;
+        }
+        public void OnWorldSpace(bool refreshCanvasesBeforeGettingSize = false)
+        {
+            shiftingVector.x = xShift;
+            shiftingVector.y = YShift;
+
+            newTTPos = baseTooltipPos + (Vector3)shiftingVector;
+            transform.position = newTTPos;
+
+            gameObject.SetActive(true);
+            if (refreshCanvasesBeforeGettingSize) RefreshTooltipSize();
 
             _inside = true;
         }

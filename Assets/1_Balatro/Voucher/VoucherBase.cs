@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VoucherBase : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int id;
 
-    // Update is called once per frame
-    void Update()
+    public Image avt;
+
+    public void OnAnim()
     {
-        
+
+    }
+    public  void OnActive()
+    {
+        Debug.LogError("OnActive: " + id);  
     }
 }

@@ -13,6 +13,7 @@ public class DeckController : MonoBehaviour
     public List<PlayingCard> discardCards = new List<PlayingCard>(); // la da bo
     public List<PlayingCard> handCards = new List<PlayingCard>(); // la tren tay
     public List<CardDeck> deck;
+    public Dictionary<int, CardDeck> deckDict = new();
 
     [SerializeField] private Transform deckPos;
     [SerializeField] private int maxHandsize = 8;
@@ -22,6 +23,17 @@ public class DeckController : MonoBehaviour
     {
         this.RegisterListener(EventID.START_GAME, delegate { StartGame(); });
         this.RegisterListener(EventID.END_GAME, delegate { EndGame(); });
+        deckDict.Clear();
+        foreach (var card in deck)
+        {
+            if (card != null && card.cardPrefab != null)
+                deckDict[card.id] = new CardDeck
+                {
+                    id = card.id,
+                    cardPrefab = card.cardPrefab,
+                    amout = card.amout
+                };
+        }
     }
 
 
@@ -45,12 +57,16 @@ public class DeckController : MonoBehaviour
     {
         drawCards.Clear();
         discardCards.Clear();
-        foreach (CardDeck card in deck)
+
+        foreach (var entry in deckDict.Values)
         {
-            for (int i = 0; i < card.amout; i++)
+            for (int i = 0; i < entry.amout; i++)
             {
-                PlayingCard newCard = SimplePool2.Spawn(card.cardPrefab.gameObject, deckPos.position, Quaternion.identity).GetComponent<PlayingCard>();
-                newCard.id = card.id;
+                PlayingCard newCard = SimplePool2
+                    .Spawn(entry.cardPrefab.gameObject, deckPos.position, Quaternion.identity)
+                    .GetComponent<PlayingCard>();
+
+                newCard.id = entry.id;
                 newCard.Resign();
                 drawCards.Add(newCard);
             }
@@ -84,6 +100,29 @@ public class DeckController : MonoBehaviour
         {
             float height = drawCards.Count * 0.01f;
             deckPos.localPosition += new Vector3(0, 0, 0.01f);
+        }
+    }
+    public void AddCardToDeck(PlayingCard cardPrefab, int id)
+    {
+        if (deckDict.ContainsKey(id))
+        {
+            deckDict[id].amout++;
+        }
+        else
+        {
+            deckDict[id] = new CardDeck
+            {
+                id = id,
+                cardPrefab = cardPrefab,
+                amout = 1
+            };
+        }
+    }
+    public void ReCard(int id)
+    {
+        if (deckDict.ContainsKey(id))
+        {
+            deckDict[id].amout--;
         }
     }
 
@@ -167,10 +206,12 @@ public class DeckController : MonoBehaviour
     public void OnDisable()
     {
         this.RemoveListener(EventID.START_GAME, delegate { StartGame(); });
+        this.RemoveListener(EventID.END_GAME, delegate { EndGame(); });
     }
     public void OnDestroy()
     {
         this.RemoveListener(EventID.START_GAME, delegate { StartGame(); });
+        this.RemoveListener(EventID.END_GAME, delegate { EndGame(); });
     }
 }
 [System.Serializable]

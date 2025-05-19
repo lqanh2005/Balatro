@@ -29,7 +29,7 @@ public class UIController : MonoBehaviour
     public TMP_Text coin;
     public TMP_Text multi;
     public TMP_Text score;
-    public VoucherSO voucherSO;
+    public VoucherDataSO voucherSO;
     
     [Header("----------Btn----------")]
     public Button playHandBtn;

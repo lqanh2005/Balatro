@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cd18b7a79111043bb84c802e8d1d8f, type: 3}
+  m_Name: VoucherDataSO
+  m_EditorClassIdentifier: 
+  vouchers:
+  - voucherName: The Hermit
+    description: x2 current gold
+    artwork: {fileID: 21300000, guid: cb189dacd52f9ce429bd95f8199e7908, type: 3}
+    cost: 10
+    effect: {fileID: 11400000, guid: 16c81bbdef0cbd04fb884048e38096c5, type: 2}
+  - voucherName: The World
+    description: Clone random ingredient
+    artwork: {fileID: 21300000, guid: 22ecf886b2760da40acabadc7d2134e4, type: 3}
+    cost: 10
+    effect: {fileID: 11400000, guid: 661ec7effa60dc342b449400b2a953f2, type: 2}
+  - voucherName: Temperance
+    description: Random achieve 0-30% of current target
+    artwork: {fileID: 21300000, guid: 3c659574a227c3e41847938431ffba9e, type: 3}
+    cost: 10
+    effect: {fileID: 0}
+  - voucherName: Judgement
+    description: 'Change random ingredient '
+    artwork: {fileID: 21300000, guid: 68b6c9329041ae6438edd22fd9cef32c, type: 3}
+    cost: 10
+    effect: {fileID: 11400000, guid: 978c793d6ad14a44b8755bf919d72b67, type: 2}
+  - voucherName: TheFool
+    description: Upgrade random recipe
+    artwork: {fileID: 21300000, guid: 48f646834d5bc174bb2a1bffc3395d70, type: 3}
+    cost: 10
+    effect: {fileID: 11400000, guid: 0517bf5f04117eb4b9583c3dfdaef1e0, type: 2}
+  - voucherName: TheEmperor
+    description: Get two voucher
+    artwork: {fileID: 21300000, guid: e7ce846ef0bbb1a4f92f58e02df5e8ce, type: 3}
+    cost: 10
+    effect: {fileID: 11400000, guid: f296e1bcb390f394db8b3d939c90303b, type: 2}
+  - voucherName: BlackFriday
+    description: 25% off in store
+    artwork: {fileID: 21300000, guid: 80dd66644f166a5418c04c4f8c1538d0, type: 3}
+    cost: 10
+    effect: {fileID: 0}
+  - voucherName: TheMagician
+    description: Upgrade ingredient
+    artwork: {fileID: 21300000, guid: 28027b6472d92d644a2af1d14191ecca, type: 3}
+    cost: 10
+    effect: {fileID: 0}

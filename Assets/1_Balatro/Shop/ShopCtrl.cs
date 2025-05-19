@@ -34,7 +34,6 @@ public class ShopCtrl : MonoBehaviour
         this.Close();
         this.PostEvent(EventID.ON_SELECT_ROUND);
     }
-
     [Header("Slot Config")]
     public List<ShopSlot> playingCardSlot;
     public List<ShopSlot> boosterSlots;

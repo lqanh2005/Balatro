@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EventDispatcher;
+using UnityEngine.UI.Extensions;
 
 public class PlayingCard : CardBase
 {
@@ -68,13 +69,14 @@ public class PlayingCard : CardBase
         if (isDrag) return;
         if (!isDraw) return;
         cardAnim.PlayHoverAniamtion(true, isSelected);
-        //showText.gameObject.SetActive(true);
+        ToolTip.Instance.SetTooltip(this.description, this.transform.localPosition);
+
     }
     public void OnMouseExit()
     {
         if (!isDraw || isDrag) return;
         cardAnim.PlayHoverAniamtion(false, isSelected);
-        //showText.gameObject.SetActive(false);
+        ToolTip.Instance.HideTooltip();
     }
     public void OnMouseUp()
     {

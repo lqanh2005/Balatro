@@ -33,18 +33,13 @@ public class GamePlayController : Singleton<GamePlayController>
 
         uICtrl.Init();
         playerContain.Init();
-        this.PostEvent(EventID.ON_SELECT_ROUND);
+        
     }
 
-    public void StartGame()
+    public void Start()
     {
 
-        //this.PostEvent(EventID.START_GAME);
-        playerContain.Init();
-        //uICtrl.Init();
-     
-     
-      
+        this.PostEvent(EventID.ON_SELECT_ROUND);
     }
    
 }

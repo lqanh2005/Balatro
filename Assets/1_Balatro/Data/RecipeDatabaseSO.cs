@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Balatro/RecipeData", fileName = "RecipeData")]
-public class RecipeDatabaseSO : ScriptableObject
+public class RecipeDatabaseSO : SingletonScriptableObject<RecipeDatabaseSO>
 {
     public int dataBaseVersion = 1;
     public List<RecipeDefaultEntry> defaultRecipes = new List<RecipeDefaultEntry>();
