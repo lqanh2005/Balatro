@@ -30,6 +30,7 @@ public class UIController : MonoBehaviour
     public TMP_Text multi;
     public TMP_Text score;
     public VoucherDataSO voucherSO;
+    public TMP_Text remainCard;
     
     [Header("----------Btn----------")]
     public Button playHandBtn;
@@ -47,13 +48,20 @@ public class UIController : MonoBehaviour
         runIn4.onClick.AddListener(delegate { RunInfor.Setup().Show(); });
         playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
         discardBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.DiscardSelectedCards(); });
+        this.RegisterListener(EventID.CHANGE_CARD, delegate { HandleUIDeck(); });
         this.RegisterListener(EventID.START_GAME, delegate { StartGame(); });
+    }
+
+    public void HandleUIDeck()
+    {
+        remainCard.text = UseProfile.DrawCard.ToString() + "/" + UseProfile.CurrentCard.ToString();
     }
 
     private void StartGame()
     {
         isEnd = false;
         initLevelDone = false;
+        
     }
 
     public void Update()
@@ -73,6 +81,7 @@ public class UIController : MonoBehaviour
     public void OnDestroy()
     {
         this.RemoveListener(EventID.START_GAME, delegate { StartGame(); });
+        this.RemoveListener(EventID.CHANGE_CARD, delegate { HandleUIDeck(); });
     }
 }
 

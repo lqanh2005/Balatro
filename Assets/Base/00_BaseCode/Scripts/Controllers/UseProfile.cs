@@ -71,6 +71,32 @@ public class UseProfile : MonoBehaviour
             EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_DIS);
         }
     }
+    public static int CurrentCard
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(StringHelper.CURRENT_CARD, 48);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(StringHelper.CURRENT_CARD, value);
+            PlayerPrefs.Save();
+            EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_CARD);
+        }
+    }
+    public static int DrawCard
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(StringHelper.DRAW_CARD, 0);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(StringHelper.DRAW_CARD, value);
+            PlayerPrefs.Save();
+            EventDispatcher.EventDispatcher.Instance.PostEvent(EventID.CHANGE_CARD);
+        }
+    }
     public static bool NeedCheckShop
     {
         get

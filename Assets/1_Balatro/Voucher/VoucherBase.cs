@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VoucherBase : MonoBehaviour
+public class VoucherBase : CardBase
 {
-    public int id;
 
     public Image avt;
-
-    public void OnAnim()
+    public VoucherData voucherData;
+    public override void Init()
     {
-
+        throw new System.NotImplementedException();
     }
-    public  void OnActive()
+
+    public override void OnActive()
     {
-        Debug.LogError("OnActive: " + id);  
+        voucherData.Activate();
     }
 }

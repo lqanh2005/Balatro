@@ -37,4 +37,6 @@
     CHANGE_HAND = 221,
     CHANGE_DIS = 222,
     END_GAME = 223,
+    CHANGE_CARD = 224,
+    TOTAL_CARD = 225,
 }

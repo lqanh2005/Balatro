@@ -18,6 +18,7 @@ public class DeckController : MonoBehaviour
     [SerializeField] private Transform deckPos;
     [SerializeField] private int maxHandsize = 8;
     public GameObject deckVisual;
+    [HideInInspector] public int deckSize;
 
     public void Init()
     {
@@ -27,13 +28,19 @@ public class DeckController : MonoBehaviour
         foreach (var card in deck)
         {
             if (card != null && card.cardPrefab != null)
+            {
+                deckSize += card.amout;
                 deckDict[card.id] = new CardDeck
                 {
                     id = card.id,
                     cardPrefab = card.cardPrefab,
                     amout = card.amout
                 };
+            }
         }
+        UseProfile.CurrentCard = deckSize;
+        UseProfile.DrawCard = UseProfile.CurrentCard;
+        GamePlayController.Instance.uICtrl.HandleUIDeck();
     }
 
 
@@ -41,6 +48,7 @@ public class DeckController : MonoBehaviour
     {
         CreateDeck();
         ShuffleDeck();
+        UseProfile.DrawCard = UseProfile.CurrentCard;
         GamePlayController.Instance.uICtrl.isWin = false;
         GamePlayController.Instance.playerContain.handManager.isFirstDraw = true;
         DrawCards(8);
@@ -48,6 +56,7 @@ public class DeckController : MonoBehaviour
     private void EndGame()
     {
         GamePlayController.Instance.playerContain.handManager.cardViews.Clear();
+        
         drawCards.Clear();
         discardCards.Clear();
         handCards.Clear();
@@ -57,11 +66,13 @@ public class DeckController : MonoBehaviour
     {
         drawCards.Clear();
         discardCards.Clear();
+        deckSize = 0;
 
         foreach (var entry in deckDict.Values)
         {
             for (int i = 0; i < entry.amout; i++)
             {
+                deckSize++;
                 PlayingCard newCard = SimplePool2
                     .Spawn(entry.cardPrefab.gameObject, deckPos.position, Quaternion.identity)
                     .GetComponent<PlayingCard>();
@@ -71,6 +82,7 @@ public class DeckController : MonoBehaviour
                 drawCards.Add(newCard);
             }
         }
+        if (UseProfile.CurrentCard < deckSize) UseProfile.CurrentCard = deckSize;
     }
 
     public void ShuffleDeck()
@@ -139,6 +151,7 @@ public class DeckController : MonoBehaviour
         if (GamePlayController.Instance.playerContain.handManager.cardViews.Count >= maxHandsize) return null;
         PlayingCard _card = drawCards[0];
         drawCards.RemoveAt(0);
+        UseProfile.DrawCard--;
         bool isInserted = false;
         for (int i = GamePlayController.Instance.playerContain.handManager.cardViews.Count - 1; i >= 0; i--)
         {

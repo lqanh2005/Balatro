@@ -345,11 +345,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8543cdff57d010743997cfab8a326af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardParent: {fileID: 0}
+  target: {fileID: 0}
   currentCard: {fileID: 0}
   image: {fileID: 6414493589196008139}
+  coin: {fileID: 7819033894777008075}
   buyBtn: {fileID: 9054379926901856702}
   cardContainerCanvas: {fileID: 6982218442324063737}
+  isBooster: 0
 --- !u!1 &4747674272841273307
 GameObject:
   m_ObjectHideFlags: 0

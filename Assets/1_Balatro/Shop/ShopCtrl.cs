@@ -60,6 +60,8 @@ public class ShopCtrl : MonoBehaviour
                 slot.SetupCard(selected);
             }
         }
+        int idx = Random.Range(0, 7);
+        voucherSlot.SetupCard(idx);
     }
     public void UpdateUI(List<ShopSlot> param)
     {
