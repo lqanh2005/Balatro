@@ -37,6 +37,7 @@ public class UIController : MonoBehaviour
     public Button discardBtn;
     public Button runIn4;
 
+    [HideInInspector] public float discount = 1f;
     public void Init()
     {
         playCtrl.gameObject.SetActive(false);

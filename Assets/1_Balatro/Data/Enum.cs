@@ -24,7 +24,7 @@ public enum Recipe
     HotDog = 17,
     Ramen = 18,
     Salad = 21,
-    Tokbokki = 9,
+    DirtySkewers = 9,
     FriedRice = 19,
     VietnamesePizza = 25,
     BanhMi = 27,

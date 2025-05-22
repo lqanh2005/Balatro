@@ -159,6 +159,7 @@ public class PathPrefabs
 
     public const string SHOP_CTRL = "UI/Popups/ShopCtrl";
     public const string Run_Infor = "UI/Popups/RunInfor";
+    public const string GACHA_BOX = "UI/Popups/GachaBox";
 }
 
 public class SceneName

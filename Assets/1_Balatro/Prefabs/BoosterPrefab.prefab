@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4797954910490988561}
-  - component: {fileID: 6578265364900052834}
+  - component: {fileID: 1329731388349229991}
   m_Layer: 0
-  m_Name: VoucherPrefab
+  m_Name: BoosterPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 2548223897879937860}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6578265364900052834
+--- !u!114 &1329731388349229991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 412855047225238054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfbde102d042eaf47a63c546e6156f46, type: 3}
+  m_Script: {fileID: 11500000, guid: c0dd4d2ea4a476a43afac018aac6517b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
@@ -51,12 +51,15 @@ MonoBehaviour:
   description: 
   cardAnim: {fileID: 0}
   avt: {fileID: 2953457798167924835}
-  voucherData:
-    voucherName: The World
-    description: Clone random ingredient
-    artwork: {fileID: 21300000, guid: 22ecf886b2760da40acabadc7d2134e4, type: 3}
-    cost: 10
-    effect: {fileID: 11400000, guid: 661ec7effa60dc342b449400b2a953f2, type: 2}
+  boosterData:
+    packName: 
+    size: 0
+    artwork: {fileID: 0}
+    cost: 0
+    numberOfChoices: 0
+    numberOfSelections: 0
+    possibleCardTypes: 
+    cardTypeWeights: []
   canvas: {fileID: 2388511204395129082}
 --- !u!1 &2597372874673468713
 GameObject:
@@ -92,7 +95,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175.84, y: -328.24}
+  m_AnchoredPosition: {x: 542, y: -328.24}
   m_SizeDelta: {x: 170.33, y: 216.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7045419312988759653

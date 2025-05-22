@@ -42,7 +42,6 @@ public class RecipeDatabaseSO : SingletonScriptableObject<RecipeDatabaseSO>
 public class RecipeDefaultEntry
 {
     public Recipe recipe;
-    public string recipeName;
     public List<IngredientType> ingredients;
     public int defaultCoin = 0;
     public int defaultMulti = 1;

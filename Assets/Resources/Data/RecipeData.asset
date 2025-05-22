@@ -15,79 +15,66 @@ MonoBehaviour:
   dataBaseVersion: 1
   defaultRecipes:
   - recipe: 10
-    recipeName: "X\xF4i"
     ingredients: 010000000100000002000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 11
-    recipeName: 
     ingredients: 030000000600000006000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 14
-    recipeName: 
     ingredients: 010000000200000005000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 13
-    recipeName: 
     ingredients: 010000000200000004000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 17
-    recipeName: 
     ingredients: 030000000600000007000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 18
-    recipeName: 
     ingredients: 030000000400000005000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 21
-    recipeName: 
     ingredients: 050000000500000005000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 9
-    recipeName: Tokbokki
-    ingredients: 010000000100000001000000
+    ingredients: 010000000200000007000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 19
-    recipeName: 
     ingredients: 0100000001000000020000000400000005000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 25
-    recipeName: 
     ingredients: 03000000040000000500000007000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 27
-    recipeName: 
     ingredients: 0200000003000000040000000500000007000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 33
-    recipeName: 
     ingredients: 0300000003000000070000000700000007000000
     defaultCoin: 0
     defaultMulti: 1
     defaultLevel: 1
   - recipe: 1
-    recipeName: "M\u1EADu Th\u1EA7u"
     ingredients: 
     defaultCoin: 0
     defaultMulti: 1

@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackFriday : MonoBehaviour
+[CreateAssetMenu(menuName = "VoucherEffect/BlackFriday")]
+public class BlackFriday : VoucherEffectBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void ApplyEffect()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GamePlayController.Instance.uICtrl.discount = 0.25f;
     }
 }

@@ -54,7 +54,7 @@ public class PopupWin : MonoBehaviour
             yield return StartCoroutine(ShowText(textList[1], "1 lợi tức cho mỗi $5 [tối đa 5]"));
             yield return StartCoroutine(ShowDollarIncrement(reward_2, UseProfile.CurrentGold / 5));
         }
-        total = UseProfile.CurrentHand + (UseProfile.CurrentGold / 5);
+        total = UseProfile.CurrentHand + ((UseProfile.CurrentGold / 5)>5? 5:(UseProfile.CurrentGold/5));
         getRewardBtn.gameObject.SetActive(true);
         finalReward.text = total.ToString();
     }

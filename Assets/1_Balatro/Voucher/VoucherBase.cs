@@ -8,9 +8,13 @@ public class VoucherBase : CardBase
 
     public Image avt;
     public VoucherData voucherData;
+    public Canvas canvas;
     public override void Init()
     {
-        throw new System.NotImplementedException();
+        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        canvas.worldCamera = Camera.main;
+        canvas.planeDistance = 10;
+        OnActive();
     }
 
     public override void OnActive()

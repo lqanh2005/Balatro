@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TheMagician : MonoBehaviour
+[CreateAssetMenu(menuName = "VoucherEffect/TheMagician")]
+public class TheMagician : VoucherEffectBase
 {
-    // Start is called before the first frame update
-    void Start()
+    private int idx;
+    public override void ApplyEffect()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        idx = Random.Range(0, RecipeDatabaseSO.Instance.defaultRecipes.Count-1);
+        RecipeManager.UpgradeRecipe(RecipeDatabaseSO.Instance.defaultRecipes[idx].recipe);
     }
 }

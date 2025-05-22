@@ -60,6 +60,12 @@ public class ShopCtrl : MonoBehaviour
                 slot.SetupCard(selected);
             }
         }
+        foreach (var slot in boosterSlots)
+        {
+            int i = Random.Range(0, 2);
+            BoosterSize type = BoosterDataSo.Instance.boosters[i].size;
+            slot.SetupBooster(i);
+        }
         int idx = Random.Range(0, 7);
         voucherSlot.SetupCard(idx);
     }

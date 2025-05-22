@@ -19,6 +19,7 @@ public class ShopSlot : MonoBehaviour
     private Vector2 originalPos;
     private RectTransform rectTransform;
     private int voucherID;
+    private int boosterID;
 
     public void Awake()
     {
@@ -29,7 +30,7 @@ public class ShopSlot : MonoBehaviour
     {
         currentCard = data.cardBase.GetComponent<CardBase>();
         
-        this.coin.text = "$"+data.baseCost.ToString();
+        this.coin.text = "$"+ ((int)(data.baseCost * GamePlayController.Instance.uICtrl.discount)).ToString();
         this.image.sprite = data.image;
         buyBtn.onClick.AddListener(() =>
         {
@@ -40,13 +41,25 @@ public class ShopSlot : MonoBehaviour
     {
         voucherID = id;
         VoucherData voucherData = VoucherDataSO.Instance.GetVoucher(id);
-        this.coin.text = "$" + voucherData.cost.ToString();
+        this.coin.text = "$" + ((int)(voucherData.cost * GamePlayController.Instance.uICtrl.discount)).ToString();
         this.image.sprite = voucherData.artwork;
         buyBtn.onClick.AddListener(() =>
         {
             BuyCard(currentCard, cardContainerCanvas);
         });
     }
+    public void SetupBooster(int id)
+    {
+        boosterID = id;
+        BoosterData boosterData = BoosterDataSo.Instance.GetBooster(id);
+        this.coin.text = "$" + ((int)(boosterData.cost * GamePlayController.Instance.uICtrl.discount)).ToString();
+        this.image.sprite = boosterData.artwork;
+        buyBtn.onClick.AddListener(() =>
+        {
+            BuyCard(currentCard, cardContainerCanvas);
+        });
+    }
+
     public void ResetSlot()
     {
         this.gameObject.SetActive(true);
@@ -81,16 +94,34 @@ public class ShopSlot : MonoBehaviour
                 });
                 break;
             case VoucherBase voucher:
+                GamePlayController.Instance.uICtrl.shopCtrl.gameObject.SetActive(false);
                 voucher.voucherData = VoucherDataSO.Instance.GetVoucher(voucherID);
-                spawnPos = shopCardRect.GetWorldPosition();
                 newCard = Instantiate(data.gameObject);
-                newCard.transform.position = spawnPos;
-                MoveTo(newCard, target.position, 0.5f, () =>
+                VoucherBase vb = newCard.GetComponent<VoucherBase>();
+                vb.avt.sprite = voucher.voucherData.artwork;
+                RectTransform avtRect = vb.avt.GetComponent<RectTransform>();
+                avtRect.position = shopCardRect.position;
+                avtRect.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() =>
                 {
                     SimplePool2.Despawn(newCard);
-                    voucher.OnActive();
+                    newCard.GetComponent<VoucherBase>().Init();
+                    GamePlayController.Instance.uICtrl.shopCtrl.gameObject.SetActive(true);
                 });
                 
+                break;
+            case BoosterBase booster:
+                GamePlayController.Instance.uICtrl.shopCtrl.gameObject.SetActive(false);
+                booster.boosterData = BoosterDataSo.Instance.GetBooster(boosterID);
+                newCard = Instantiate(data.gameObject);
+                BoosterBase vb1 = newCard.GetComponent<BoosterBase>();
+                vb1.avt.sprite = booster.boosterData.artwork;
+                RectTransform avtRect1 = vb1.avt.GetComponent<RectTransform>();
+                avtRect1.position = shopCardRect.position;
+                avtRect1.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() =>
+                {
+                    SimplePool2.Despawn(newCard);
+                    newCard.GetComponent<BoosterBase>().Init();
+                });
                 break;
         }
         if(data as PlayingCard)

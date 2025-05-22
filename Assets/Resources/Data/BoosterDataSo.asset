@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed950538cb394297c78dad703d3fa, type: 3}
+  m_Name: BoosterDataSo
+  m_EditorClassIdentifier: 
+  boosters:
+  - packName: Normal
+    size: 0
+    artwork: {fileID: 0}
+    cost: 3
+    numberOfChoices: 2
+    numberOfSelections: 2
+    possibleCardTypes: 
+    cardTypeWeights: []
+  - packName: Jumbo
+    size: 1
+    artwork: {fileID: 0}
+    cost: 5
+    numberOfChoices: 3
+    numberOfSelections: 3
+    possibleCardTypes: 
+    cardTypeWeights: []
+  - packName: Mega
+    size: 2
+    artwork: {fileID: 0}
+    cost: 8
+    numberOfChoices: 5
+    numberOfSelections: 5
+    possibleCardTypes: 
+    cardTypeWeights: []

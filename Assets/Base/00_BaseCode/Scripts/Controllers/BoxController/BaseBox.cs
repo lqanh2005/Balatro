@@ -15,7 +15,7 @@ public abstract class BaseBox : MonoBehaviour
     public bool isNotStack;
     public bool isPopup;
     [SerializeField] protected bool isAnim = true;
-    public Canvas popupCanvas;
+    [HideInInspector] public Canvas popupCanvas;
     protected CanvasGroup canvasGroupPanel;
     [HideInInspector] public bool isBoxSave;
 
