@@ -2920,6 +2920,7 @@ Transform:
   - {fileID: 1395710099}
   - {fileID: 39208333}
   - {fileID: 1817213342}
+  - {fileID: 997657312}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &285515740
@@ -13881,6 +13882,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985547654}
   m_CullTransparentMesh: 1
+--- !u!1 &997657311
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 997657312}
+  - component: {fileID: 997657313}
+  m_Layer: 0
+  m_Name: PlayingState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &997657312
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997657311}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 274261229}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &997657313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997657311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5216943e2ee0b7b41a76d3658ba6bbb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateGame: 1
 --- !u!1 &1004469134
 GameObject:
   m_ObjectHideFlags: 0
@@ -19946,6 +19992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7e8934e0cb9d142b4840ad10552d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateGame: 0
   rounds:
   - {fileID: 6868733022518081467}
   - {fileID: 502060934}
@@ -26191,25 +26238,25 @@ MonoBehaviour:
   deck:
   - id: 1
     cardPrefab: {fileID: 2343741434523786726, guid: 8d6acc6cfa9e14b40be355acf0db31fb, type: 3}
-    amout: 10
+    amout: 7
   - id: 2
     cardPrefab: {fileID: 2343741434523786726, guid: 74a4e53a26d10a34e9ef554e84b8672e, type: 3}
-    amout: 10
+    amout: 7
   - id: 3
     cardPrefab: {fileID: 2343741434523786726, guid: b965d54f3a2f33440acee150583707a3, type: 3}
-    amout: 0
+    amout: 5
   - id: 4
     cardPrefab: {fileID: 2343741434523786726, guid: 9696874b20e3a2a46884cdf5cbd80bfe, type: 3}
-    amout: 0
+    amout: 5
   - id: 5
     cardPrefab: {fileID: 2343741434523786726, guid: 4fd2e0910aadc4f4288b756f5de6db99, type: 3}
-    amout: 0
+    amout: 5
   - id: 6
     cardPrefab: {fileID: 2343741434523786726, guid: 401bdd2cccc734a49be3541649755002, type: 3}
-    amout: 0
+    amout: 5
   - id: 7
     cardPrefab: {fileID: 2343741434523786726, guid: 67341450d167e1a40888fd3996a62ebd, type: 3}
-    amout: 0
+    amout: 5
   deckPos: {fileID: 2006293821}
   maxHandsize: 8
   deckVisual: {fileID: 328488521}
@@ -27274,7 +27321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 99, y: -393}
+  m_AnchoredPosition: {x: 99, y: -417}
   m_SizeDelta: {x: -931.5501, y: 722.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1424377448463686387
@@ -28346,8 +28393,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636ac23969fc687469c0a0bc2a386771, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateGame: 2
   nextBtn: {fileID: 4306856812568534782}
   rerollBtn: {fileID: 3458354913243916738}
+  shopPanel: {fileID: 1099127508563568189}
   playingCardSlot:
   - {fileID: 6057626782023208407}
   - {fileID: 361787978}

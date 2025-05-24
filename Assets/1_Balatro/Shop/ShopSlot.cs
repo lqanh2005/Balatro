@@ -94,7 +94,7 @@ public class ShopSlot : MonoBehaviour
                 });
                 break;
             case VoucherBase voucher:
-                GamePlayController.Instance.uICtrl.shopCtrl.gameObject.SetActive(false);
+                GamePlayController.Instance.uICtrl.shopCtrl.Close();
                 voucher.voucherData = VoucherDataSO.Instance.GetVoucher(voucherID);
                 newCard = Instantiate(data.gameObject);
                 VoucherBase vb = newCard.GetComponent<VoucherBase>();
@@ -105,12 +105,12 @@ public class ShopSlot : MonoBehaviour
                 {
                     SimplePool2.Despawn(newCard);
                     newCard.GetComponent<VoucherBase>().Init();
-                    GamePlayController.Instance.uICtrl.shopCtrl.gameObject.SetActive(true);
+                    GamePlayController.Instance.uICtrl.shopCtrl.Show();
                 });
                 
                 break;
             case BoosterBase booster:
-                GamePlayController.Instance.uICtrl.shopCtrl.gameObject.SetActive(false);
+                GamePlayController.Instance.uICtrl.shopCtrl.Close();
                 booster.boosterData = BoosterDataSo.Instance.GetBooster(boosterID);
                 newCard = Instantiate(data.gameObject);
                 BoosterBase vb1 = newCard.GetComponent<BoosterBase>();

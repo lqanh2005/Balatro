@@ -25,15 +25,3 @@ MonoBehaviour:
       image: {fileID: 21300000, guid: 7d675ee4f9647bd489ab8ff48b978c29, type: 3}
       baseCost: 3
       cardBase: {fileID: 5988048199727289565, guid: 74a4e53a26d10a34e9ef554e84b8672e, type: 3}
-  - itemType: 1
-    cards:
-    - cardName: Ingredient
-      description: 
-      image: {fileID: 21300000, guid: 7b727080e3733f64c8abb2a77c44d040, type: 3}
-      baseCost: 3
-      cardBase: {fileID: 0}
-    - cardName: StrickyRice
-      description: 
-      image: {fileID: 21300000, guid: 7b727080e3733f64c8abb2a77c44d040, type: 3}
-      baseCost: 3
-      cardBase: {fileID: 0}
