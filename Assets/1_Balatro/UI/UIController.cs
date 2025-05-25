@@ -46,6 +46,7 @@ public class UIController : MonoBehaviour
         popupWin.Init();
         topState.Init();
         runInfor.Init();
+        shopCtrl.Init();
         runIn4.onClick.AddListener(delegate { RunInfor.Setup().Show(); });
         playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
         discardBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.DiscardSelectedCards(); });

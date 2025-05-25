@@ -1743,6 +1743,10 @@ PrefabInstance:
       value: Card_UI (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
+      propertyPath: id
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1892621100}
@@ -7742,6 +7746,10 @@ PrefabInstance:
     - target: {fileID: 3450530649121428764, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
       propertyPath: m_Name
       value: Card_UI (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
+      propertyPath: id
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
       propertyPath: isBooster
@@ -13926,7 +13934,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5216943e2ee0b7b41a76d3658ba6bbb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateGame: 1
 --- !u!1 &1004469134
 GameObject:
   m_ObjectHideFlags: 0
@@ -18304,6 +18311,7 @@ MonoBehaviour:
   image2: {fileID: 0}
   text2: {fileID: 225361587}
   text3: {fileID: 776501570}
+  panel: {fileID: 1395183790}
 --- !u!1 &1395710097
 GameObject:
   m_ObjectHideFlags: 0
@@ -19992,7 +20000,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7e8934e0cb9d142b4840ad10552d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateGame: 0
   rounds:
   - {fileID: 6868733022518081467}
   - {fileID: 502060934}
@@ -22699,6 +22706,10 @@ PrefabInstance:
       value: Card_UI (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
+      propertyPath: id
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
       propertyPath: isBooster
       value: 1
       objectReference: {fileID: 0}
@@ -24834,6 +24845,10 @@ PrefabInstance:
       value: Card_UI (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
+      propertyPath: id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 850642653}
@@ -26244,19 +26259,19 @@ MonoBehaviour:
     amout: 7
   - id: 3
     cardPrefab: {fileID: 2343741434523786726, guid: b965d54f3a2f33440acee150583707a3, type: 3}
-    amout: 5
+    amout: 0
   - id: 4
     cardPrefab: {fileID: 2343741434523786726, guid: 9696874b20e3a2a46884cdf5cbd80bfe, type: 3}
-    amout: 5
+    amout: 0
   - id: 5
     cardPrefab: {fileID: 2343741434523786726, guid: 4fd2e0910aadc4f4288b756f5de6db99, type: 3}
-    amout: 5
+    amout: 0
   - id: 6
     cardPrefab: {fileID: 2343741434523786726, guid: 401bdd2cccc734a49be3541649755002, type: 3}
-    amout: 5
+    amout: 0
   - id: 7
     cardPrefab: {fileID: 2343741434523786726, guid: 67341450d167e1a40888fd3996a62ebd, type: 3}
-    amout: 5
+    amout: 0
   deckPos: {fileID: 2006293821}
   maxHandsize: 8
   deckVisual: {fileID: 328488521}
@@ -27321,7 +27336,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 99, y: -417}
+  m_AnchoredPosition: {x: 99, y: -434}
   m_SizeDelta: {x: -931.5501, y: 722.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1424377448463686387
@@ -28393,10 +28408,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636ac23969fc687469c0a0bc2a386771, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateGame: 2
   nextBtn: {fileID: 4306856812568534782}
   rerollBtn: {fileID: 3458354913243916738}
   shopPanel: {fileID: 1099127508563568189}
+  purchaseList: []
+  isShopGenerated: 0
   playingCardSlot:
   - {fileID: 6057626782023208407}
   - {fileID: 361787978}

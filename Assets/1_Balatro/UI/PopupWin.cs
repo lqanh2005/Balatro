@@ -84,7 +84,8 @@ public class PopupWin : MonoBehaviour
         UseProfile.CurrentGold += total;
         Debug.LogError("total = " + total);
         Close();
-        GamePlayController.Instance.uICtrl.shopCtrl.Show();
+        UseProfile.SavedState = StateGame.Shopping;
+        this.PostEvent(EventID.ON_SHOPPING);
     }
     public void Close()
     {

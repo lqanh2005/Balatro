@@ -860,6 +860,18 @@ public class UseProfile : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
+    public static StateGame SavedState
+    {
+        get
+        {
+            return (StateGame)PlayerPrefs.GetInt(GameData.SAVED_STATE_KEY, (int)StateGame.SelectRound);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(GameData.SAVED_STATE_KEY, (int)value);
+            PlayerPrefs.Save();
+        }
+    }
     public void SetDateTimeReciveDailyGift(DateTime value)
     {
         PlayerPrefs.SetString(StringHelper.DATE_RECIVE_GIFT_DAILY, value.ToBinary().ToString());

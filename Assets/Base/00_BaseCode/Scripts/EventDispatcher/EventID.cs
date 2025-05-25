@@ -39,4 +39,5 @@
     END_GAME = 223,
     CHANGE_CARD = 224,
     TOTAL_CARD = 225,
+    ON_SHOPPING = 226,
 }

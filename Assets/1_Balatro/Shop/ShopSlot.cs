@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class ShopSlot : MonoBehaviour
 {
+    public int id;
     public Transform target;
     public CardBase currentCard;
     public Image image;
@@ -26,8 +27,9 @@ public class ShopSlot : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         originalPos = rectTransform.anchoredPosition;
     }
-    public void SetupCard(CardData data)
+    public void SetupCard(CardData data, bool isBought = false)
     {
+        this.gameObject.SetActive(!isBought);
         currentCard = data.cardBase.GetComponent<CardBase>();
         
         this.coin.text = "$"+ ((int)(data.baseCost * GamePlayController.Instance.uICtrl.discount)).ToString();
@@ -37,8 +39,9 @@ public class ShopSlot : MonoBehaviour
             BuyCard(currentCard, cardContainerCanvas);
         });
     }
-    public void SetupCard(int id)
+    public void SetupCard(int id, bool isBought = false)
     {
+        this.gameObject.SetActive(!isBought);
         voucherID = id;
         VoucherData voucherData = VoucherDataSO.Instance.GetVoucher(id);
         this.coin.text = "$" + ((int)(voucherData.cost * GamePlayController.Instance.uICtrl.discount)).ToString();
@@ -48,8 +51,9 @@ public class ShopSlot : MonoBehaviour
             BuyCard(currentCard, cardContainerCanvas);
         });
     }
-    public void SetupBooster(int id)
+    public void SetupBooster(int id, bool isBought = false)
     {
+        this.gameObject.SetActive(!isBought);
         boosterID = id;
         BoosterData boosterData = BoosterDataSo.Instance.GetBooster(id);
         this.coin.text = "$" + ((int)(boosterData.cost * GamePlayController.Instance.uICtrl.discount)).ToString();
@@ -86,7 +90,7 @@ public class ShopSlot : MonoBehaviour
                 UseProfile.CurrentCard += 1;
                 GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.playingCardSlot);
                 spawnPos = shopCardRect.GetWorldPosition();
-                newCard = Instantiate(data.gameObject);
+                newCard = SimplePool2.Spawn(data.gameObject);
                 newCard.transform.position = spawnPos;
                 MoveTo(newCard, target.position, 0.5f, () =>
                 {
@@ -96,7 +100,7 @@ public class ShopSlot : MonoBehaviour
             case VoucherBase voucher:
                 GamePlayController.Instance.uICtrl.shopCtrl.Close();
                 voucher.voucherData = VoucherDataSO.Instance.GetVoucher(voucherID);
-                newCard = Instantiate(data.gameObject);
+                newCard = SimplePool2.Spawn(data.gameObject);
                 VoucherBase vb = newCard.GetComponent<VoucherBase>();
                 vb.avt.sprite = voucher.voucherData.artwork;
                 RectTransform avtRect = vb.avt.GetComponent<RectTransform>();
@@ -112,32 +116,25 @@ public class ShopSlot : MonoBehaviour
             case BoosterBase booster:
                 GamePlayController.Instance.uICtrl.shopCtrl.Close();
                 booster.boosterData = BoosterDataSo.Instance.GetBooster(boosterID);
-                newCard = Instantiate(data.gameObject);
+                GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.boosterSlots);
+                newCard = SimplePool2.Spawn(data.gameObject);
                 BoosterBase vb1 = newCard.GetComponent<BoosterBase>();
                 vb1.avt.sprite = booster.boosterData.artwork;
                 RectTransform avtRect1 = vb1.avt.GetComponent<RectTransform>();
                 avtRect1.position = shopCardRect.position;
                 avtRect1.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() =>
                 {
-                    SimplePool2.Despawn(newCard);
                     newCard.GetComponent<BoosterBase>().Init();
+                    SimplePool2.Despawn(newCard);
                 });
                 break;
         }
-        if(data as PlayingCard)
-        {
-            PlayingCard _card = data.GetComponent<PlayingCard>();
-            GamePlayController.Instance.playerContain.deckController.AddCardToDeck(_card, _card.id);
-            UseProfile.CurrentCard += 1;
-        }
-        if(data is VoucherBase)
-        {
-
-        }
         this.gameObject.SetActive(false);
-            if(isBooster) GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.boosterSlots);
-           
+        GamePlayController.Instance.uICtrl.shopCtrl.purchaseList[id].isPurchased = true;
+        GamePlayController.Instance.uICtrl.shopCtrl.SavePurchaseList(GamePlayController.Instance.uICtrl.shopCtrl.purchaseList);
         
+        
+
     }
     public void MoveTo(GameObject obj, Vector3 targetPos, float duration, System.Action onComplete = null)
     {

@@ -274,6 +274,7 @@ public class FirebaseConfig
 public class GameData
 {
     public const string LEVEL_SAVE = "Datas/DataLevelSave";
+    public const string SAVED_STATE_KEY = "SavedState";
 }
 public static class NameOfAnimBird
 {

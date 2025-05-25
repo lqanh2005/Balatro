@@ -12,6 +12,7 @@ public class HandleSelect : MonoBehaviour
     public void Init()
     {
         this.RegisterListener(EventID.ON_SELECT_ROUND, delegate { OnSelected(); });
+        
     }
     public void OnSelected()
     {

@@ -18,6 +18,7 @@ public class TopState : MonoBehaviour
     public Image image2;
     public TMP_Text text2;
     public TMP_Text text3;
+    public RectTransform panel;
 
     public void Init()
     {
@@ -27,14 +28,12 @@ public class TopState : MonoBehaviour
     }
     public void Show(GameObject param)
     {
-        RectTransform rect = GetComponent<RectTransform>();
-        rect.DOAnchorPosY(-290, 0.5f).SetEase(Ease.OutCubic);
+        panel.DOAnchorPosY(-290, 0.5f).SetEase(Ease.OutCubic);
         param.SetActive(true);
     }
     public void Close(GameObject param, Action onComplete = null)
     {
-        RectTransform rect = GetComponent<RectTransform>();
-        rect.DOAnchorPosY(100, 0.5f).SetEase(Ease.OutCubic).
+        panel.DOAnchorPosY(100, 0.5f).SetEase(Ease.OutCubic).
             SetEase(Ease.OutCubic).OnComplete(() =>
             {
                 param.SetActive(false);

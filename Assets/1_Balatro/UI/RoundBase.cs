@@ -32,7 +32,7 @@ public class RoundBase : MonoBehaviour
         if (isActive)
         {
             panel.SetActive(false);
-            selectTMP.text = "Chọn";
+            selectTMP.text = "Select";
             RectTransform rect = GetComponent<RectTransform>();
             Vector2 pos = rect.anchoredPosition;
             pos.y = -150;
@@ -42,7 +42,7 @@ public class RoundBase : MonoBehaviour
         else
         {
             panel.SetActive(true);
-            selectTMP.text = "Sắp Tới";
+            selectTMP.text = "Ready";
             RectTransform rect = GetComponent<RectTransform>();
             Vector2 pos = rect.anchoredPosition;
             pos.y = -200f;
@@ -54,11 +54,16 @@ public class RoundBase : MonoBehaviour
     {
         var data = ConfigLevel.Instance.GetData(UseProfile.CurrentAnte, id);
         target.text = data.target.ToString();
-        StartCoroutine(ShowDollarIncrement(reward, data.reward));
+        //StartCoroutine(ShowDollarIncrement(reward, data.reward));
+        reward.text = "Reward: ";
+        for (int i = 0; i < data.reward; i++)
+        {
+            reward.text += "$";
+        }
     }
     private IEnumerator ShowDollarIncrement(TMP_Text text, int dollarAmount)
     {
-        text.text = "Thưởng: ";
+        text.text = "Reward: ";
 
         for (int i = 0; i < dollarAmount; i++)
         {
@@ -69,7 +74,6 @@ public class RoundBase : MonoBehaviour
 
     public void SelectedRound()
     {
-        Debug.LogError("Selected Round: " + id);
         isActive = false;
         GamePlayController.Instance.uICtrl.handleSelect.gameObject.SetActive(false);
         GamePlayController.Instance.uICtrl.playCtrl.gameObject.SetActive(true);
@@ -80,6 +84,7 @@ public class RoundBase : MonoBehaviour
         GamePlayController.Instance.uICtrl.topState.text2.text = target.text;
         GamePlayController.Instance.uICtrl.topState.text3.text = reward.text;
         GamePlayController.Instance.uICtrl.targetScore = int.Parse(target.text);
+        UseProfile.SavedState = StateGame.Playing;
         this.PostEvent(EventID.START_GAME);
         GamePlayController.Instance.uICtrl.initLevelDone = true;
         
