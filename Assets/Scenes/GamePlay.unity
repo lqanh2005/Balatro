@@ -26250,27 +26250,20 @@ MonoBehaviour:
   drawCards: []
   discardCards: []
   handCards: []
-  deck:
+  defaultDeck:
   - id: 1
-    cardPrefab: {fileID: 2343741434523786726, guid: 8d6acc6cfa9e14b40be355acf0db31fb, type: 3}
     amout: 7
   - id: 2
-    cardPrefab: {fileID: 2343741434523786726, guid: 74a4e53a26d10a34e9ef554e84b8672e, type: 3}
     amout: 7
   - id: 3
-    cardPrefab: {fileID: 2343741434523786726, guid: b965d54f3a2f33440acee150583707a3, type: 3}
     amout: 0
   - id: 4
-    cardPrefab: {fileID: 2343741434523786726, guid: 9696874b20e3a2a46884cdf5cbd80bfe, type: 3}
     amout: 0
   - id: 5
-    cardPrefab: {fileID: 2343741434523786726, guid: 4fd2e0910aadc4f4288b756f5de6db99, type: 3}
     amout: 0
   - id: 6
-    cardPrefab: {fileID: 2343741434523786726, guid: 401bdd2cccc734a49be3541649755002, type: 3}
     amout: 0
   - id: 7
-    cardPrefab: {fileID: 2343741434523786726, guid: 67341450d167e1a40888fd3996a62ebd, type: 3}
     amout: 0
   deckPos: {fileID: 2006293821}
   maxHandsize: 8
@@ -28412,7 +28405,6 @@ MonoBehaviour:
   rerollBtn: {fileID: 3458354913243916738}
   shopPanel: {fileID: 1099127508563568189}
   purchaseList: []
-  isShopGenerated: 0
   playingCardSlot:
   - {fileID: 6057626782023208407}
   - {fileID: 361787978}

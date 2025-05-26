@@ -12,7 +12,7 @@ public class DeckController : MonoBehaviour
     public List<PlayingCard> drawCards = new List<PlayingCard>(); // la hien tai
     public List<PlayingCard> discardCards = new List<PlayingCard>(); // la da bo
     public List<PlayingCard> handCards = new List<PlayingCard>(); // la tren tay
-    public List<CardDeck> deck;
+    public List<CardDeck> defaultDeck;
     public Dictionary<int, CardDeck> deckDict = new();
 
     [SerializeField] private Transform deckPos;
@@ -24,26 +24,20 @@ public class DeckController : MonoBehaviour
     {
         this.RegisterListener(EventID.START_GAME, delegate { StartGame(); });
         this.RegisterListener(EventID.END_GAME, delegate { EndGame(); });
-        deckDict.Clear();
-        foreach (var card in deck)
+        if (UseProfile.IsNewGame)
         {
-            if (card != null && card.cardPrefab != null)
-            {
-                deckSize += card.amout;
-                deckDict[card.id] = new CardDeck
-                {
-                    id = card.id,
-                    cardPrefab = card.cardPrefab,
-                    amout = card.amout
-                };
-            }
+
+            ResetToDefaultDeck();
+            UseProfile.IsNewGame = false;
+        }
+        else
+        {
+            LoadDeck();
         }
         UseProfile.CurrentCard = deckSize;
         UseProfile.DrawCard = UseProfile.CurrentCard;
         GamePlayController.Instance.uICtrl.HandleUIDeck();
     }
-
-
     public void StartGame()
     {
         CreateDeck();
@@ -70,11 +64,11 @@ public class DeckController : MonoBehaviour
 
         foreach (var entry in deckDict.Values)
         {
+            GameObject prefab = GetPrefabById(entry.id);
             for (int i = 0; i < entry.amout; i++)
             {
                 deckSize++;
-                PlayingCard newCard = SimplePool2
-                    .Spawn(entry.cardPrefab.gameObject, deckPos.position, Quaternion.identity)
+                PlayingCard newCard = SimplePool2.Spawn(prefab, deckPos.position, Quaternion.identity)
                     .GetComponent<PlayingCard>();
 
                 newCard.id = entry.id;
@@ -97,22 +91,61 @@ public class DeckController : MonoBehaviour
             drawCards[n] = value;
         }
     }
-    private void AnimateDeckVisual()
+    public void SaveDeck()
     {
-        if(deckPos != null)
+        DeckSaveData saveData = new DeckSaveData();
+
+        foreach (var pair in deckDict)
         {
-            deckPos.DOLocalMoveY(0.1f, 1.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-            UpdateDeckVisualHeight();
+            saveData.decks.Add(new CardDeck
+            {
+                id = pair.Key,
+                amout = pair.Value.amout
+            });
+        }
+
+        string json = JsonUtility.ToJson(saveData);
+        PlayerPrefs.SetString("DECK_DATA", json);
+        PlayerPrefs.Save();
+    }
+    public void LoadDeck()
+    {
+        if (!PlayerPrefs.HasKey("DECK_DATA")) return;
+
+        string json = PlayerPrefs.GetString("DECK_DATA");
+        DeckSaveData saveData = JsonUtility.FromJson<DeckSaveData>(json);
+
+        deckDict.Clear();
+
+        foreach (var deck in saveData.decks)
+        {
+            PlayingCard prefab = GetPrefabById(deck.id).GetComponent<PlayingCard>();
+
+            deckDict[deck.id] = new CardDeck
+            {
+                id = deck.id,
+                amout = deck.amout,
+            };
         }
     }
-
-    private void UpdateDeckVisualHeight()
+    public void ResetToDefaultDeck()
     {
-        if (deckPos != null)
+        deckDict.Clear();
+        foreach (var card in defaultDeck)
         {
-            float height = drawCards.Count * 0.01f;
-            deckPos.localPosition += new Vector3(0, 0, 0.01f);
+
+            deckDict[card.id] = new CardDeck
+            {
+                id = card.id,
+                amout = card.amout,
+            };
         }
+        SaveDeck();
+    }
+    public static GameObject GetPrefabById(int id)
+    {
+        GameObject prefab = Resources.Load<GameObject>("Models/Card_" + id);
+        return prefab;
     }
     public void AddCardToDeck(PlayingCard cardPrefab, int id)
     {
@@ -125,10 +158,10 @@ public class DeckController : MonoBehaviour
             deckDict[id] = new CardDeck
             {
                 id = id,
-                cardPrefab = cardPrefab,
                 amout = 1
             };
         }
+        SaveDeck();
     }
     public void ReCard(int id)
     {
@@ -227,10 +260,15 @@ public class DeckController : MonoBehaviour
         this.RemoveListener(EventID.END_GAME, delegate { EndGame(); });
     }
 }
+
+[System.Serializable]
+public class DeckSaveData
+{
+    public List<CardDeck> decks = new();
+}
 [System.Serializable]
 public class CardDeck
 {
     public int id;
-    public PlayingCard cardPrefab;
     public int amout;
 }

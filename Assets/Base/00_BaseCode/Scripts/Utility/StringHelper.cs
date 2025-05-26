@@ -92,6 +92,7 @@ public static class StringHelper
     public const string NUMB_WATCH_ADS_COIN = "numb_watch_ads_coin";
     public const string WAS_BOUGHT_UNLIMIT_TIME = "was_bought_unlimit_time";
     public const string NEED_CHECK_SHOP = "need_check_shop";
+    public const string IS_NEW_GAME = "is_new_game";
 
     public const string RECIPT_ALL = "Recipt_All";
     //public const string STRICKY_RICE = "Stricky_Rice";

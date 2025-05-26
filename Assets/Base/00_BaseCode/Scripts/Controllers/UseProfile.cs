@@ -109,6 +109,18 @@ public class UseProfile : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
+    public static bool IsNewGame
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(StringHelper.IS_NEW_GAME, 0) == 1;
+        }
+        set
+        {
+            PlayerPrefs.SetInt(StringHelper.IS_NEW_GAME, value ? 1 : 0);
+            PlayerPrefs.Save();
+        }
+    }
     public static bool WasBoughtUnlimitTime
     {
         get
