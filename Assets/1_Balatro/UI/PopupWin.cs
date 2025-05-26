@@ -10,8 +10,9 @@ using EventDispatcher;
 public class PopupWin : MonoBehaviour
 {
     public Button getRewardBtn;
-    public Image iamge_1;
-    public Image iamge_2;
+    public Image avt;
+    public TMP_Text score;
+    public TMP_Text reward;
     public List<TMP_Text> textList;
     public TMP_Text profit_1;
     public TMP_Text reward_1;
@@ -30,7 +31,11 @@ public class PopupWin : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
+        avt = GamePlayController.Instance.uICtrl.topState.avt;
+        score.text = GamePlayController.Instance.uICtrl.topState.text2.text;
+        reward.text = GamePlayController.Instance.uICtrl.topState.text3.text;
         total = 0;
+        total += reward.text.Length;
         finalReward.text = "";
         RectTransform rect = GetComponent<RectTransform>();
         rect.DOAnchorPosY(371, 0.5f).SetEase(Ease.OutCubic);
@@ -45,13 +50,13 @@ public class PopupWin : MonoBehaviour
     {
         profit_1.text = UseProfile.CurrentHand.ToString();
 
-        yield return StartCoroutine(ShowText(textList[0], "Lượt Đánh Còn lại [$1 mỗi lượt]"));
+        yield return StartCoroutine(ShowText(textList[0], "Remaining Hands ($1 each)"));
         yield return StartCoroutine(ShowDollarIncrement(reward_1, UseProfile.CurrentHand));
 
         if (UseProfile.CurrentGold >= 5)
         {
             profit_2.text = UseProfile.CurrentGold.ToString();
-            yield return StartCoroutine(ShowText(textList[1], "1 lợi tức cho mỗi $5 [tối đa 5]"));
+            yield return StartCoroutine(ShowText(textList[1], "1 interest per $5 (5 max)"));
             yield return StartCoroutine(ShowDollarIncrement(reward_2, UseProfile.CurrentGold / 5));
         }
         total = UseProfile.CurrentHand + ((UseProfile.CurrentGold / 5)>5? 5:(UseProfile.CurrentGold/5));

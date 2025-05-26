@@ -44,4 +44,5 @@ public class DataPerLevel
     public int Lv;
     public int target;
     public int reward;
+    public string name;
 }

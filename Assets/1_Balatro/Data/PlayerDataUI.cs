@@ -31,9 +31,11 @@ public class PlayerDataUI : MonoBehaviour
     public void UpdatePlayerUI()
     {
         GamePlayController.Instance.uICtrl.score.text = "0";
-        gold.text = UseProfile.CurrentGold.ToString();
+        gold.text = UseProfile.CurrentGold.ToString() + "$";
         UseProfile.CurrentHand = 4;
         UseProfile.CurrentDis = 4;
+        round.text = UseProfile.CurrentRound.ToString();
+        ante.text = UseProfile.CurrentAnte.ToString() + "/8";
     }
     public void OnDisable()
     {

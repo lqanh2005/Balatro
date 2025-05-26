@@ -611,6 +611,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoneyEffectController
       objectReference: {fileID: 0}
+    - target: {fileID: 5182932485349601510, guid: af2626c47483c5c428761174255cb60c, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1054042803}
+    - target: {fileID: 5182932485349601510, guid: af2626c47483c5c428761174255cb60c, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5182932485349601510, guid: af2626c47483c5c428761174255cb60c, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5182932485349601529, guid: af2626c47483c5c428761174255cb60c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -799,8 +811,8 @@ MonoBehaviour:
   delayTime: 0.5
   winMusic: {fileID: 8300000, guid: 9cbb585576e1da54796972b57fd8b395, type: 3}
   loseMusic: {fileID: 8300000, guid: e3d8acae1e684a943b58832ee8f3aa45, type: 3}
-  BGMusic: {fileID: 8300000, guid: bb640e15de012c34eab5232e3ddfde43, type: 3}
-  clickSound: {fileID: 8300000, guid: b776a425b4de1ed44801f91f6bc83ca1, type: 3}
+  BGMusic: {fileID: 8300000, guid: a278be2a1d0973147b2507eccb9e28f4, type: 3}
+  clickSound: {fileID: 8300000, guid: a68283265c517e443bafc8bed7c0fc1d, type: 3}
   startLevel: {fileID: 8300000, guid: 8b0141a246fd6bf43843caf02897a04b, type: 3}
 --- !u!1 &919154516
 GameObject:

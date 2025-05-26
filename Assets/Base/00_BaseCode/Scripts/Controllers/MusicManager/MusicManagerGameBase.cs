@@ -31,7 +31,7 @@ public class MusicManagerGameBase : SerializedMonoBehaviour
 {
     public Dictionary<NameMusic, MusicData> clips;
 
-    public enum SourceAudio { Music, Effect, UI };
+    public enum SourceAudio { Music, Effect, UI };  
     public AudioMixer mixer;
     public AudioSource effectSource;
     public AudioSource musicSource;
@@ -50,6 +50,10 @@ public class MusicManagerGameBase : SerializedMonoBehaviour
     [SerializeField] private AudioClip BGMusic;
     [SerializeField] private AudioClip clickSound;
     [SerializeField] private AudioClip startLevel;
+    [SerializeField] private AudioClip draw;
+    [SerializeField] private AudioClip discard;
+    [SerializeField] private AudioClip select;
+
 
     private AudioClip _currentMusic;
 

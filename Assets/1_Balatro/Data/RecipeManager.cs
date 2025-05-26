@@ -114,8 +114,8 @@ public class RecipeManager
         if (all.TryGetValue(recipe, out var data))
         {
             data.level++;
-            data.coin += data.coin/2; 
-            data.multi += data.multi/2;
+            data.coin += (data.coin*2/3); 
+            data.multi += (data.multi*2/3); 
             all[recipe] = data;
             SaveAll(all);
         }
@@ -140,7 +140,7 @@ public class RecipeData
     public int level;
     public int coin;
     public int multi;
-    public RecipeData(int level= 1, int coin = 0, int multi = 1)
+    public RecipeData(int coin = 1, int multi = 1, int level = 1)
     {
         this.level = level;
         this.coin = coin;

@@ -13,9 +13,8 @@ public class TopState : MonoBehaviour
     public GameObject textUI;
     public GameObject shopUI;
 
-    public Image image1;
     public TMP_Text text1;
-    public Image image2;
+    public Image avt;
     public TMP_Text text2;
     public TMP_Text text3;
     public RectTransform panel;
@@ -28,12 +27,12 @@ public class TopState : MonoBehaviour
     }
     public void Show(GameObject param)
     {
-        panel.DOAnchorPosY(-290, 0.5f).SetEase(Ease.OutCubic);
+        panel.DOAnchorPosY(-174, 0.5f).SetEase(Ease.OutCubic);
         param.SetActive(true);
     }
     public void Close(GameObject param, Action onComplete = null)
     {
-        panel.DOAnchorPosY(100, 0.5f).SetEase(Ease.OutCubic).
+        panel.DOAnchorPosY(174, 0.5f).SetEase(Ease.OutCubic).
             SetEase(Ease.OutCubic).OnComplete(() =>
             {
                 param.SetActive(false);

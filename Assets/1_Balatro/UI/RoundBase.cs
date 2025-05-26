@@ -12,17 +12,14 @@ public class RoundBase : MonoBehaviour
     public int id;
     public bool isActive;
     public GameObject panel;
+    public RectTransform rectTransform;
     [Header("------------------------------Top------------------------------------")]
     public Button select;
-    public Image image1;
-    public TMP_Text text1;
-    public TMP_Text selectTMP;
+    public Image avt;
+    [HideInInspector] public string text1;
     [Header("------------------------------Mid------------------------------------")]
     public TMP_Text target;
     public TMP_Text reward;
-    [Header("------------------------------Bottom------------------------------------")]
-    public Image tagg;
-    public Button skip;
 
     public void Init()
     {
@@ -32,21 +29,17 @@ public class RoundBase : MonoBehaviour
         if (isActive)
         {
             panel.SetActive(false);
-            selectTMP.text = "Select";
-            RectTransform rect = GetComponent<RectTransform>();
-            Vector2 pos = rect.anchoredPosition;
-            pos.y = -150;
-            rect.anchoredPosition = pos;
+            Vector2 pos = rectTransform.anchoredPosition;
+            pos.y = -226;
+            rectTransform.anchoredPosition = pos;
 
         }
         else
         {
             panel.SetActive(true);
-            selectTMP.text = "Ready";
-            RectTransform rect = GetComponent<RectTransform>();
-            Vector2 pos = rect.anchoredPosition;
-            pos.y = -200f;
-            rect.anchoredPosition = pos;
+            Vector2 pos = rectTransform.anchoredPosition;
+            pos.y = -362;
+            rectTransform.anchoredPosition = pos;
         }
     }
 
@@ -54,21 +47,11 @@ public class RoundBase : MonoBehaviour
     {
         var data = ConfigLevel.Instance.GetData(UseProfile.CurrentAnte, id);
         target.text = data.target.ToString();
-        //StartCoroutine(ShowDollarIncrement(reward, data.reward));
+        text1 = data.name;
         reward.text = "Reward: ";
         for (int i = 0; i < data.reward; i++)
         {
             reward.text += "$";
-        }
-    }
-    private IEnumerator ShowDollarIncrement(TMP_Text text, int dollarAmount)
-    {
-        text.text = "Reward: ";
-
-        for (int i = 0; i < dollarAmount; i++)
-        {
-            text.text += "$";
-            yield return new WaitForSeconds(0.05f);
         }
     }
 
@@ -78,9 +61,8 @@ public class RoundBase : MonoBehaviour
         GamePlayController.Instance.uICtrl.handleSelect.gameObject.SetActive(false);
         GamePlayController.Instance.uICtrl.playCtrl.gameObject.SetActive(true);
         //UseProfile.CurrentRound++;
-        GamePlayController.Instance.uICtrl.topState.image1.color = image1.color;
-        GamePlayController.Instance.uICtrl.topState.text1.text = text1.text;
-        //GamePlayController.Instance.uICtrl.topState.image2.color = tagg.color;
+        GamePlayController.Instance.uICtrl.topState.avt = avt;
+        GamePlayController.Instance.uICtrl.topState.text1.text = text1;
         GamePlayController.Instance.uICtrl.topState.text2.text = target.text;
         GamePlayController.Instance.uICtrl.topState.text3.text = reward.text;
         GamePlayController.Instance.uICtrl.targetScore = int.Parse(target.text);

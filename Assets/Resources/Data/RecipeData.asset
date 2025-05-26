@@ -16,66 +16,66 @@ MonoBehaviour:
   defaultRecipes:
   - recipe: 10
     ingredients: 010000000100000002000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 20
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 11
     ingredients: 030000000600000006000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 20
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 14
     ingredients: 010000000200000005000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 20
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 13
     ingredients: 010000000200000004000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 20
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 17
     ingredients: 030000000600000007000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 20
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 18
     ingredients: 030000000400000005000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 20
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 21
     ingredients: 050000000500000005000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 30
+    defaultMulti: 3
     defaultLevel: 1
   - recipe: 9
     ingredients: 010000000200000007000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 30
+    defaultMulti: 3
     defaultLevel: 1
   - recipe: 19
     ingredients: 0100000001000000020000000400000005000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 50
+    defaultMulti: 5
     defaultLevel: 1
   - recipe: 25
     ingredients: 03000000040000000500000007000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 40
+    defaultMulti: 4
     defaultLevel: 1
   - recipe: 27
     ingredients: 0200000003000000040000000500000007000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 50
+    defaultMulti: 5
     defaultLevel: 1
   - recipe: 33
     ingredients: 0300000003000000070000000700000007000000
-    defaultCoin: 0
-    defaultMulti: 1
+    defaultCoin: 60
+    defaultMulti: 6
     defaultLevel: 1
   - recipe: 1
     ingredients: 
-    defaultCoin: 0
+    defaultCoin: 10
     defaultMulti: 1
     defaultLevel: 1
