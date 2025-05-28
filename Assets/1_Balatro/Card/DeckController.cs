@@ -19,6 +19,7 @@ public class DeckController : MonoBehaviour
     [SerializeField] private int maxHandsize = 8;
     public GameObject deckVisual;
     [HideInInspector] public int deckSize;
+    public GameObject prefab;
 
     public void Init()
     {
@@ -46,6 +47,7 @@ public class DeckController : MonoBehaviour
         GamePlayController.Instance.uICtrl.isWin = false;
         GamePlayController.Instance.playerContain.handManager.isFirstDraw = true;
         DrawCards(8);
+        
     }
     private void EndGame()
     {
@@ -58,20 +60,22 @@ public class DeckController : MonoBehaviour
 
     public void CreateDeck()
     {
+        GameController.Instance.musicManager.PlayCreatDeckSound();  
         drawCards.Clear();
         discardCards.Clear();
         deckSize = 0;
 
         foreach (var entry in deckDict.Values)
         {
-            GameObject prefab = GetPrefabById(entry.id);
             for (int i = 0; i < entry.amout; i++)
             {
                 deckSize++;
-                PlayingCard newCard = SimplePool2.Spawn(prefab, deckPos.position, Quaternion.identity)
+                PlayingCard newCard = SimplePool2.Spawn(this.prefab, deckPos.position, Quaternion.identity)
                     .GetComponent<PlayingCard>();
 
                 newCard.id = entry.id;
+                newCard.level = entry.level;
+                newCard.ingredientType = (IngredientType)entry.id;
                 newCard.Resign();
                 drawCards.Add(newCard);
             }
@@ -100,6 +104,7 @@ public class DeckController : MonoBehaviour
             saveData.decks.Add(new CardDeck
             {
                 id = pair.Key,
+                level = pair.Value.level,
                 amout = pair.Value.amout
             });
         }
@@ -119,11 +124,11 @@ public class DeckController : MonoBehaviour
 
         foreach (var deck in saveData.decks)
         {
-            PlayingCard prefab = GetPrefabById(deck.id).GetComponent<PlayingCard>();
 
             deckDict[deck.id] = new CardDeck
             {
                 id = deck.id,
+                level = deck.level,
                 amout = deck.amout,
             };
         }
@@ -137,6 +142,7 @@ public class DeckController : MonoBehaviour
             deckDict[card.id] = new CardDeck
             {
                 id = card.id,
+                level = card.level,
                 amout = card.amout,
             };
         }
@@ -147,7 +153,7 @@ public class DeckController : MonoBehaviour
         GameObject prefab = Resources.Load<GameObject>("Models/Card_" + id);
         return prefab;
     }
-    public void AddCardToDeck(PlayingCard cardPrefab, int id)
+    public void AddCardToDeck(PlayingCard cardPrefab, int id, int level)
     {
         if (deckDict.ContainsKey(id))
         {
@@ -158,6 +164,7 @@ public class DeckController : MonoBehaviour
             deckDict[id] = new CardDeck
             {
                 id = id,
+                level = level,
                 amout = 1
             };
         }
@@ -173,7 +180,8 @@ public class DeckController : MonoBehaviour
 
     public PlayingCard DrawCard()
     {
-        if(drawCards.Count == 0)
+        GameController.Instance.musicManager.PlayDrawSound();
+        if (drawCards.Count == 0)
         {
             if(discardCards.Count == 0)
             {
@@ -202,36 +210,27 @@ public class DeckController : MonoBehaviour
         return _card;
     }
 
-    public List<PlayingCard> DrawCards(int amount)
+    public void DrawCards(int amount)
     {
-        if (GamePlayController.Instance.uICtrl.isWin) return null; 
-        List<PlayingCard> cards = new List<PlayingCard>();
+        if (GamePlayController.Instance.uICtrl.isWin) return;
         for (int i = 0; i < amount; i++)
         {
-            PlayingCard card = DrawCard();
-            if (card != null)
-            {
-                cards.Add(card);
-            }
-            else
-            {
-                break;
-            }
+            var card = DrawCard();
+            if (card == null) break;
+            
+            int handIndex = GamePlayController.Instance.playerContain.handManager.cardViews.IndexOf(card);
+            
+            GamePlayController.Instance.playerContain.handManager.OnCardDrawn(card, handIndex);
         }
-        for (int i = 0; i < cards.Count; i++)
-        {
-            int handIndex = GamePlayController.Instance.playerContain.handManager.cardViews.IndexOf(cards[i]);
-            GamePlayController.Instance.playerContain.handManager.OnCardDrawn(cards[i], handIndex);
-        }
-        return cards;
+        GamePlayController.Instance.isLevelDone = true;
     }
 
     public void DiscardCard(PlayingCard card)
     {
+        GameController.Instance.musicManager.PlayDiscardSound();
         if (GamePlayController.Instance.playerContain.handManager.cardViews.Contains(card))
         {
             GamePlayController.Instance.playerContain.handManager.cardViews.Remove(card);
-            discardCards.Add(card);
         }
     }
     private void RecycleDiscard()
@@ -270,5 +269,6 @@ public class DeckSaveData
 public class CardDeck
 {
     public int id;
+    public int level;
     public int amout;
 }

@@ -15,7 +15,6 @@ public class HomeController : Singleton<HomeController>
     private void Start()
     {
         homeScene.Init();
-        GameController.Instance.admobAds.canShowOpenAppAds = true;
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
             //GameController.Instance.admobAds.ShowOpenAppAdsInGame();

@@ -638,7 +638,7 @@ public class UseProfile : MonoBehaviour
         set
         {
             PlayerPrefs.SetInt(StringHelper.ONOFF_SOUND, value ? 1 : 0);
-            GameController.Instance.musicManager.SetSoundVolume(value ? 1 : 0);
+            GameController.Instance.musicManager.SetSoundVolume(value ? 0.2f : 0);
             PlayerPrefs.Save();
         }
     }
@@ -651,7 +651,7 @@ public class UseProfile : MonoBehaviour
         set
         {
             PlayerPrefs.SetInt(StringHelper.ONOFF_MUSIC, value ? 1 : 0);
-            GameController.Instance.musicManager.SetMusicVolume(value ? 0.15f : 0);
+            GameController.Instance.musicManager.SetMusicVolume(value ? 1f : 0);
             PlayerPrefs.Save();
         }
     }

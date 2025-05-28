@@ -68,47 +68,11 @@ public class HeartBox : BaseBox
     public void ClickByAdsHeart()
     {
         GameController.Instance.musicManager.PlayClickSound();
-        GameController.Instance.admobAds.ShowVideoReward(
-                     actionReward: () =>
-                     {
-                         
-
-                         UseProfile.NumbWatchAdsHeart -= 1;
-                         tvCountHeart.text = UseProfile.NumbWatchAdsHeart.ToString() + "/3";
-                         if (UseProfile.NumbWatchAdsHeart <= 0)
-                         {
-                             UseProfile.NumbWatchAdsHeart = 3;
-                             UseProfile.Heart++;
-                             checkHeart();
-                             InitState();
-                             List<GiftRewardShow> giftRewardShows = new List<GiftRewardShow>();
-                             giftRewardShows.Add(new GiftRewardShow() { amount = 1, type = GiftType.Heart });
-                             PopupRewardBase.Setup(false).Show(giftRewardShows, delegate { });
-                         }
-
-                     },
-                     actionNotLoadedVideo: () =>
-                     {
-                         GameController.Instance.moneyEffectController.SpawnEffectText_FlyUp_UI
-                          (btnADS.transform,
-                          btnADS.transform.position,
-                          "No video at the moment!",
-                          Color.white,
-                          isSpawnItemPlayer: true
-                          );
-                     },
-                     actionClose: null,
-                     ActionWatchVideo.HeartInHearPopup,
-                     UseProfile.CurrentLevel.ToString());
+        
     }
     private void OnclickBtnBuy()
     {
         GameController.Instance.musicManager.PlayClickSound();
-        if (UseProfile.Coin < 215)
-        {
-            ShopBox.Setup(ButtonShopType.Gold).Show();
-            return;
-        }
         UseProfile.Coin -= 15;
       
         UseProfile.Heart++;
@@ -121,16 +85,5 @@ public class HeartBox : BaseBox
 
     }
 
-    private void Update()
-    {
-        if (UseProfile.Heart < 5)
-        {
-            txtTime.text = TimeManager.ShowTime2((long)GameController.Instance.heartGame.currentCoolDown);
-        }
-        else
-        {
-         
-            txtTime.text = "FULL";
-        }
-    }
+    
 }

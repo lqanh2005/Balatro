@@ -53,6 +53,13 @@ public class MusicManagerGameBase : SerializedMonoBehaviour
     [SerializeField] private AudioClip draw;
     [SerializeField] private AudioClip discard;
     [SerializeField] private AudioClip select;
+    [SerializeField] private AudioClip hover;
+    [SerializeField] private AudioClip chip;
+    [SerializeField] private AudioClip multi;
+    [SerializeField] private AudioClip creatDeck;
+    [SerializeField] private AudioClip getGold;
+    [SerializeField] private AudioClip reduceGold;
+    [SerializeField] private AudioClip openPack;
 
 
     private AudioClip _currentMusic;
@@ -72,21 +79,21 @@ public class MusicManagerGameBase : SerializedMonoBehaviour
     {
         get
         {
-            return GameController.Instance.useProfile.OnMusic ? 1 : 0;
+            return GameController.Instance.useProfile.OnMusic ? 1f : 0;
         }
     }
     public float SoundVolume
     {
         get
         {
-            return GameController.Instance.useProfile.OnSound ? 1 : 0;
+            return GameController.Instance.useProfile.OnSound ? 0.15f : 0;
         }
     }
 
     public void Init()
     {
-        musicSource.volume = GameController.Instance.useProfile.OnMusic ? 0.15f : 0;
-        effectSource.volume = GameController.Instance.useProfile.OnSound ? 1 : 0;
+        musicSource.volume = GameController.Instance.useProfile.OnMusic ? 1f : 0;
+        effectSource.volume = GameController.Instance.useProfile.OnSound ? 0.15f : 0;
         PlayBGMusic();
     }
 
@@ -269,6 +276,47 @@ public class MusicManagerGameBase : SerializedMonoBehaviour
     {
         PlaySingle(startLevel, SourceAudio.UI);
     }
+    public void PlayDrawSound()
+    {
+        PlaySingle(draw, SourceAudio.UI);
+    }
+    public void PlayDiscardSound()
+    {
+        PlaySingle(discard, SourceAudio.UI);
+    }
+    public void PlaySelectSound()
+    {
+        PlaySingle(select, SourceAudio.UI);
+    }
+    public void PlayHoverSound()
+    {
+        PlaySingle(hover, SourceAudio.UI);
+    }
+    public void PlayChipSound()
+    {
+        PlaySingle(chip, SourceAudio.UI);
+    }
+    public void PlayMultiSound()
+    {
+        PlaySingle(multi, SourceAudio.UI);
+    }
+    public void PlayCreatDeckSound()
+    {
+        PlaySingle(creatDeck, SourceAudio.UI);
+    }
+    public void PlayGetGoldSound()
+    {
+        PlaySingle(getGold, SourceAudio.UI);
+    }
+    public void PlayReduceGoldSound()
+    {
+        PlaySingle(reduceGold, SourceAudio.UI);
+    }
+    public void PlayOpenPackSound()
+    {
+        PlaySingle(openPack, SourceAudio.UI);
+    }
+
     #endregion
 
     public void PlayOneShot(NameMusic name)
@@ -310,7 +358,7 @@ public class MusicManagerGameBase : SerializedMonoBehaviour
             {
                 clips[name].timmer = clips[name].spaceDelayTime;
                 clips[name].isActiving = true;
-                source.volume = 1;
+                //source.volume = 0.15;
                 source.clip = clip;
                 source.Play();
             }

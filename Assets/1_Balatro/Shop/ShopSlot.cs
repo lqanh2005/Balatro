@@ -4,6 +4,7 @@ using DG.Tweening;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.UI;
 
 public class ShopSlot : MonoBehaviour
@@ -76,17 +77,20 @@ public class ShopSlot : MonoBehaviour
 
     public void BuyCard(CardBase data, RectTransform shopCardRect)
     {
+        GameController.Instance.musicManager.PlayClickSound();
         GameObject newCard = null;
         Vector3 spawnPos = Vector3.zero;
         if (UseProfile.CurrentGold < this.coin.text.ToInt32())
         {
             return;
         }
-            UseProfile.CurrentGold -= this.coin.text.ToInt32();
+        UseProfile.CurrentGold -= this.coin.text.ToInt32();
+        GameController.Instance.musicManager.PlayReduceGoldSound();
         switch (data)
         {
             case PlayingCard playingCard:
-                GamePlayController.Instance.playerContain.deckController.AddCardToDeck(playingCard, playingCard.id);
+                GamePlayController.Instance.playerContain.deckController.AddCardToDeck(playingCard, playingCard.id, GamePlayController.Instance.playerContain.deckController.deckDict[playingCard.id].level);
+                Debug.LogError(playingCard.id + " - " + GamePlayController.Instance.playerContain.deckController.deckDict[playingCard.id].level);
                 UseProfile.CurrentCard += 1;
                 GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.playingCardSlot);
                 spawnPos = shopCardRect.GetWorldPosition();
@@ -114,6 +118,7 @@ public class ShopSlot : MonoBehaviour
                 
                 break;
             case BoosterBase booster:
+                GameController.Instance.musicManager.PlayOpenPackSound();
                 GamePlayController.Instance.uICtrl.shopCtrl.Close();
                 booster.boosterData = BoosterDataSo.Instance.GetBooster(boosterID);
                 GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.boosterSlots);

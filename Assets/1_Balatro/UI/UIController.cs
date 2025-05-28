@@ -17,7 +17,6 @@ public class UIController : MonoBehaviour
     public Transform playCtrl;
     public PopupWin popupWin;
     public TopState topState;
-    public RunInfor runInfor;
     [Header("----------Condition----------")]
     public bool initLevelDone;
     public bool isEnd;
@@ -29,13 +28,14 @@ public class UIController : MonoBehaviour
     public TMP_Text coin;
     public TMP_Text multi;
     public TMP_Text score;
-    public VoucherDataSO voucherSO;
     public TMP_Text remainCard;
     
+
     [Header("----------Btn----------")]
     public Button playHandBtn;
     public Button discardBtn;
     public Button runIn4;
+    public Button settingBtn;
 
     [HideInInspector] public float discount = 1f;
     public void Init()
@@ -45,11 +45,11 @@ public class UIController : MonoBehaviour
         playerDataUI.Init();
         popupWin.Init();
         topState.Init();
-        runInfor.Init();
         shopCtrl.Init();
-        runIn4.onClick.AddListener(delegate { RunInfor.Setup().Show(); });
-        playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); });
-        discardBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.DiscardSelectedCards(); });
+        runIn4.onClick.AddListener(delegate { RunInfor.Setup().Show(); GameController.Instance.musicManager.PlayClickSound(); GamePlayController.Instance.isLevelDone = false; });
+        settingBtn.onClick.AddListener(delegate { SettingGameBox.Setup().Show(); GameController.Instance.musicManager.PlayClickSound(); });
+        playHandBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.PlaySelectedCards(); GameController.Instance.musicManager.PlayClickSound(); });
+        discardBtn.onClick.AddListener(delegate { GamePlayController.Instance.playerContain.handManager.DiscardSelectedCards(); GameController.Instance.musicManager.PlayClickSound(); });
         this.RegisterListener(EventID.CHANGE_CARD, delegate { HandleUIDeck(); });
         this.RegisterListener(EventID.START_GAME, delegate { StartGame(); });
     }
@@ -109,14 +109,13 @@ public class EffectHelper
     }
     public static void PlayBounce(GameObject target, float duration = 0.1f, float scaleMultiplier = 1.2f)
     {
-        if (target == null) return;
-
+        if (duration >= 0.1f) duration = 0.1f;
+        Vector3  originalScales = new Vector3(122.022522f, 119.938721f, 45.5327835f);
         var tf = target.transform;
-        Vector3 originalScale = tf.localScale;
-        Vector3 bounceScale = originalScale * scaleMultiplier;
+        Vector3 bounceScale = originalScales * scaleMultiplier;
 
         tf.DOKill(true);
-        tf.DOScale(originalScale, duration)
+        tf.DOScale(originalScales, duration)
           .From(bounceScale)
           .SetEase(Ease.OutBack);
         

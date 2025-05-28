@@ -25,7 +25,7 @@ public class PopupWin : MonoBehaviour
     public void Init()
     {
         this.RegisterListener(EventID.END_GAME, delegate { Show(); });
-        getRewardBtn.onClick.AddListener(delegate { GetReward(); });
+        getRewardBtn.onClick.AddListener(delegate { GetReward(); GameController.Instance.musicManager.PlayClickSound(); });
     }
 
     public void Show()
@@ -86,6 +86,7 @@ public class PopupWin : MonoBehaviour
     }
     public void GetReward()
     {
+        GameController.Instance.musicManager.PlayGetGoldSound();
         UseProfile.CurrentGold += total;
         Debug.LogError("total = " + total);
         Close();

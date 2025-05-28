@@ -30,28 +30,28 @@ MonoBehaviour:
   - Ante: 2
     dataPerLevel:
     - Lv: 1
-      target: 0
+      target: 900
       reward: 3
-      name: 
+      name: COMMIS
     - Lv: 2
-      target: 0
+      target: 1200
       reward: 4
-      name: 
+      name: HEADCHEF
     - Lv: 3
-      target: 0
+      target: 1500
       reward: 5
-      name: 
+      name: SOUSCHEF
   - Ante: 3
     dataPerLevel:
     - Lv: 1
-      target: 0
+      target: 1300
       reward: 3
-      name: 
+      name: COMMIS
     - Lv: 2
-      target: 0
+      target: 1500
       reward: 4
-      name: 
+      name: HEADCHEF
     - Lv: 3
-      target: 0
+      target: 200
       reward: 5
-      name: 
+      name: SOUSCHEF

@@ -25,3 +25,23 @@ MonoBehaviour:
       image: {fileID: 21300000, guid: 7d675ee4f9647bd489ab8ff48b978c29, type: 3}
       baseCost: 3
       cardBase: {fileID: 5988048199727289565, guid: 74a4e53a26d10a34e9ef554e84b8672e, type: 3}
+    - cardName: 
+      description: 
+      image: {fileID: 0}
+      baseCost: 0
+      cardBase: {fileID: 0}
+    - cardName: 
+      description: 
+      image: {fileID: 0}
+      baseCost: 0
+      cardBase: {fileID: 0}
+    - cardName: 
+      description: 
+      image: {fileID: 0}
+      baseCost: 0
+      cardBase: {fileID: 0}
+    - cardName: 
+      description: 
+      image: {fileID: 0}
+      baseCost: 0
+      cardBase: {fileID: 0}

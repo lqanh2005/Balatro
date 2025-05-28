@@ -17,11 +17,22 @@ public class RecipeCard : SingletonScriptableObject<RecipeCard>
         }
         return null;
     }
+    public Sprite GetFormula(Recipe recipe)
+    {
+        foreach (var recipeCardUI in dataRecipe)
+        {
+            if (recipeCardUI.name == recipe)
+            {
+                return recipeCardUI.formula;
+            }
+        }
+        return null;
+    }
 }
 [System.Serializable]
 public class  RecipeCardUI
 {
     public Recipe name;
     public Sprite avt;
-
+    public Sprite formula;
 }

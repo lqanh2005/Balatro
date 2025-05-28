@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class ConfigData : SingletonScriptableObject<ConfigData>
 {
     public List<CardDataList> cardLists;
-    public List<Image> backCard;
+    public List<Sprite> backCard;
     public TooltipAttribute tooltipAttribute;
 
     public int GetChip(IngredientType ingredientType, int level)
@@ -27,6 +27,23 @@ public class ConfigData : SingletonScriptableObject<ConfigData>
             }
         }
         return 0;
+    }
+    public Sprite GetFaceCard(IngredientType ingredientType, int level)
+    {
+        foreach (var cardList in cardLists)
+        {
+            if (cardList.ingredientType == ingredientType)
+            {
+                foreach (var cardPerLevel in cardList.cardPerLevels)
+                {
+                    if (cardPerLevel.level == level)
+                    {
+                        return cardPerLevel.cardDatas.faceImage;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
 

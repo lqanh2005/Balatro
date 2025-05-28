@@ -21,20 +21,18 @@ public class LoseBox : BaseBox
     public Button btnAdsRevive;
     public Button btnReviveByCoin;
 
-    public CoinHeartBar coinHeartBar;
 
     public void Init()
     {
         btnClose.onClick.AddListener(delegate { HandleClose(); });
         btnAdsRevive.onClick.AddListener(delegate { HandleAdsRevive(); });
         btnReviveByCoin.onClick.AddListener(delegate { HandleReviveByCoin(); });
-        coinHeartBar.Init();
    
        
     }   
     public void InitState()
     {
-        GameController.Instance.AnalyticsController.LoseLevel(UseProfile.CurrentLevel);
+        
     }
     public void HandleReviveByCoin()
     {
@@ -51,7 +49,6 @@ public class LoseBox : BaseBox
         }
         else
         {
-            ShopBox.Setup(ButtonShopType.Gold).Show();
      
         }
 
@@ -60,28 +57,7 @@ public class LoseBox : BaseBox
     public void HandleAdsRevive()
     {
         GameController.Instance.musicManager.PlayClickSound();
-        GameController.Instance.admobAds.ShowVideoReward(
-                    actionReward: () =>
-                    {
-                       
-                            Close();
-                  
-                  
-                    },
-                    actionNotLoadedVideo: () =>
-                    {
-                        GameController.Instance.moneyEffectController.SpawnEffectText_FlyUp_UI
-                         (btnAdsRevive.transform
-                            ,
-                         btnAdsRevive.transform.position,
-                         "No video at the moment!",
-                         Color.white,
-                         isSpawnItemPlayer: true
-                         );
-                    },
-                    actionClose: null,
-                    ActionWatchVideo.ReviveFreeLoseBox,
-                    UseProfile.CurrentLevel.ToString());
+       
 
 
 
@@ -89,8 +65,6 @@ public class LoseBox : BaseBox
     public void HandleClose()
     {
         GameController.Instance.musicManager.PlayClickSound();
-        //Close();
-        BackHomeBox.Setup(TypeBackHOme.BackHome).Show();
 
     }
 

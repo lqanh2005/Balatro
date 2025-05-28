@@ -15,11 +15,37 @@ MonoBehaviour:
   dataRecipe:
   - name: 13
     avt: {fileID: 21300000, guid: 120fec5defcccf749a0ec23f1f6405d6, type: 3}
+    formula: {fileID: 21300000, guid: e45c705bc876e8d459b59a032b3110f2, type: 3}
   - name: 27
     avt: {fileID: 21300000, guid: c5001f10cfa56344a82ba36c11dce01f, type: 3}
+    formula: {fileID: 21300000, guid: d832aff305dd90f478d0b71c1f66e2e1, type: 3}
   - name: 25
     avt: {fileID: 21300000, guid: 15399032dfb5a224bab83a239d0671f1, type: 3}
+    formula: {fileID: 21300000, guid: 362b2f78514665645a5bbcb9aab7e75f, type: 3}
   - name: 9
-    avt: {fileID: 21300000, guid: cf717ae03b0d0014d8743b206ef86b2d, type: 3}
+    avt: {fileID: 21300000, guid: 083311fc4bae3b146830289536c929c2, type: 3}
+    formula: {fileID: 21300000, guid: 3c07971506aa1694b8dd5158c5842610, type: 3}
   - name: 17
     avt: {fileID: 21300000, guid: 9c5a27433ba541042a24bae21676ae1b, type: 3}
+    formula: {fileID: 21300000, guid: 279ab9a4a4cb5d343bde00275fb56937, type: 3}
+  - name: 10
+    avt: {fileID: 21300000, guid: 13a040a349d4d12409bb9bf99c307858, type: 3}
+    formula: {fileID: 21300000, guid: 7c4e57e6f07ba7348a465aa9bcea61cc, type: 3}
+  - name: 11
+    avt: {fileID: 21300000, guid: 6bdf4b0e173515747af6987ef4995d8f, type: 3}
+    formula: {fileID: 21300000, guid: 42d0ba9990a2e294991e0fa92949ebb4, type: 3}
+  - name: 14
+    avt: {fileID: 21300000, guid: 110a973f845c53a40be323bb119102fe, type: 3}
+    formula: {fileID: 21300000, guid: c31d5266015b2c846894c73fa4667459, type: 3}
+  - name: 18
+    avt: {fileID: 21300000, guid: 60b26871a8459b04caa2e2d50289d99c, type: 3}
+    formula: {fileID: 21300000, guid: c5ff817caa72db44db5f322a1bf62e89, type: 3}
+  - name: 33
+    avt: {fileID: 21300000, guid: 4f6ea0bb706ff224ab7ec45581bad852, type: 3}
+    formula: {fileID: 21300000, guid: e4a41c4e8fa7d4d4e94e698c1b94b596, type: 3}
+  - name: 21
+    avt: {fileID: 21300000, guid: 1347cd00e497e254299d026ab1019846, type: 3}
+    formula: {fileID: 21300000, guid: 56911717b21b5bf42b61716ced1f47e6, type: 3}
+  - name: 19
+    avt: {fileID: 21300000, guid: 9a86bbb4aed13b246b179f0fc6952c49, type: 3}
+    formula: {fileID: 21300000, guid: 0bb021acc22bc0143a6f588c7d029304, type: 3}

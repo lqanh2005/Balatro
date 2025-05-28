@@ -25,7 +25,7 @@ public class PlayerDataUI : MonoBehaviour
         this.RegisterListener(EventID.CHANGE_ANTE, delegate { HandleChangeAnte(null); });
         this.RegisterListener(EventID.ON_SELECT_ROUND, delegate { UpdatePlayerUI(); });
         UpdatePlayerUI();
-        settingBtn.onClick.AddListener(delegate { SettingBox.Setup(true).Show(); });
+        settingBtn.onClick.AddListener(delegate { SettingGameBox.Setup(true).Show(); GameController.Instance.musicManager.PlayClickSound(); });
     }
 
     public void UpdatePlayerUI()

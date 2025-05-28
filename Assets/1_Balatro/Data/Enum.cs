@@ -4,13 +4,13 @@ using UnityEngine;
 
 public enum IngredientType
 {
-    RICE = 1,
-    MEAT = 2,
-    FLOUR =3,
-    EGG = 4,
-    VEGETABLE = 5,
-    CHEESE = 6,
-    SAUSAGE = 7,
+    RICE = 0,
+    MEAT = 1,
+    FLOUR =2,
+    EGG = 3,
+    VEGETABLE = 4,
+    CHEESE = 5,
+    SAUSAGE = 6,
 }
 
 public enum Recipe

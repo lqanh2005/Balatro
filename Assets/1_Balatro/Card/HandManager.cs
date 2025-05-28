@@ -38,7 +38,7 @@ public class HandManager : MonoBehaviour
         private IEnumerator CreateCard(PlayingCard card, int pos, float delay)
         {
             yield return new WaitForSeconds(delay);
-            EffectHelper.PlayBounce(GamePlayController.Instance.playerContain.deckController.deckVisual);
+            EffectHelper.PlayBounce(GamePlayController.Instance.playerContain.deckController.deckVisual, delay);
             CreateCardView(card, pos);
         }
     private void CreateCardView(PlayingCard card, int pos)
@@ -83,6 +83,7 @@ public class HandManager : MonoBehaviour
     {
         if (seletedCards.Count > 0)
         {
+            GamePlayController.Instance.isLevelDone = false;
             UseProfile.CurrentHand--;
             isFirstDraw = false;
             selectedCardCount = seletedCards.Count;
@@ -92,6 +93,7 @@ public class HandManager : MonoBehaviour
 
             for (int i = 0; i < seletedCards.Count; i++)
             {
+                GameController.Instance.musicManager.PlaySelectSound();
                 PlayingCard _card = seletedCards[i];
 
                 float spread = 1.5f;
@@ -162,11 +164,13 @@ public class HandManager : MonoBehaviour
         scoreSequence.AppendCallback(() =>
         {
             int currentScore = GamePlayController.Instance.uICtrl.score.text.ToInt32();
+            GameController.Instance.musicManager.PlayMultiSound();
             int finalScore = int.Parse(GamePlayController.Instance.uICtrl.coin.text) * int.Parse(GamePlayController.Instance.uICtrl.multi.text);
 
             EffectHelper.PlayScoreBounce(GamePlayController.Instance.uICtrl.recipe, int.Parse(GamePlayController.Instance.uICtrl.coin.text) * int.Parse(GamePlayController.Instance.uICtrl.multi.text));
             DOTween.To(() => finalScore, x =>
             {
+                GameController.Instance.musicManager.PlayChipSound();
                 GamePlayController.Instance.uICtrl.recipe.text = x.ToString();
             }, 0, 0.5f).SetEase(Ease.OutCubic);
             DOTween.To(() => currentScore, x =>
@@ -211,6 +215,7 @@ public class HandManager : MonoBehaviour
                     {
                         foreach (var sequence in playSequences)
                         {
+                            GameController.Instance.musicManager.PlayDiscardSound();
                             sequence.Play();
                         }
                     })

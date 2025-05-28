@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class RecipeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Recipe recipeType;
-
+    [SerializeField] private RectTransform recipeTransform;
     [SerializeField] private TMP_Text recipeNameText;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text coinText;
@@ -41,12 +41,13 @@ public class RecipeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.LogError("Mouse Entered Recipe UI");
+
+        RunInfor._instance.formula.ShowFormula(recipeTransform, RecipeCard.Instance.GetFormula(recipeType));
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.LogError("Mouse Exit Recipe UI");
+        RunInfor._instance.formula.HideFormula();
     }
 
 }

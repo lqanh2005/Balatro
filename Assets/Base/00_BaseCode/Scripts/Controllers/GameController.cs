@@ -19,11 +19,6 @@ public class GameController : MonoBehaviour
     public UseProfile useProfile;
     public DataContain dataContain;
     public MusicManagerGameBase musicManager;
-    public AdmobAds admobAds;
-
-    public AnalyticsController AnalyticsController;
-    public IapController iapController;
-    public HeartGame heartGame;
     [HideInInspector] public SceneType currentScene;
  
     public StartLoading startLoading;
@@ -66,12 +61,9 @@ public class GameController : MonoBehaviour
 
     public void SetUp()
     {
-        admobAds.Init();
         musicManager.Init();
-        iapController.Init();
         MMVibrationManager.SetHapticsActive(useProfile.OnVibration);
         startLoading.Init();
-        heartGame.Init();
  
     }
 

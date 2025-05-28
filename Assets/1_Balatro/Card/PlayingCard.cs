@@ -24,8 +24,11 @@ public class PlayingCard : CardBase
 
     public override void Init()
     {
-        
+
+        this.cardImage.sprite = ConfigData.Instance.GetFaceCard(this.ingredientType, this.level);
+        this.cardBackImage.sprite = ConfigData.Instance.backCard[level - 1];
         this.chip = ConfigData.Instance.GetChip(this.ingredientType, this.level);
+
         isSelected = false;
         isMouseDown = false;
         isDrag = false;
@@ -66,14 +69,16 @@ public class PlayingCard : CardBase
     }
     public void OnMouseEnter()
     {
-        if (isDrag) return;
-        if (!isDraw) return;
+        if(!GamePlayController.Instance.isLevelDone) return;
+        if (!isDraw || isDrag) return;
+        GameController.Instance.musicManager.PlayHoverSound();
         cardAnim.PlayHoverAniamtion(true, isSelected);
         ToolTip.Instance.SetTooltip(this.description, this.transform.localPosition);
 
     }
     public void OnMouseExit()
     {
+        if (!GamePlayController.Instance.isLevelDone) return;
         if (!isDraw || isDrag) return;
         cardAnim.PlayHoverAniamtion(false, isSelected);
         ToolTip.Instance.HideTooltip();
@@ -82,7 +87,7 @@ public class PlayingCard : CardBase
     {
         if (!isDraw) return;
         isMouseDown = false;
-
+        GameController.Instance.musicManager.PlaySelectSound();
         if (!isDrag)
         {
             isSelected = !isSelected;
@@ -118,14 +123,11 @@ public class PlayingCard : CardBase
         DOTween.Kill(transform);
         cardAnim?.sequence?.Kill();
     }
-    public void OnDestroy()
-    {
-        
-        this.RemoveListener(EventID.END_GAME, delegate { SimplePool2.Despawn(this.gameObject); });
-    }
+    
 
     public override void OnActive()
     {
+        GameController.Instance.musicManager.PlayChipSound();
         var coinText = GamePlayController.Instance.uICtrl.coin;
         int currentCoin = coinText.text.ToInt32();
 

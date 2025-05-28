@@ -26,7 +26,7 @@ public class GamePlayController : Singleton<GamePlayController>
     public GameScene gameScene;
     public UIController uICtrl;
  
-    private List<PurchaseEntry> purchaseList = new List<PurchaseEntry>();
+    public bool isLevelDone = false;
 
     protected override void OnAwake()
     {
@@ -43,6 +43,7 @@ public class GamePlayController : Singleton<GamePlayController>
     public void Start()
     {
         Continue();
+        isLevelDone = true;
     }
 
     private void Continue()

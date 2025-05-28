@@ -7,11 +7,12 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class RunInfor : BaseBox
 {
-    private static RunInfor _instance;
+    public static RunInfor _instance;
     public List<RecipeUI> recipeUIs;
     public Button back;
     //public Button 
     public RecipeDatabaseSO recipeDatabaseSO;
+    public Formula formula;
     public static RunInfor Setup()
     {
         if (_instance == null)
@@ -29,7 +30,7 @@ public class RunInfor : BaseBox
         {
             item.Init();
         }
-        back.onClick.AddListener(delegate { this.Close(); });
+        back.onClick.AddListener(delegate { this.Close(); GameController.Instance.musicManager.PlayClickSound(); GamePlayController.Instance.isLevelDone = true; });
     }
     public void InitState()
     {

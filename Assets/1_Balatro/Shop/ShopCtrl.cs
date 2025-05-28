@@ -38,6 +38,7 @@ public class ShopCtrl : MonoBehaviour
     public void HandleNext()
     {
         this.Close();
+        GameController.Instance.musicManager.PlayClickSound();
         UseProfile.NeedCheckShop = false;
         UseProfile.SavedState = StateGame.SelectRound;
         this.PostEvent(EventID.ON_SELECT_ROUND);

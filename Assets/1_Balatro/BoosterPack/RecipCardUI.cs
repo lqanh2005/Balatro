@@ -16,6 +16,7 @@ public class RecipCardUI : MonoBehaviour
         select.onClick.RemoveAllListeners();
         select.onClick.AddListener(() =>
         {
+            GameController.Instance.musicManager.PlayClickSound();
             RecipeManager.UpgradeRecipe(RecipeCard.Instance.dataRecipe[index].name);
             GachaBox._instance.Close();
             GamePlayController.Instance.uICtrl.shopCtrl.Show();

@@ -17,6 +17,7 @@ public class HandleSelect : MonoBehaviour
     public void OnSelected()
     {
         this.gameObject.SetActive(true);
+        GameController.Instance.musicManager.PlayCreatDeckSound();
         currentRound = UseProfile.CurrentRound;
         rounds[currentRound].isActive=true;
         RectTransform rect = GetComponent<RectTransform>();
