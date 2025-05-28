@@ -19,6 +19,7 @@ public class DeckController : MonoBehaviour
     [SerializeField] private int maxHandsize = 8;
     public GameObject deckVisual;
     [HideInInspector] public int deckSize;
+    [HideInInspector] public bool isDraw;
     public GameObject prefab;
 
     public void Init()
@@ -27,8 +28,8 @@ public class DeckController : MonoBehaviour
         this.RegisterListener(EventID.END_GAME, delegate { EndGame(); });
         if (UseProfile.IsNewGame)
         {
-
             ResetToDefaultDeck();
+            GamePlayController.Instance.playerContain.handManager.Reset();
             UseProfile.IsNewGame = false;
         }
         else
@@ -148,11 +149,6 @@ public class DeckController : MonoBehaviour
         }
         SaveDeck();
     }
-    public static GameObject GetPrefabById(int id)
-    {
-        GameObject prefab = Resources.Load<GameObject>("Models/Card_" + id);
-        return prefab;
-    }
     public void AddCardToDeck(PlayingCard cardPrefab, int id, int level)
     {
         if (deckDict.ContainsKey(id))
@@ -212,7 +208,7 @@ public class DeckController : MonoBehaviour
 
     public void DrawCards(int amount)
     {
-        if (GamePlayController.Instance.uICtrl.isWin) return;
+        if (GamePlayController.Instance.uICtrl.isEnd) return;
         for (int i = 0; i < amount; i++)
         {
             var card = DrawCard();

@@ -17,19 +17,26 @@ public class LoseBox : BaseBox
         return _instance;
     }
     public Text tvScore;
-    public Button btnClose;
-    public Button btnAdsRevive;
-    public Button btnReviveByCoin;
+    public Button newGame;
 
 
     public void Init()
     {
-        btnClose.onClick.AddListener(delegate { HandleClose(); });
-        btnAdsRevive.onClick.AddListener(delegate { HandleAdsRevive(); });
-        btnReviveByCoin.onClick.AddListener(delegate { HandleReviveByCoin(); });
-   
-       
-    }   
+        newGame.onClick.AddListener(delegate { NewGame(); });
+
+
+    }
+    public void NewGame()
+    {
+        GameController.Instance.musicManager.PlayClickSound();
+        UseProfile.CurrentAnte = 1;
+        UseProfile.CurrentRound = 0;
+        UseProfile.CurrentGold = 5;
+        UseProfile.NeedCheckShop = false;
+        UseProfile.IsNewGame = true;
+        UseProfile.SavedState = StateGame.SelectRound;
+        Initiate.Fade("GamePlay", Color.black, 1.5f);
+    }
     public void InitState()
     {
         

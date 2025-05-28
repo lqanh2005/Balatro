@@ -21,8 +21,4 @@ public class BoosterData
     public int cost;
     public int numberOfChoices;
     public int numberOfSelections;
-
-    // Các tham số về phân phối thẻ trong booster
-    public ItemType[] possibleCardTypes;
-    public float[] cardTypeWeights;
 }

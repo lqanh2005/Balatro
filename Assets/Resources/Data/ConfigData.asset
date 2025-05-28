@@ -14,124 +14,131 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardLists:
   - ingredientType: 0
+    id: 0
     cardPerLevels:
     - level: 1
       cardDatas:
-        id: 0
         chipBonus: 10
         faceImage: {fileID: 21300000, guid: 9ea48a3fe70626c489ff49a9a05d94cd, type: 3}
+        cost: 3
     - level: 2
       cardDatas:
-        id: 0
         chipBonus: 20
         faceImage: {fileID: 21300000, guid: ea4501e9733b35b4393a1fcc4cf48a8e, type: 3}
+        cost: 5
     - level: 3
       cardDatas:
-        id: 0
         chipBonus: 30
         faceImage: {fileID: 21300000, guid: 0d4cf6018523e80468e4a24f9a846260, type: 3}
+        cost: 7
   - ingredientType: 1
+    id: 1
     cardPerLevels:
     - level: 1
       cardDatas:
-        id: 1
         chipBonus: 10
         faceImage: {fileID: 21300000, guid: fe2f2471618e0634b8bbcebdbdeb4a11, type: 3}
+        cost: 3
     - level: 2
       cardDatas:
-        id: 1
         chipBonus: 20
         faceImage: {fileID: 21300000, guid: 75da79b8ed023d6449ffbd4802908f45, type: 3}
+        cost: 5
     - level: 3
       cardDatas:
-        id: 1
         chipBonus: 30
         faceImage: {fileID: 21300000, guid: efe14f2388a0b384c87b9c398b9c85e6, type: 3}
+        cost: 7
   - ingredientType: 2
+    id: 2
     cardPerLevels:
     - level: 1
       cardDatas:
-        id: 2
         chipBonus: 10
         faceImage: {fileID: 21300000, guid: 115dac90d447763418f0d5cc63a08441, type: 3}
+        cost: 3
     - level: 2
       cardDatas:
-        id: 2
         chipBonus: 20
         faceImage: {fileID: 21300000, guid: 02399d6709c4e704cae81882720df2a5, type: 3}
+        cost: 5
     - level: 3
       cardDatas:
-        id: 2
         chipBonus: 30
         faceImage: {fileID: 21300000, guid: 360d72c6761ac634bacfb9270af34e2f, type: 3}
+        cost: 7
   - ingredientType: 3
+    id: 3
     cardPerLevels:
     - level: 1
       cardDatas:
-        id: 3
         chipBonus: 10
         faceImage: {fileID: 21300000, guid: ccdf0b1f7c89100459771e16cb9c7cf5, type: 3}
+        cost: 3
     - level: 2
       cardDatas:
-        id: 3
         chipBonus: 20
         faceImage: {fileID: 21300000, guid: f8175edeefe296842bddb74560079e28, type: 3}
+        cost: 5
     - level: 3
       cardDatas:
-        id: 3
         chipBonus: 30
         faceImage: {fileID: 21300000, guid: 478f7b51d43359646ae8d557e4c272c5, type: 3}
+        cost: 7
   - ingredientType: 4
+    id: 4
     cardPerLevels:
     - level: 1
       cardDatas:
-        id: 4
         chipBonus: 10
         faceImage: {fileID: 21300000, guid: 706415ed02bebce408dccb7fdc0e6dfb, type: 3}
+        cost: 3
     - level: 2
       cardDatas:
-        id: 4
         chipBonus: 20
         faceImage: {fileID: 21300000, guid: 634a443400dd7cb4f94fe0990ee587fc, type: 3}
+        cost: 5
     - level: 3
       cardDatas:
-        id: 4
         chipBonus: 30
         faceImage: {fileID: 21300000, guid: f4999a56d20ff32499e79b51a16e4912, type: 3}
+        cost: 7
   - ingredientType: 5
+    id: 5
     cardPerLevels:
     - level: 1
       cardDatas:
-        id: 5
         chipBonus: 10
         faceImage: {fileID: 21300000, guid: 55bc6c2597d623c49b232ba660ab3d4a, type: 3}
+        cost: 3
     - level: 2
       cardDatas:
-        id: 5
         chipBonus: 20
         faceImage: {fileID: 21300000, guid: 87dad97be977f3f4f82064977a744c47, type: 3}
+        cost: 5
     - level: 3
       cardDatas:
-        id: 5
         chipBonus: 30
         faceImage: {fileID: 21300000, guid: 0298d72f489c7c14f9a0a5fbdf8f73b5, type: 3}
+        cost: 7
   - ingredientType: 6
+    id: 6
     cardPerLevels:
     - level: 1
       cardDatas:
-        id: 6
         chipBonus: 10
         faceImage: {fileID: 21300000, guid: b85c190ae65265e42b40383459d63833, type: 3}
+        cost: 3
     - level: 2
       cardDatas:
-        id: 6
         chipBonus: 20
         faceImage: {fileID: 21300000, guid: be80f89c142960e44ad88a04783e8b6d, type: 3}
+        cost: 5
     - level: 3
       cardDatas:
-        id: 6
         chipBonus: 30
         faceImage: {fileID: 21300000, guid: fc8c07fd7a621f742978efdb8c305807, type: 3}
+        cost: 7
   backCard:
   - {fileID: 21300000, guid: 86a84ea0fefbc0149aac77d0b6b7d37d, type: 3}
   - {fileID: 21300000, guid: 50cfaded02e419043868142f8ceeb7a2, type: 3}

@@ -24,11 +24,10 @@ public class PlayingCard : CardBase
 
     public override void Init()
     {
-
-        this.cardImage.sprite = ConfigData.Instance.GetFaceCard(this.ingredientType, this.level);
+        this.cardImage.sprite = ConfigData.Instance.cardLists[id].cardPerLevels[level-1].cardDatas.faceImage;
         this.cardBackImage.sprite = ConfigData.Instance.backCard[level - 1];
-        this.chip = ConfigData.Instance.GetChip(this.ingredientType, this.level);
-
+        this.chip = ConfigData.Instance.cardLists[id].cardPerLevels[level-1].cardDatas.chipBonus;
+        this.description = "+" + chip + "chip";
         isSelected = false;
         isMouseDown = false;
         isDrag = false;

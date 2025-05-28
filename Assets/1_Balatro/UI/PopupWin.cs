@@ -24,7 +24,6 @@ public class PopupWin : MonoBehaviour
 
     public void Init()
     {
-        this.RegisterListener(EventID.END_GAME, delegate { Show(); });
         getRewardBtn.onClick.AddListener(delegate { GetReward(); GameController.Instance.musicManager.PlayClickSound(); });
     }
 
@@ -35,7 +34,7 @@ public class PopupWin : MonoBehaviour
         score.text = GamePlayController.Instance.uICtrl.topState.text2.text;
         reward.text = GamePlayController.Instance.uICtrl.topState.text3.text;
         total = 0;
-        total += reward.text.Length;
+        total += ConfigLevel.Instance.lv[UseProfile.CurrentAnte].dataPerLevel[UseProfile.CurrentRound-1].reward;
         finalReward.text = "";
         RectTransform rect = GetComponent<RectTransform>();
         rect.DOAnchorPosY(371, 0.5f).SetEase(Ease.OutCubic);
@@ -59,7 +58,7 @@ public class PopupWin : MonoBehaviour
             yield return StartCoroutine(ShowText(textList[1], "1 interest per $5 (5 max)"));
             yield return StartCoroutine(ShowDollarIncrement(reward_2, UseProfile.CurrentGold / 5));
         }
-        total = UseProfile.CurrentHand + ((UseProfile.CurrentGold / 5)>5? 5:(UseProfile.CurrentGold/5));
+        total += UseProfile.CurrentHand + ((UseProfile.CurrentGold / 5)>5? 5:(UseProfile.CurrentGold/5));
         getRewardBtn.gameObject.SetActive(true);
         finalReward.text = total.ToString();
     }
@@ -99,12 +98,5 @@ public class PopupWin : MonoBehaviour
         rect.DOAnchorPosY(-400, 0.5f).SetEase(Ease.OutCubic);
         this.gameObject.SetActive(false);
     }
-    private void OnDisable()
-    {
-        this.RemoveListener(EventID.END_GAME, delegate { Show(); });
-    }
-    private void OnDestroy()
-    {
-        this.RemoveListener(EventID.END_GAME, delegate { Show(); });
-    }
+
 }

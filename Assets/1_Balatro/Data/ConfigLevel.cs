@@ -1,4 +1,4 @@
-using Sirenix.OdinInspector;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +35,6 @@ public class ConfigLevel : SingletonScriptableObject<ConfigLevel>
 public class DataPerAnte
 {
     public int Ante;
-    [TableList]
     public List<DataPerLevel> dataPerLevel;
 }
 [System.Serializable]

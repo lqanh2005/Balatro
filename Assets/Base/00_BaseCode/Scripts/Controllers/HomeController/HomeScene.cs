@@ -10,24 +10,39 @@ using UnityEngine.UI.Extensions;
 public class HomeScene : BaseScene
 {
 
-    public Button btnPlay;
+    public Button newGameBtn;
+    public Button continueGameBtn;
 
 
     public void Init()
     {
-        
-
-        btnPlay.onClick.AddListener(delegate { GameController.Instance.musicManager.PlayClickSound(); Initiate.Fade("GamePlay", Color.black, 1.5f); });
-       
-   
+        if (UseProfile.IsNewGame) continueGameBtn.gameObject.SetActive(false);
+        else
+        {
+            continueGameBtn.gameObject.SetActive(true);
+            continueGameBtn.onClick.AddListener(delegate { ContinueGame(); });
+        }
+        newGameBtn.onClick.AddListener(delegate { NewGame(); });
+        //RecipeManager.LoadAll();
     }
-    //private void Update()
-    //{
 
-    //       // OnScreenChange();
+    private void ContinueGame()
+    {
+        GameController.Instance.musicManager.PlayClickSound(); 
+        Initiate.Fade("GamePlay", Color.black, 1.5f);
+    }
 
-
-    //}
+    public void NewGame()
+    {
+        GameController.Instance.musicManager.PlayClickSound();
+        UseProfile.CurrentAnte = 1;
+        UseProfile.CurrentRound = 0;
+        UseProfile.CurrentGold = 5;
+        UseProfile.NeedCheckShop = false;
+        UseProfile.IsNewGame = true;
+        UseProfile.SavedState = StateGame.SelectRound;
+        Initiate.Fade("GamePlay", Color.black, 1.5f);
+    }
 
 
 

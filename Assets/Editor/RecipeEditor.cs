@@ -280,6 +280,6 @@ public class RecipeEditorWindow : OdinEditorWindow
         statusSequence.AppendInterval(2f);
         statusSequence.AppendCallback(() => saveStatus = "");
     }
-    
+
 }
 #endif

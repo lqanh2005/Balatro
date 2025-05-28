@@ -1,6 +1,7 @@
 
 using BestHTTP.Extensions;
 using DG.Tweening;
+using EventDispatcher;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -123,14 +124,25 @@ public class HandManager : MonoBehaviour
 
                     Sequence scoreSequence = DOTween.Sequence();
                     PlayScoreAnim(validCards, scoreSequence);
-                    
-                    scoreSequence.OnComplete(() => {
+
+                    scoreSequence.OnComplete(() =>
+                    {
                         foreach (var card in cardsToPlay)
                         {
                             card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
                             {
                                 GamePlayController.Instance.playerContain.deckController.DiscardCard(card.GetCardBase());
                                 SimplePool2.Despawn(card.gameObject);
+                                if (GamePlayController.Instance.uICtrl.isEnd && GamePlayController.Instance.uICtrl.isWin)
+                                {
+                                    this.PostEvent(EventID.END_GAME);
+                                    GamePlayController.Instance.uICtrl.popupWin.Show();
+                                }
+                                else if (GamePlayController.Instance.uICtrl.isEnd && !GamePlayController.Instance.uICtrl.isWin)
+                                {
+                                    this.PostEvent(EventID.END_GAME);
+                                    LoseBox.Setup().Show();
+                                }
                                 GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
                             });
                         }
@@ -188,6 +200,7 @@ public class HandManager : MonoBehaviour
 
     public void DiscardSelectedCards()
     {
+        if (UseProfile.CurrentDis == 0) return;
         if (seletedCards.Count > 0)
         {
             UseProfile.CurrentDis--;

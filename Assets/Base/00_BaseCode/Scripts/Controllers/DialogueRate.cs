@@ -21,8 +21,6 @@ public class DialogueRate : BaseBox
     }
 
 
-    [SerializeField] MyReviewManager myReviewManager;
-
     [SerializeField] private Button btnClose;
     [SerializeField] private Button btnConfirm;
     [SerializeField] private List<Sprite> lstSprStar;
@@ -73,7 +71,6 @@ public class DialogueRate : BaseBox
         {
             UseProfile.CanShowRate = false;
 
-            myReviewManager.ShowReview(delegate { CloseAction(); });
 
         
         }

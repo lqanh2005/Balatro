@@ -786,6 +786,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1892621100}
+    - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
+      propertyPath: currentCard
+      value: 
+      objectReference: {fileID: 2343741434523786726, guid: 8d6acc6cfa9e14b40be355acf0db31fb, type: 3}
     - target: {fileID: 6982218442324063737, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6032,7 +6036,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278244351
-  m_fontColor: {r: 1, g: 0.827451, b: 0, a: 1}
+  m_fontColor: {r: 0.91764706, g: 0.5882353, b: 0.25882354, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7189,8 +7193,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4282554090
+  m_fontColor: {r: 0.91764706, g: 0.5882353, b: 0.25882354, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9319,12 +9323,15 @@ MonoBehaviour:
   discardCards: []
   handCards: []
   defaultDeck:
+  - id: 0
+    level: 1
+    amout: 7
   - id: 1
     level: 1
     amout: 7
   - id: 2
     level: 1
-    amout: 7
+    amout: 5
   - id: 3
     level: 1
     amout: 5
@@ -9337,13 +9344,11 @@ MonoBehaviour:
   - id: 6
     level: 1
     amout: 5
-  - id: 7
-    level: 1
-    amout: 5
   deckPos: {fileID: 2006293821}
   maxHandsize: 8
   deckVisual: {fileID: 328488521}
   deckSize: 0
+  isDraw: 0
   prefab: {fileID: 5988048199727289565, guid: 8d6acc6cfa9e14b40be355acf0db31fb, type: 3}
 --- !u!1 &2069548661
 GameObject:
@@ -10482,6 +10487,10 @@ PrefabInstance:
       propertyPath: cardParent
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5438479123160115812, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
+      propertyPath: currentCard
+      value: 
+      objectReference: {fileID: 2343741434523786726, guid: 8d6acc6cfa9e14b40be355acf0db31fb, type: 3}
     - target: {fileID: 6982218442324063737, guid: d9483b664b91acf458ec6e8ce46bde1d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

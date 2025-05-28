@@ -38,7 +38,7 @@ public class RecipeManager
         Dictionary<Recipe, RecipeData> defaultData = new();
         foreach (var entry in dataBase.defaultRecipes)
         {
-            defaultData[entry.recipe] = new RecipeData(entry.defaultCoin, entry.defaultMulti, entry.defaultLevel);
+            defaultData[entry.recipe] = new RecipeData(entry.defaultLevel, entry.defaultCoin, entry.defaultMulti);
         }
         foreach(Recipe recipe in Enum.GetValues(typeof(Recipe)))
         {
@@ -140,7 +140,7 @@ public class RecipeData
     public int level;
     public int coin;
     public int multi;
-    public RecipeData(int coin = 1, int multi = 1, int level = 1)
+    public RecipeData(int level = 1, int coin = 0, int multi = 1)
     {
         this.level = level;
         this.coin = coin;

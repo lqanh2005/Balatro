@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class ShopCtrl : MonoBehaviour
 {
@@ -48,15 +49,10 @@ public class ShopCtrl : MonoBehaviour
     public List<ShopSlot> boosterSlots;
     public ShopSlot voucherSlot;
 
-    [Header("CardType Probability")]
-    public Dictionary<ItemType, float> cardTypeChances = new()
-    {
-        { ItemType.Ingredient, 1f },
-        //{ ItemType.Recipe, 0.3f }
-    };
 
     public void GenerateShop()
     {
+        int idx;
         for (int i = 0; i < 2; i++)
         {
             playingCardSlot[i].ResetSlot();
@@ -66,22 +62,17 @@ public class ShopCtrl : MonoBehaviour
         purchaseList.Clear();
         foreach (var slot in playingCardSlot)
         {
-            ItemType type = GetRandomCardType();
-            List<CardData> pool = CardSO.Instance.GetCardDataByType(type);
-
-            if (pool.Count > 0)
+            idx = Random.Range(0, 6);
+            int level = Random.Range(0, 2);
+            slot.SetupCard(ConfigData.Instance.cardLists[idx].cardPerLevels[level].cardDatas);
+            purchaseList.Add(new PurchaseEntry
             {
-                int rand = Random.Range(0, pool.Count);
-                CardData selected = pool[rand];
-                slot.SetupCard(selected);
-                purchaseList.Add(new PurchaseEntry
-                {
-                    idItem = rand,
-                    isPurchased = false
-                });
-            }
+                idItem = idx,
+                level = level,
+                isPurchased = false
+            });
         }
-        int idx = Random.Range(0, 7);
+        idx = Random.Range(0, 7);
         voucherSlot.SetupCard(idx);
         purchaseList.Add(new PurchaseEntry
         {
@@ -114,9 +105,9 @@ public class ShopCtrl : MonoBehaviour
     public void ContinueShopping()
     {
         purchaseList = LoadPurchaseList();
-        for (int i=0; i<2;i++)
+        for (int i = 0; i < 2; i++)
         {
-            playingCardSlot[i].SetupCard(CardSO.Instance.GetCardDataByType(ItemType.Ingredient)[purchaseList[playingCardSlot[i].id].idItem], purchaseList[playingCardSlot[i].id].isPurchased);
+            playingCardSlot[i].SetupCard(ConfigData.Instance.cardLists[purchaseList[i].idItem].cardPerLevels[purchaseList[i].level].cardDatas, purchaseList[playingCardSlot[i].id].isPurchased);
             boosterSlots[i].SetupBooster(purchaseList[boosterSlots[i].id].idItem, purchaseList[boosterSlots[i].id].isPurchased);
         }
         UpdateUI(playingCardSlot);
@@ -137,20 +128,6 @@ public class ShopCtrl : MonoBehaviour
 
         PurchaseListWrapper wrapper = JsonUtility.FromJson<PurchaseListWrapper>(json);
         return wrapper.entries ?? new List<PurchaseEntry>();
-    }
-    private ItemType GetRandomCardType()
-    {
-        float rand = Random.value;
-        float cumulative = 0f;
-
-        foreach (var pair in cardTypeChances)
-        {
-            cumulative += pair.Value;
-            if (rand <= cumulative)
-                return pair.Key;
-        }
-
-        return ItemType.Ingredient;
     }
     public void OnDestroy()
     {
@@ -176,5 +153,6 @@ public class PurchaseListWrapper
 public class PurchaseEntry
 {
     public int idItem;
+    public int level;
     public bool isPurchased;
 }

@@ -72,11 +72,16 @@ public class UIController : MonoBehaviour
         {
             return;
         }
-        if (int.Parse(score.text) >= targetScore && !isEnd)
+        if (int.Parse(score.text) >= targetScore && UseProfile.CurrentHand>0)
         {
-            isWin = true;
             isEnd = true;
-            this.PostEvent(EventID.END_GAME);
+            isWin = true;
+            return;
+        }
+        else if(int.Parse(score.text) < targetScore && UseProfile.CurrentHand == 0)
+        {
+            isEnd = true;
+            isWin = false;
             return;
         }
     }

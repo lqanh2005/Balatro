@@ -9,7 +9,6 @@ public class ConfigData : SingletonScriptableObject<ConfigData>
 {
     public List<CardDataList> cardLists;
     public List<Sprite> backCard;
-    public TooltipAttribute tooltipAttribute;
 
     public int GetChip(IngredientType ingredientType, int level)
     {
@@ -51,6 +50,8 @@ public class ConfigData : SingletonScriptableObject<ConfigData>
 public class CardDataList
 {
     public IngredientType ingredientType;
+    public int id;
+
     public List<CardPerLevel> cardPerLevels;
 }
 [System.Serializable]
@@ -63,14 +64,8 @@ public class CardPerLevel
 [System.Serializable]
 public class CardDataSO
 {
-    public int id;
+    
     public int chipBonus;
     public Sprite faceImage;
-}
-
-public class CardEnhance
-{
-    public string name;
-    public float multiplierBonus = 1f;
-    public int chipBonus = 0;
+    public int cost;
 }

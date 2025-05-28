@@ -28,16 +28,15 @@ public class ShopSlot : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         originalPos = rectTransform.anchoredPosition;
     }
-    public void SetupCard(CardData data, bool isBought = false)
+    public void SetupCard(CardDataSO data, bool isBought = false)
     {
         this.gameObject.SetActive(!isBought);
-        currentCard = data.cardBase.GetComponent<CardBase>();
-        
-        this.coin.text = "$"+ ((int)(data.baseCost * GamePlayController.Instance.uICtrl.discount)).ToString();
-        this.image.sprite = data.image;
+        this.coin.text = "$"+ ((int)(data.cost * GamePlayController.Instance.uICtrl.discount)).ToString();
+        this.image.sprite = data.faceImage;
         buyBtn.onClick.AddListener(() =>
         {
             BuyCard(currentCard, cardContainerCanvas);
+            
         });
     }
     public void SetupCard(int id, bool isBought = false)
@@ -50,6 +49,7 @@ public class ShopSlot : MonoBehaviour
         buyBtn.onClick.AddListener(() =>
         {
             BuyCard(currentCard, cardContainerCanvas);
+            
         });
     }
     public void SetupBooster(int id, bool isBought = false)
@@ -90,7 +90,7 @@ public class ShopSlot : MonoBehaviour
         {
             case PlayingCard playingCard:
                 GamePlayController.Instance.playerContain.deckController.AddCardToDeck(playingCard, playingCard.id, GamePlayController.Instance.playerContain.deckController.deckDict[playingCard.id].level);
-                Debug.LogError(playingCard.id + " - " + GamePlayController.Instance.playerContain.deckController.deckDict[playingCard.id].level);
+
                 UseProfile.CurrentCard += 1;
                 GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.playingCardSlot);
                 spawnPos = shopCardRect.GetWorldPosition();
@@ -111,9 +111,9 @@ public class ShopSlot : MonoBehaviour
                 avtRect.position = shopCardRect.position;
                 avtRect.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() =>
                 {
-                    SimplePool2.Despawn(newCard);
                     newCard.GetComponent<VoucherBase>().Init();
                     GamePlayController.Instance.uICtrl.shopCtrl.Show();
+                    SimplePool2.Despawn(newCard);
                 });
                 
                 break;
