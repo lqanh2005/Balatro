@@ -113,11 +113,11 @@ public class UseProfile : MonoBehaviour
     {
         get
         {
-            return PlayerPrefs.GetInt(StringHelper.IS_NEW_GAME, 0) == 1;
+            return PlayerPrefs.GetInt(StringHelper.IS_NEW_GAME, 0) == 0;
         }
         set
         {
-            PlayerPrefs.SetInt(StringHelper.IS_NEW_GAME, value ? 1 : 0);
+            PlayerPrefs.SetInt(StringHelper.IS_NEW_GAME, value ? 0 : 1);
             PlayerPrefs.Save();
         }
     }

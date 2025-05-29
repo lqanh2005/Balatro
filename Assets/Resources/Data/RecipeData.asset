@@ -52,17 +52,17 @@ MonoBehaviour:
   - recipe: 17
     ingredients: 020000000500000006000000
     defaultCoin: 20
-    defaultMulti: 3
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 13
     ingredients: 000000000100000003000000
     defaultCoin: 20
-    defaultMulti: 5
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 14
     ingredients: 000000000100000004000000
     defaultCoin: 20
-    defaultMulti: 4
+    defaultMulti: 2
     defaultLevel: 1
   - recipe: 11
     ingredients: 020000000500000005000000

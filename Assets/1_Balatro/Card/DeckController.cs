@@ -45,7 +45,6 @@ public class DeckController : MonoBehaviour
         CreateDeck();
         ShuffleDeck();
         UseProfile.DrawCard = UseProfile.CurrentCard;
-        GamePlayController.Instance.uICtrl.isWin = false;
         GamePlayController.Instance.playerContain.handManager.isFirstDraw = true;
         DrawCards(8);
         
@@ -53,7 +52,7 @@ public class DeckController : MonoBehaviour
     private void EndGame()
     {
         GamePlayController.Instance.playerContain.handManager.cardViews.Clear();
-        
+        GamePlayController.Instance.uICtrl.playCtrl.gameObject.SetActive(false);
         drawCards.Clear();
         discardCards.Clear();
         handCards.Clear();

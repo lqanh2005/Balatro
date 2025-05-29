@@ -386,7 +386,7 @@ MonoBehaviour:
   popupCanvas: {fileID: 0}
   isBoxSave: 0
   tvScore: {fileID: 0}
-  newGame: {fileID: 0}
+  newGame: {fileID: 4518957219252733671}
 --- !u!1 &4740774967890126361
 GameObject:
   m_ObjectHideFlags: 0

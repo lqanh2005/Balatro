@@ -28,6 +28,17 @@ public class RecipeCard : SingletonScriptableObject<RecipeCard>
         }
         return null;
     }
+    public Sprite GetSpriteImage(Recipe recipe)
+    {
+        foreach (var recipeCardUI in dataRecipe)
+        {
+            if (recipeCardUI.name == recipe)
+            {
+                return recipeCardUI.avt;
+            }
+        }
+        return null;
+    }
 }
 [System.Serializable]
 public class  RecipeCardUI

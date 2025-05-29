@@ -17,6 +17,7 @@ public class ShopSlot : MonoBehaviour
     public Button buyBtn;
     public RectTransform cardContainerCanvas;
     public bool isBooster;
+    public int gold;
 
     private Vector2 originalPos;
     private RectTransform rectTransform;
@@ -31,7 +32,8 @@ public class ShopSlot : MonoBehaviour
     public void SetupCard(CardDataSO data, bool isBought = false)
     {
         this.gameObject.SetActive(!isBought);
-        this.coin.text = "$"+ ((int)(data.cost * GamePlayController.Instance.uICtrl.discount)).ToString();
+        this.gold = (int)(data.cost * GamePlayController.Instance.uICtrl.discount);
+        this.coin.text = "$"+ gold.ToString();
         this.image.sprite = data.faceImage;
         buyBtn.onClick.AddListener(() =>
         {
@@ -44,7 +46,8 @@ public class ShopSlot : MonoBehaviour
         this.gameObject.SetActive(!isBought);
         voucherID = id;
         VoucherData voucherData = VoucherDataSO.Instance.GetVoucher(id);
-        this.coin.text = "$" + ((int)(voucherData.cost * GamePlayController.Instance.uICtrl.discount)).ToString();
+        this.gold = (int)(voucherData.cost * GamePlayController.Instance.uICtrl.discount);
+        this.coin.text = "$" + gold.ToString();
         this.image.sprite = voucherData.artwork;
         buyBtn.onClick.AddListener(() =>
         {
@@ -57,7 +60,8 @@ public class ShopSlot : MonoBehaviour
         this.gameObject.SetActive(!isBought);
         boosterID = id;
         BoosterData boosterData = BoosterDataSo.Instance.GetBooster(id);
-        this.coin.text = "$" + ((int)(boosterData.cost * GamePlayController.Instance.uICtrl.discount)).ToString();
+        this.gold = (int)(boosterData.cost * GamePlayController.Instance.uICtrl.discount);
+        this.coin.text = "$" + gold.ToString();
         this.image.sprite = boosterData.artwork;
         buyBtn.onClick.AddListener(() =>
         {
@@ -80,11 +84,11 @@ public class ShopSlot : MonoBehaviour
         GameController.Instance.musicManager.PlayClickSound();
         GameObject newCard = null;
         Vector3 spawnPos = Vector3.zero;
-        if (UseProfile.CurrentGold < this.coin.text.ToInt32())
+        if (UseProfile.CurrentGold < this.gold)
         {
             return;
         }
-        UseProfile.CurrentGold -= this.coin.text.ToInt32();
+        UseProfile.CurrentGold -= this.gold;
         GameController.Instance.musicManager.PlayReduceGoldSound();
         switch (data)
         {

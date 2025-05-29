@@ -79,18 +79,22 @@ public class CardAnim : MonoBehaviour
     public void PlayDrawAnimation(Vector3 startPos, Vector3 endPos, bool check, System.Action onComplete = null)
     {
         transform.position = startPos;
-        if (check)
-        {
-            transform.DOMove(endPos, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
-            {
-                onComplete?.Invoke();
-            });
-        }
-        else
+        transform.DOMove(endPos, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
         {
             onComplete?.Invoke();
-            transform.DOMove(endPos, 0.5f).SetEase(Ease.OutBack);
-        }
+        });
+        //if (check)
+        //{
+        //    transform.DOMove(endPos, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
+        //    {
+        //        onComplete?.Invoke();
+        //    });
+        //}
+        //else
+        //{
+        //    onComplete?.Invoke();
+        //    transform.DOMove(endPos, 0.5f).SetEase(Ease.OutBack);
+        //}
     }
 
     public void PlaySelectedAniamtion1()

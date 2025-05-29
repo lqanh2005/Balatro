@@ -2,7 +2,6 @@
 using BestHTTP.Extensions;
 using DG.Tweening;
 using EventDispatcher;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +24,7 @@ public class HandManager : MonoBehaviour
     private int selectedCardCount = 0;
     [SerializeField] private float cardSpacing = 2f;
     [SerializeField] private float drawCardDelay = 0.15f;
+    [SerializeField] GameObject recipePrefab;
     public RecipeDatabaseSO recipeDatabaseSO;
 
     public void Init()
@@ -50,7 +50,6 @@ public class HandManager : MonoBehaviour
         card.cardAnim.PlayDrawAnimation(deckPos.position, targetPos, isFirstDraw, () =>
         {
             UpdateSortPos(cardViews);
-            //card.transform.SetParent(handRot, true);
         });
     }
     public Vector3 CalculateCardPosition(int index, int totalCards)
@@ -59,9 +58,7 @@ public class HandManager : MonoBehaviour
         float startX = -(spacing * (totalCards - 1)) / 2f;
         float x = startX + index * spacing;
 
-        float y = -Mathf.Abs(index - (totalCards - 1) / 2f) * 0.1f;
-
-        return new Vector3(x, y, 0);
+        return new Vector3(x, 0, 0);
     }
     public void UpdateSortPos(List<PlayingCard> sortedObjects)
     {
@@ -86,7 +83,7 @@ public class HandManager : MonoBehaviour
         {
             GamePlayController.Instance.isLevelDone = false;
             UseProfile.CurrentHand--;
-            isFirstDraw = false;
+            //isFirstDraw = false;
             selectedCardCount = seletedCards.Count;
             List<PlayingCard> cardsToPlay = new List<PlayingCard>(seletedCards);
             float delay = 0f;
@@ -127,32 +124,45 @@ public class HandManager : MonoBehaviour
 
                     scoreSequence.OnComplete(() =>
                     {
+                        Sequence mergeSequence = DOTween.Sequence();
                         foreach (var card in cardsToPlay)
                         {
-                            card.cardAnim.PlayDiscardAnimation(discardPos.position).OnComplete(() =>
+                            Vector3 randomOffset = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-2.5f, 2.5f), 0f);
+                            Vector3 explodePos = card.transform.position + randomOffset;
+
+                            mergeSequence.Join(card.transform.DOMove(explodePos, 0.2f).SetEase(Ease.OutQuad));
+                        }
+                        mergeSequence.AppendInterval(0.05f);
+                        foreach (var card in cardsToPlay)
+                        {
+                            mergeSequence.Join(card.transform.DOMove(playPos.position, 0.25f).SetEase(Ease.InBack));
+                            mergeSequence.Join(card.transform.DOScale(0f, 0.25f).SetEase(Ease.InBack));
+                        }
+                        mergeSequence.AppendCallback(() =>
+                        {
+                            foreach (var card in cardsToPlay)
                             {
                                 GamePlayController.Instance.playerContain.deckController.DiscardCard(card.GetCardBase());
                                 SimplePool2.Despawn(card.gameObject);
-                                if (GamePlayController.Instance.uICtrl.isEnd && GamePlayController.Instance.uICtrl.isWin)
-                                {
-                                    this.PostEvent(EventID.END_GAME);
-                                    GamePlayController.Instance.uICtrl.popupWin.Show();
-                                }
-                                else if (GamePlayController.Instance.uICtrl.isEnd && !GamePlayController.Instance.uICtrl.isWin)
-                                {
-                                    this.PostEvent(EventID.END_GAME);
-                                    LoseBox.Setup().Show();
-                                }
+                            }
+
+                            var recipeImage = SimplePool2.Spawn(recipePrefab, playPos.transform.position, Quaternion.identity);
+                            var sprite = RecipeCard.Instance.GetSpriteImage(matchResult);
+                            recipeImage.GetComponent<SpriteRenderer>().sprite = sprite;
+                            recipeImage.transform.DOMove(discardPos.position, 0.5f).SetEase(Ease.OutQuad).SetDelay(0.5f).OnComplete(() =>
+                            {
+                                SimplePool2.Despawn(recipeImage.gameObject);
                                 GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
+                                Debug.LogError("Play Selected Cards Complete");
+                                GamePlayController.Instance.uICtrl.CheckWinLoseCondition();
                             });
-                        }
+                        });
                     });
                 });
             seletedCards.Clear();
             
         }
     }
-
     public void PlayScoreAnim(List<PlayingCard> cardsToPlay, Sequence scoreSequence)
     {
         float scoreDelay = 0f;
@@ -162,7 +172,7 @@ public class HandManager : MonoBehaviour
             scoreSequence.AppendInterval(scoreDelay);
             scoreSequence.AppendCallback(() =>
             {
-                card.cardAnim.PlayHoverAniamtion();
+                card.transform.DOMoveY(this.transform.localPosition.y + 1f, card.cardAnim.scaleDuration).SetEase(Ease.OutQuad);
                 card.OnActive();
             });
             scoreSequence.AppendInterval(0.2f);
@@ -196,6 +206,7 @@ public class HandManager : MonoBehaviour
     {
         RecipeChecker.UpdateUIForNoMatch();
     });
+        
     }
 
     public void DiscardSelectedCards()

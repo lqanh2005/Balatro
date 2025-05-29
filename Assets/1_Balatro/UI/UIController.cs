@@ -21,7 +21,6 @@ public class UIController : MonoBehaviour
     public bool initLevelDone;
     public bool isEnd;
     public int targetScore;
-    public bool isWin;
 
     [Header("----------Recipe Box----------")]  
     public TMP_Text recipe;
@@ -40,7 +39,7 @@ public class UIController : MonoBehaviour
     [HideInInspector] public float discount = 1f;
     public void Init()
     {
-        playCtrl.gameObject.SetActive(false);
+        
         handleSelect.Init();
         playerDataUI.Init();
         popupWin.Init();
@@ -63,26 +62,28 @@ public class UIController : MonoBehaviour
     {
         isEnd = false;
         initLevelDone = false;
-        
+        playCtrl.gameObject.SetActive(true);
     }
 
-    public void Update()
+    public void CheckWinLoseCondition()
     {
-        if (!initLevelDone)
-        {
-            return;
-        }
-        if (int.Parse(score.text) >= targetScore && UseProfile.CurrentHand>0)
-        {
-            isEnd = true;
-            isWin = true;
-            return;
-        }
-        else if(int.Parse(score.text) < targetScore && UseProfile.CurrentHand == 0)
+        if (!initLevelDone || isEnd) return;
+
+        int currentScore = int.Parse(score.text);
+
+        if (currentScore >= targetScore && UseProfile.CurrentHand > 0)
         {
             isEnd = true;
-            isWin = false;
-            return;
+            score.text = "";
+            this.PostEvent(EventID.END_GAME);
+            popupWin.Show();
+        }
+        else if (currentScore < targetScore && UseProfile.CurrentHand == 0)
+        {
+            isEnd = true;
+            score.text = "";
+            this.PostEvent(EventID.END_GAME);
+            LoseBox.Setup().Show();
         }
     }
     public void OnDestroy()

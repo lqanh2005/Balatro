@@ -36,6 +36,7 @@ public class PlayerDataUI : MonoBehaviour
         UseProfile.CurrentDis = 4;
         round.text = UseProfile.CurrentRound.ToString();
         ante.text = UseProfile.CurrentAnte.ToString() + "/8";
+        GamePlayController.Instance.uICtrl.playCtrl.gameObject.SetActive(false);
     }
     public void OnDisable()
     {
