@@ -34,7 +34,7 @@ public class PlayerDataUI : MonoBehaviour
         gold.text = UseProfile.CurrentGold.ToString() + "$";
         UseProfile.CurrentHand = 4;
         UseProfile.CurrentDis = 4;
-        round.text = UseProfile.CurrentRound.ToString();
+        round.text = (UseProfile.CurrentRound + (UseProfile.CurrentAnte-1)*3).ToString();
         ante.text = UseProfile.CurrentAnte.ToString() + "/8";
         GamePlayController.Instance.uICtrl.playCtrl.gameObject.SetActive(false);
     }
@@ -68,7 +68,7 @@ public class PlayerDataUI : MonoBehaviour
     }
     public void HandleChangeRound(object param)
     {
-        round.text = UseProfile.CurrentRound.ToString();
+        round.text = (UseProfile.CurrentRound + (UseProfile.CurrentAnte - 1) * 3).ToString();
     }
     public void HandleChangeAnte(object param)
     {

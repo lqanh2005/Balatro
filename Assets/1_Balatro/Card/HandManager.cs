@@ -136,7 +136,6 @@ public class HandManager : MonoBehaviour
                         foreach (var card in cardsToPlay)
                         {
                             mergeSequence.Join(card.transform.DOMove(playPos.position, 0.25f).SetEase(Ease.InBack));
-                            mergeSequence.Join(card.transform.DOScale(0f, 0.25f).SetEase(Ease.InBack));
                         }
                         mergeSequence.AppendCallback(() =>
                         {
@@ -153,7 +152,6 @@ public class HandManager : MonoBehaviour
                             {
                                 SimplePool2.Despawn(recipeImage.gameObject);
                                 GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
-                                Debug.LogError("Play Selected Cards Complete");
                                 GamePlayController.Instance.uICtrl.CheckWinLoseCondition();
                             });
                         });

@@ -87,7 +87,11 @@ public class PopupWin : MonoBehaviour
     {
         GameController.Instance.musicManager.PlayGetGoldSound();
         UseProfile.CurrentGold += total;
-        Debug.LogError("total = " + total);
+        if (UseProfile.CurrentRound >= 3)
+        {
+            UseProfile.CurrentAnte++;
+            UseProfile.CurrentRound = 0;
+        }
         Close();
         UseProfile.SavedState = StateGame.Shopping;
         this.PostEvent(EventID.ON_SHOPPING);
