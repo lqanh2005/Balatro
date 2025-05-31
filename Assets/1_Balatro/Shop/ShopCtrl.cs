@@ -22,7 +22,7 @@ public class ShopCtrl : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
-        shopPanel.DOAnchorPosY(371, 0.5f).SetEase(Ease.OutCubic);
+        shopPanel.DOAnchorPosY(GamePlayController.Instance.uICtrl.target.anchoredPosition.y, 0.5f).SetEase(Ease.OutBack);
         if (!UseProfile.NeedCheckShop)
         {
             GenerateShop();
@@ -32,8 +32,8 @@ public class ShopCtrl : MonoBehaviour
 
     public void Close()
     {
+        shopPanel.DOAnchorPosY(-(GamePlayController.Instance.uICtrl.target.anchoredPosition.y + 150), 0.5f).SetEase(Ease.InBack);
         this.gameObject.SetActive(false);
-        shopPanel.DOAnchorPosY(-400, 0.5f).SetEase(Ease.OutCubic);
     }
 
     public void HandleNext()
@@ -64,7 +64,7 @@ public class ShopCtrl : MonoBehaviour
         {
             idx = Random.Range(0, 6);
             int level = Random.Range(0, 2);
-            slot.SetupCard(ConfigData.Instance.cardLists[idx].cardPerLevels[level].cardDatas);
+            slot.SetupCard(idx , level);
             purchaseList.Add(new PurchaseEntry
             {
                 idItem = idx,
@@ -107,7 +107,7 @@ public class ShopCtrl : MonoBehaviour
         purchaseList = LoadPurchaseList();
         for (int i = 0; i < 2; i++)
         {
-            playingCardSlot[i].SetupCard(ConfigData.Instance.cardLists[purchaseList[i].idItem].cardPerLevels[purchaseList[i].level].cardDatas, purchaseList[playingCardSlot[i].id].isPurchased);
+            playingCardSlot[i].SetupCard(ConfigData.Instance.cardLists[purchaseList[i].idItem].id, ConfigData.Instance.cardLists[purchaseList[i].idItem].cardPerLevels[purchaseList[i].level].level, purchaseList[playingCardSlot[i].id].isPurchased);
             boosterSlots[i].SetupBooster(purchaseList[boosterSlots[i].id].idItem, purchaseList[boosterSlots[i].id].isPurchased);
         }
         UpdateUI(playingCardSlot);

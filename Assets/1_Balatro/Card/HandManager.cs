@@ -11,10 +11,10 @@ using UnityEngine.UI;
 public class HandManager : MonoBehaviour
 {
     public bool isFirstDraw = true;
-    public Transform handPos;
-    public Transform deckPos;
-    public Transform discardPos;
-    public Transform playPos;
+    public RectTransform handPos;
+    public RectTransform deckPos;
+    public RectTransform discardPos;
+    public RectTransform playPos;
 
 
     public List<PlayingCard> cardViews =  new List<PlayingCard>();
@@ -24,41 +24,41 @@ public class HandManager : MonoBehaviour
     private int selectedCardCount = 0;
     [SerializeField] private float cardSpacing = 2f;
     [SerializeField] private float drawCardDelay = 0.15f;
-    [SerializeField] GameObject recipePrefab;
+    [SerializeField] Image recipePrefab;
     public RecipeDatabaseSO recipeDatabaseSO;
 
     public void Init()
     {
         InitializeRecipeSystem();
     }
-        public void OnCardDrawn(PlayingCard card, int handPos)
-        {
-        
-            StartCoroutine(CreateCard(card, handPos, drawCardDelay * handPos));
-        }
-        private IEnumerator CreateCard(PlayingCard card, int pos, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            EffectHelper.PlayBounce(GamePlayController.Instance.playerContain.deckController.deckVisual, delay);
-            CreateCardView(card, pos);
-        }
+    public void OnCardDrawn(PlayingCard card, int handPos)
+    {
+
+        StartCoroutine(CreateCard(card, handPos, drawCardDelay * handPos));
+    }
+    private IEnumerator CreateCard(PlayingCard card, int pos, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        EffectHelper.PlayBounce(GamePlayController.Instance.playerContain.deckController.deckVisual, delay);
+        CreateCardView(card, pos);
+    }
     private void CreateCardView(PlayingCard card, int pos)
     {
         card.Init();
         
-        Vector3 targetPos = CalculateCardPosition(pos, cardViews.Count) + handPos.position;
-        card.cardAnim.PlayDrawAnimation(deckPos.position, targetPos, isFirstDraw, () =>
+        Vector2 targetPos = CalculateCardPosition(pos, cardViews.Count) + handPos.anchoredPosition;
+        card.cardAnim.PlayDrawAnimation(deckPos.anchoredPosition, targetPos, () =>
         {
             UpdateSortPos(cardViews);
         });
     }
-    public Vector3 CalculateCardPosition(int index, int totalCards)
+    public Vector2 CalculateCardPosition(int index, int totalCards)
     {
-        float spacing = 1.3f;
-        float startX = -(spacing * (totalCards - 1)) / 2f;
-        float x = startX + index * spacing;
+        float cardWidth = 145f;
+        float startX = -(cardWidth * (totalCards - 1))/2;
 
-        return new Vector3(x, 0, 0);
+        float x = startX + index * cardWidth;
+        return new Vector2(x, 0f);
     }
     public void UpdateSortPos(List<PlayingCard> sortedObjects)
     {
@@ -68,7 +68,7 @@ public class HandManager : MonoBehaviour
 
         for (int i = 0; i < sortedObjects.Count; i++)
             {
-            Vector3 targetPos = CalculateCardPosition(i, sortedObjects.Count) + handPos.position;
+            Vector2 targetPos = CalculateCardPosition(i, sortedObjects.Count) + handPos.anchoredPosition;
             sortedObjects[i].cardAnim.originalPosition = targetPos;
             moveSequence.Join(
             sortedObjects[i].transform
@@ -94,9 +94,9 @@ public class HandManager : MonoBehaviour
                 GameController.Instance.musicManager.PlaySelectSound();
                 PlayingCard _card = seletedCards[i];
 
-                float spread = 1.5f;
+                float spread = 150f;
                 float offsetX = (i - (seletedCards.Count - 1) / 2f) * spread;
-                Vector3 targetPos = new Vector3(playPos.position.x + offsetX, playPos.position.y, 0);
+                Vector2 targetPos = new Vector2(playPos.anchoredPosition.x + offsetX, playPos.anchoredPosition.y);
 
                 float currentDelay = delay;
                 cardViews.Remove(_card);
@@ -127,28 +127,32 @@ public class HandManager : MonoBehaviour
                         Sequence mergeSequence = DOTween.Sequence();
                         foreach (var card in cardsToPlay)
                         {
-                            Vector3 randomOffset = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-2.5f, 2.5f), 0f);
-                            Vector3 explodePos = card.transform.position + randomOffset;
+                            Vector2 randomOffset = new Vector2(Random.Range(-25f, 25f), Random.Range(-25f, 25f));
+                            Vector2 explodePos = card.GetComponent<RectTransform>().anchoredPosition + randomOffset;
 
-                            mergeSequence.Join(card.transform.DOMove(explodePos, 0.2f).SetEase(Ease.OutQuad));
+                            mergeSequence.Join(card.GetComponent<RectTransform>().DOAnchorPos(explodePos, 0.2f).SetEase(Ease.OutQuad));
                         }
                         mergeSequence.AppendInterval(0.05f);
                         foreach (var card in cardsToPlay)
                         {
-                            mergeSequence.Join(card.transform.DOMove(playPos.position, 0.25f).SetEase(Ease.InBack));
+                            mergeSequence.Join(card.GetComponent<RectTransform>().DOAnchorPos(playPos.anchoredPosition, 0.25f).SetEase(Ease.InBack));
+                            
                         }
                         mergeSequence.AppendCallback(() =>
                         {
                             foreach (var card in cardsToPlay)
                             {
                                 GamePlayController.Instance.playerContain.deckController.DiscardCard(card.GetCardBase());
+                                card.GetComponent<RectTransform>().localScale = Vector3.one;
                                 SimplePool2.Despawn(card.gameObject);
                             }
 
-                            var recipeImage = SimplePool2.Spawn(recipePrefab, playPos.transform.position, Quaternion.identity);
+                            GameObject recipeImage = SimplePool2.Spawn(recipePrefab.gameObject);
+                            recipeImage.transform.SetParent(GamePlayController.Instance.playerContain.deckController.parent.transform, false);
+                            recipeImage.GetComponent<RectTransform>().anchoredPosition = playPos.anchoredPosition;
                             var sprite = RecipeCard.Instance.GetSpriteImage(matchResult);
-                            recipeImage.GetComponent<SpriteRenderer>().sprite = sprite;
-                            recipeImage.transform.DOMove(discardPos.position, 0.5f).SetEase(Ease.OutQuad).SetDelay(0.5f).OnComplete(() =>
+                            recipeImage.GetComponent<Image>().sprite = sprite;
+                            recipeImage.GetComponent<RectTransform>().DOAnchorPos(discardPos.anchoredPosition, 0.5f).SetEase(Ease.OutQuad).SetDelay(0.5f).OnComplete(() =>
                             {
                                 SimplePool2.Despawn(recipeImage.gameObject);
                                 GamePlayController.Instance.playerContain.deckController.DrawCards(selectedCardCount);
@@ -219,9 +223,9 @@ public class HandManager : MonoBehaviour
             for (int i = 0; i < seletedCards.Count; i++)
             {
                 PlayingCard _card = seletedCards[i];
-                float spread = 1.0f;
+                float spread = 10f;
                 float offsetX = (i - (seletedCards.Count - 1) / 2f) * spread;
-                Vector3 targetPos = new Vector3(discardPos.position.x + offsetX, discardPos.position.y, 0);
+                Vector2 targetPos = new Vector2(discardPos.anchoredPosition.x + offsetX, discardPos.anchoredPosition.y);
                 float currentDelay = delay;
                 cardViews.Remove(_card);
                 var playSequence = DOTween.Sequence();

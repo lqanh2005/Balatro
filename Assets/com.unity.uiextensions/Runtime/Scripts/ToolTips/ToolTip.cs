@@ -197,9 +197,6 @@ namespace UnityEngine.UI.Extensions
                 case RenderMode.ScreenSpaceOverlay:
                     OnScreenSpaceOverlay(refreshCanvasesBeforeGettingSize);
                     break;
-                case RenderMode.WorldSpace:
-                    OnWorldSpace(refreshCanvasesBeforeGettingSize);
-                    break;
             }
         }
 
@@ -326,18 +323,27 @@ namespace UnityEngine.UI.Extensions
 
             _inside = true;
         }
-        public void OnWorldSpace(bool refreshCanvasesBeforeGettingSize = false)
+        public void ShowTooltip(RectTransform cardRect, string content)
         {
-            shiftingVector.x = xShift;
-            shiftingVector.y = YShift;
+            // Set text
+            _text.text = content;
 
-            newTTPos = baseTooltipPos + (Vector3)shiftingVector;
-            transform.position = newTTPos;
+            // Convert vị trí world của card sang local position trong canvas
+            Vector3 worldPos = cardRect.position;
+            Vector2 anchoredPos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.transform as RectTransform,
+                Camera.main.WorldToScreenPoint(worldPos),
+                canvas.worldCamera,
+                out anchoredPos
+            );
 
-            gameObject.SetActive(true);
-            if (refreshCanvasesBeforeGettingSize) RefreshTooltipSize();
+            // Đặt vị trí tooltip tại card
+            _rectTransform.anchoredPosition = anchoredPos;
 
-            _inside = true;
+            // Hiện tooltip
+            _rectTransform.gameObject.SetActive(true);
         }
+
     }
 }

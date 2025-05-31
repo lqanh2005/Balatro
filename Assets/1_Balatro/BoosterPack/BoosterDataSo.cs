@@ -19,6 +19,7 @@ public class BoosterData
     public BoosterSize size;
     public Sprite artwork;
     public int cost;
+    public string description;
     public int numberOfChoices;
     public int numberOfSelections;
 }

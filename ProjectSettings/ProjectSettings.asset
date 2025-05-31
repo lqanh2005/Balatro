@@ -13,8 +13,8 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Quoc_Anh
-  productName: Balatro
-  defaultCursor: {fileID: 0}
+  productName: BaoLaFood
+  defaultCursor: {fileID: 2800000, guid: 2c187b2680ad2a748b4203e15a75845f, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1

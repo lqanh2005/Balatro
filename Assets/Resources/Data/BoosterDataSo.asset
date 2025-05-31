@@ -17,17 +17,20 @@ MonoBehaviour:
     size: 0
     artwork: {fileID: 21300000, guid: 86a84ea0fefbc0149aac77d0b6b7d37d, type: 3}
     cost: 3
+    description: Choose 1 of up to 2 recipe
     numberOfChoices: 2
     numberOfSelections: 2
   - packName: Jumbo
     size: 1
     artwork: {fileID: 21300000, guid: 50cfaded02e419043868142f8ceeb7a2, type: 3}
     cost: 5
+    description: Choose 1 of up to 3 recipe
     numberOfChoices: 3
     numberOfSelections: 3
   - packName: Mega
     size: 2
     artwork: {fileID: 21300000, guid: 5d6e159a8d29d1e4fbf4402c61a41022, type: 3}
     cost: 8
+    description: Choose 1 of up to 5 recipe
     numberOfChoices: 5
     numberOfSelections: 5

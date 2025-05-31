@@ -9,6 +9,7 @@ using EventDispatcher;
 
 public class PopupWin : MonoBehaviour
 {
+    public RectTransform rect;
     public Button getRewardBtn;
     public Image avt;
     public TMP_Text score;
@@ -36,8 +37,7 @@ public class PopupWin : MonoBehaviour
         total = 0;
         total += ConfigLevel.Instance.lv[UseProfile.CurrentAnte].dataPerLevel[UseProfile.CurrentRound-1].reward;
         finalReward.text = "";
-        RectTransform rect = GetComponent<RectTransform>();
-        rect.DOAnchorPosY(371, 0.5f).SetEase(Ease.OutCubic);
+        rect.DOAnchorPosY(GamePlayController.Instance.uICtrl.target.anchoredPosition.y, 0.5f).SetEase(Ease.OutBack);
         OnReward();
     }
 
@@ -98,8 +98,7 @@ public class PopupWin : MonoBehaviour
     }
     public void Close()
     {
-        RectTransform rect = GetComponent<RectTransform>();
-        rect.DOAnchorPosY(-400, 0.5f).SetEase(Ease.OutCubic);
+        rect.DOAnchorPosY(-(GamePlayController.Instance.uICtrl.target.anchoredPosition.y + 150), 0.5f).SetEase(Ease.InBack);
         this.gameObject.SetActive(false);
     }
 

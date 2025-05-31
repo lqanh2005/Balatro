@@ -4,13 +4,15 @@ using DG.Tweening;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Purchasing;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
-public class ShopSlot : MonoBehaviour
+public class ShopSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public int id;
-    public Transform target;
+    public RectTransform target;
     public CardBase currentCard;
     public Image image;
     public TMP_Text coin;
@@ -18,6 +20,7 @@ public class ShopSlot : MonoBehaviour
     public RectTransform cardContainerCanvas;
     public bool isBooster;
     public int gold;
+    public string description;
 
     private Vector2 originalPos;
     private RectTransform rectTransform;
@@ -29,16 +32,17 @@ public class ShopSlot : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         originalPos = rectTransform.anchoredPosition;
     }
-    public void SetupCard(CardDataSO data, bool isBought = false)
+    public void SetupCard(int idx, int level, bool isBought = false)
     {
         this.gameObject.SetActive(!isBought);
-        this.gold = (int)(data.cost * GamePlayController.Instance.uICtrl.discount);
+        this.gold = (int)(ConfigData.Instance.cardLists[idx].cardPerLevels[level].cardDatas.cost * GamePlayController.Instance.uICtrl.discount);
         this.coin.text = "$"+ gold.ToString();
-        this.image.sprite = data.faceImage;
+        this.image.sprite = ConfigData.Instance.cardLists[idx].cardPerLevels[level].cardDatas.faceImage;
+        this.description = "+" + ConfigData.Instance.cardLists[idx].cardPerLevels[level].cardDatas.chipBonus + "chip";
+        buyBtn.onClick.RemoveAllListeners();
         buyBtn.onClick.AddListener(() =>
         {
-            BuyCard(currentCard, cardContainerCanvas);
-            
+            BuyCard(currentCard, cardContainerCanvas, idx, level);
         });
     }
     public void SetupCard(int id, bool isBought = false)
@@ -49,6 +53,8 @@ public class ShopSlot : MonoBehaviour
         this.gold = (int)(voucherData.cost * GamePlayController.Instance.uICtrl.discount);
         this.coin.text = "$" + gold.ToString();
         this.image.sprite = voucherData.artwork;
+        this.description = voucherData.description;
+        buyBtn.onClick.RemoveAllListeners();
         buyBtn.onClick.AddListener(() =>
         {
             BuyCard(currentCard, cardContainerCanvas);
@@ -63,6 +69,8 @@ public class ShopSlot : MonoBehaviour
         this.gold = (int)(boosterData.cost * GamePlayController.Instance.uICtrl.discount);
         this.coin.text = "$" + gold.ToString();
         this.image.sprite = boosterData.artwork;
+        this.description = boosterData.description;
+        buyBtn.onClick.RemoveAllListeners();
         buyBtn.onClick.AddListener(() =>
         {
             BuyCard(currentCard, cardContainerCanvas);
@@ -79,7 +87,7 @@ public class ShopSlot : MonoBehaviour
         return currentCard;
     }
 
-    public void BuyCard(CardBase data, RectTransform shopCardRect)
+    public void BuyCard(CardBase data, RectTransform shopCardRect, int idx = 0, int level =0)
     {
         GameController.Instance.musicManager.PlayClickSound();
         GameObject newCard = null;
@@ -93,14 +101,17 @@ public class ShopSlot : MonoBehaviour
         switch (data)
         {
             case PlayingCard playingCard:
-                GamePlayController.Instance.playerContain.deckController.AddCardToDeck(playingCard, playingCard.id, GamePlayController.Instance.playerContain.deckController.deckDict[playingCard.id].level);
-
+                
                 UseProfile.CurrentCard += 1;
                 GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.playingCardSlot);
-                spawnPos = shopCardRect.GetWorldPosition();
                 newCard = SimplePool2.Spawn(data.gameObject);
-                newCard.transform.position = spawnPos;
-                MoveTo(newCard, target.position, 0.5f, () =>
+                newCard.transform.SetParent(GamePlayController.Instance.playerContain.deckController.parent.transform, false);
+                newCard.GetComponent<PlayingCard>().id = idx;
+                newCard.GetComponent<PlayingCard>().level = level;
+                newCard.GetComponent<PlayingCard>().cardImage.sprite = ConfigData.Instance.cardLists[idx].cardPerLevels[level].cardDatas.faceImage;
+                newCard.GetComponent<RectTransform>().anchoredPosition = shopCardRect.anchoredPosition;
+                GamePlayController.Instance.playerContain.deckController.AddCardToDeck(newCard.GetComponent<PlayingCard>(), idx, level+1);
+                newCard.GetComponent<RectTransform>().DOAnchorPos(target.anchoredPosition, 0.5f).OnComplete(()=>
                 {
                     SimplePool2.Despawn(newCard);
                 });
@@ -150,5 +161,15 @@ public class ShopSlot : MonoBehaviour
         obj.transform.DOMove(targetPos, duration)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => onComplete?.Invoke());
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ToolTip.Instance.ShowTooltip(this.GetComponent<RectTransform>(), this.description);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ToolTip.Instance.HideTooltip();
     }
 }

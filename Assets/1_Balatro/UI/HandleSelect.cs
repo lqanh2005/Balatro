@@ -8,6 +8,7 @@ public class HandleSelect : MonoBehaviour
 {
     public List<RoundBase> rounds = new List<RoundBase>();
     [HideInInspector] public int currentRound;
+    public RectTransform rect;
 
     public void Init()
     {
@@ -20,23 +21,16 @@ public class HandleSelect : MonoBehaviour
         GameController.Instance.musicManager.PlayCreatDeckSound();
         currentRound = UseProfile.CurrentRound;
         rounds[currentRound].isActive=true;
-        RectTransform rect = GetComponent<RectTransform>();
-        DOTween.To(
-           () => rect.offsetMin,
-           x => rect.offsetMin = new Vector2(x.x, x.y),
-           new Vector2(rect.offsetMin.x, 0),
-           0.5f
-       );
-        DOTween.To(
-            () => rect.offsetMax,
-            x => rect.offsetMax = new Vector2(x.x, x.y),
-            new Vector2(rect.offsetMax.x, 0),
-            0.5f
-        );
+        rect.DOAnchorPosY(GamePlayController.Instance.uICtrl.target.anchoredPosition.y+170f, 0.5f).SetEase(Ease.OutBack);
         foreach (var round in rounds)
         {
             round.Init();
         }
+    }
+    public void Hide()
+    {
+        rect.DOAnchorPosY(-(GamePlayController.Instance.uICtrl.target.anchoredPosition.y+150), 0.5f).SetEase(Ease.InBack);
+        this.gameObject.SetActive(false);
     }
     public void OnDestroy()
     {

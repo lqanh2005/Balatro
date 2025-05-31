@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using EventDispatcher;
 using UnityEngine.UI.Extensions;
+using UnityEngine.EventSystems;
 
-public class PlayingCard : CardBase
+public class PlayingCard : CardBase, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     
     public int level;
@@ -57,7 +58,7 @@ public class PlayingCard : CardBase
         }
     }
 
-    public void OnMouseDown()
+    public void OnPointerDown(PointerEventData eventData)
     {
         if (!isDraw) return;
         isMouseDown = true;
@@ -66,23 +67,23 @@ public class PlayingCard : CardBase
         initialMousePos.z = 0;
 
     }
-    public void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         if(!GamePlayController.Instance.isLevelDone) return;
         if (!isDraw || isDrag) return;
         GameController.Instance.musicManager.PlayHoverSound();
         cardAnim.PlayHoverAniamtion(true, isSelected);
-        ToolTip.Instance.SetTooltip(this.description, this.transform.localPosition);
+        ToolTip.Instance.ShowTooltip(this.GetComponent<RectTransform>(), this.description);
 
     }
-    public void OnMouseExit()
+    public void OnPointerExit(PointerEventData eventData)
     {
         if (!GamePlayController.Instance.isLevelDone) return;
         if (!isDraw || isDrag) return;
         cardAnim.PlayHoverAniamtion(false, isSelected);
         ToolTip.Instance.HideTooltip();
     }
-    public void OnMouseUp()
+    public void OnPointerUp(PointerEventData eventData)
     {
         if (!isDraw) return;
         isMouseDown = false;

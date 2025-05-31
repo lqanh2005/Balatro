@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
     public Transform playCtrl;
     public PopupWin popupWin;
     public TopState topState;
+    public RectTransform target;
     [Header("----------Condition----------")]
     public bool initLevelDone;
     public bool isEnd;
@@ -71,7 +72,7 @@ public class UIController : MonoBehaviour
 
         int currentScore = int.Parse(score.text);
 
-        if (currentScore >= targetScore && UseProfile.CurrentHand > 0)
+        if (currentScore >= targetScore && UseProfile.CurrentHand >= 0)
         {
             isEnd = true;
             score.text = "";
@@ -116,7 +117,7 @@ public class EffectHelper
     public static void PlayBounce(GameObject target, float duration = 0.1f, float scaleMultiplier = 1.2f)
     {
         if (duration >= 0.1f) duration = 0.1f;
-        Vector3  originalScales = new Vector3(122.022522f, 119.938721f, 45.5327835f);
+        Vector3  originalScales = new Vector3(1f, 1f, 0);
         var tf = target.transform;
         Vector3 bounceScale = originalScales * scaleMultiplier;
 

@@ -59,7 +59,7 @@ public class RoundBase : MonoBehaviour
     {
         isActive = false;
         GameController.Instance.musicManager.PlayClickSound();
-        GamePlayController.Instance.uICtrl.handleSelect.gameObject.SetActive(false);
+        GamePlayController.Instance.uICtrl.handleSelect.Hide();
         GamePlayController.Instance.uICtrl.playCtrl.gameObject.SetActive(true);
         UseProfile.CurrentRound++;
         GamePlayController.Instance.uICtrl.topState.avt = avt;

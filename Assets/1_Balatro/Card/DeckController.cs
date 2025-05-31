@@ -3,6 +3,7 @@ using EventDispatcher;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -13,9 +14,10 @@ public class DeckController : MonoBehaviour
     public List<PlayingCard> discardCards = new List<PlayingCard>(); // la da bo
     public List<PlayingCard> handCards = new List<PlayingCard>(); // la tren tay
     public List<CardDeck> defaultDeck;
-    public Dictionary<int, CardDeck> deckDict = new();
+    public Dictionary<(int id, int level), CardDeck> deckDict = new();
+    public GameObject parent;
 
-    [SerializeField] private Transform deckPos;
+    [SerializeField] private RectTransform deckPos;
     [SerializeField] private int maxHandsize = 8;
     public GameObject deckVisual;
     [HideInInspector] public int deckSize;
@@ -70,9 +72,9 @@ public class DeckController : MonoBehaviour
             for (int i = 0; i < entry.amout; i++)
             {
                 deckSize++;
-                PlayingCard newCard = SimplePool2.Spawn(this.prefab, deckPos.position, Quaternion.identity)
-                    .GetComponent<PlayingCard>();
-
+                PlayingCard newCard = SimplePool2.Spawn(this.prefab).GetComponent<PlayingCard>();
+                newCard.transform.SetParent(parent.transform, false);
+                newCard.GetComponent<RectTransform>().anchoredPosition = deckPos.anchoredPosition;
                 newCard.id = entry.id;
                 newCard.level = entry.level;
                 newCard.ingredientType = (IngredientType)entry.id;
@@ -103,8 +105,8 @@ public class DeckController : MonoBehaviour
         {
             saveData.decks.Add(new CardDeck
             {
-                id = pair.Key,
-                level = pair.Value.level,
+                id = pair.Key.id,
+                level = pair.Key.level,
                 amout = pair.Value.amout
             });
         }
@@ -125,11 +127,12 @@ public class DeckController : MonoBehaviour
         foreach (var deck in saveData.decks)
         {
 
-            deckDict[deck.id] = new CardDeck
+            var key = (deck.id, deck.level);
+            deckDict[key] = new CardDeck
             {
                 id = deck.id,
                 level = deck.level,
-                amout = deck.amout,
+                amout = deck.amout
             };
         }
     }
@@ -139,24 +142,26 @@ public class DeckController : MonoBehaviour
         foreach (var card in defaultDeck)
         {
 
-            deckDict[card.id] = new CardDeck
+            var key = (card.id, card.level);
+            deckDict[key] = new CardDeck
             {
                 id = card.id,
                 level = card.level,
-                amout = card.amout,
+                amout = card.amout
             };
         }
         SaveDeck();
     }
     public void AddCardToDeck(PlayingCard cardPrefab, int id, int level)
     {
-        if (deckDict.ContainsKey(id))
+        var key = (id, level);
+        if (deckDict.ContainsKey(key))
         {
-            deckDict[id].amout++;
+            deckDict[key].amout++;
         }
         else
         {
-            deckDict[id] = new CardDeck
+            deckDict[key] = new CardDeck
             {
                 id = id,
                 level = level,
@@ -165,11 +170,14 @@ public class DeckController : MonoBehaviour
         }
         SaveDeck();
     }
-    public void ReCard(int id)
+    public void ReCard(int id, int level)
     {
-        if (deckDict.ContainsKey(id))
+        var key = (id, level);
+        if (deckDict.ContainsKey(key))
         {
-            deckDict[id].amout--;
+            deckDict[key].amout--;
+            if (deckDict[key].amout <= 0)
+                deckDict.Remove(key);
         }
     }
 

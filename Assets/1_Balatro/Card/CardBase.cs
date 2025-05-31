@@ -2,11 +2,12 @@ using EventDispatcher;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class CardBase : MonoBehaviour
 {
     public int id;
-    public SpriteRenderer cardImage;
+    public Image cardImage;
     public SpriteRenderer cardBackImage;
 
     public string description;
