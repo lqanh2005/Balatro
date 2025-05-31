@@ -19,7 +19,7 @@ public class Formula : MonoBehaviour
             null,
             out localPoint);
         this.avt.sprite = avt;
-        formulaPanel.anchoredPosition = localPoint + new Vector2(0, 160);
+        formulaPanel.anchoredPosition = localPoint + new Vector2(0, 180);
         formulaPanel.gameObject.SetActive(true);
     }
 
