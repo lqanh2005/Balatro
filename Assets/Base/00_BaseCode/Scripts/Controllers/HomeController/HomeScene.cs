@@ -12,6 +12,7 @@ public class HomeScene : BaseScene
 
     public Button newGameBtn;
     public Button continueGameBtn;
+    public Button quit;
 
 
     public void Init()
@@ -24,6 +25,7 @@ public class HomeScene : BaseScene
         }
         newGameBtn.onClick.AddListener(delegate { NewGame(); });
         //RecipeManager.LoadAll();
+        quit.onClick.AddListener(delegate { ExitGame(); });
     }
 
     private void ContinueGame()
@@ -44,6 +46,15 @@ public class HomeScene : BaseScene
         Initiate.Fade("GamePlay", Color.black, 1.5f);
     }
 
+    public void ExitGame()
+    {
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // Dừng play mode khi đang ở Editor
+#else
+        Application.Quit(); // Thoát game thật khi đã build
+#endif
+    }
 
 
 

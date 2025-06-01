@@ -103,6 +103,7 @@ public class ShopSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             case PlayingCard playingCard:
                 
                 UseProfile.CurrentCard += 1;
+                ToolTip.Instance.HideTooltip();
                 GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.playingCardSlot);
                 newCard = SimplePool2.Spawn(data.gameObject);
                 newCard.transform.SetParent(GamePlayController.Instance.playerContain.deckController.parent.transform, false);
@@ -118,6 +119,7 @@ public class ShopSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 break;
             case VoucherBase voucher:
                 GamePlayController.Instance.uICtrl.shopCtrl.Close();
+                ToolTip.Instance.HideTooltip();
                 voucher.voucherData = VoucherDataSO.Instance.GetVoucher(voucherID);
                 newCard = SimplePool2.Spawn(data.gameObject);
                 VoucherBase vb = newCard.GetComponent<VoucherBase>();
@@ -134,6 +136,7 @@ public class ShopSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 break;
             case BoosterBase booster:
                 GameController.Instance.musicManager.PlayOpenPackSound();
+                ToolTip.Instance.HideTooltip();
                 GamePlayController.Instance.uICtrl.shopCtrl.Close();
                 booster.boosterData = BoosterDataSo.Instance.GetBooster(boosterID);
                 GamePlayController.Instance.uICtrl.shopCtrl.UpdateUI(GamePlayController.Instance.uICtrl.shopCtrl.boosterSlots);
